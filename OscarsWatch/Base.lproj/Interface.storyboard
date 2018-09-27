@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14087.3" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14075.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14028"/>
+    </dependencies>
+    <scenes>
+        <!--Nominations-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller identifier="NominationsList" title="Nominations" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="OscarsWatch" customModuleProvider="target">
+                    <items>
+                        <label width="1" alignment="left" text="Best Picture" textAlignment="center" id="cPn-jJ-FiJ"/>
+                        <separator alignment="left" id="Ylb-Ve-jwc">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="KCA-l3-2Hh">
+                            <items>
+                                <tableRow identifier="nominationRow" id="mMm-Pa-SaT" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="2cF-WQ-jTM">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" textAlignment="left" id="d4N-4N-AEP">
+                                                <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="bpName" destination="d4N-4N-AEP" id="TH6-Do-Yqv"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Best Actor" textAlignment="center" id="uqP-la-SQF"/>
+                        <separator alignment="left" id="q93-f5-Czj">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="gvd-nf-IFf">
+                            <items>
+                                <tableRow identifier="nominationRow" id="7Tz-WM-OSv" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="Xvd-FD-gQh">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" textAlignment="left" id="e85-qP-BaT"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="baName" destination="e85-qP-BaT" id="E7d-vC-C5c"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Best Actress" textAlignment="center" id="PqV-Ha-YzT"/>
+                        <separator alignment="left" id="lDv-xw-SFP">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="GEW-d2-sxW">
+                            <items>
+                                <tableRow identifier="nominationRow" id="J8y-hp-hMP" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="i9h-eB-zfA">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="khT-WF-70D"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="basName" destination="khT-WF-70D" id="VKF-O4-Hjp"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Supporting Actor" textAlignment="center" id="JS7-fh-g7T"/>
+                        <separator alignment="left" id="4AH-yb-hqi">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="wnY-fM-pRW">
+                            <items>
+                                <tableRow identifier="nominationRow" id="vB7-wM-AI2" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="d4W-ED-dYQ">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="IWQ-51-o7r"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="saName" destination="IWQ-51-o7r" id="wo4-6B-ZfF"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Supporting Actress" textAlignment="center" id="paC-zk-8cZ">
+                            <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                        </label>
+                        <separator alignment="left" id="B5T-yW-K6s">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="IFk-dh-4ti">
+                            <items>
+                                <tableRow identifier="nominationRow" id="pG5-1a-VaI" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="dUr-4J-5BH">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="r2B-VX-VWR"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="sasName" destination="r2B-VX-VWR" id="DHc-z9-Rtu"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Animated" textAlignment="center" id="Xhd-ju-9dK"/>
+                        <separator alignment="left" id="PtT-k2-vPF">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="FXT-ma-hAL">
+                            <items>
+                                <tableRow identifier="nominationRow" id="PgR-lh-Wn6" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="5HE-iL-IKR">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="agz-lA-Lmq"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="aName" destination="agz-lA-Lmq" id="Jtm-89-6yD"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Cinematography" textAlignment="center" id="F3u-8A-5IK"/>
+                        <separator alignment="left" id="SaM-Ku-BKI">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="OU4-tk-YiG">
+                            <items>
+                                <tableRow identifier="nominationRow" id="IMO-jF-NEe" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="Bwx-d9-oOM">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="D6Y-vo-gc2"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="cName" destination="D6Y-vo-gc2" id="1WF-jo-sUG"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Costume Design" textAlignment="center" id="koq-Cl-ZD9"/>
+                        <separator alignment="left" id="B8e-9k-bF9">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="bee-Hi-xL8">
+                            <items>
+                                <tableRow identifier="nominationRow" id="X0x-Rr-FIh" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="jmR-2k-0UC">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="xW8-ZF-Deb"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="cdName" destination="xW8-ZF-Deb" id="XSp-I8-gD3"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Directing" textAlignment="center" id="SOp-t4-zaJ"/>
+                        <separator alignment="left" id="69c-T8-Rqc">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="0ih-WG-P2O">
+                            <items>
+                                <tableRow identifier="nominationRow" id="wqK-os-riR" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="m26-SV-8DE">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="czf-MA-NJz"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="dName" destination="czf-MA-NJz" id="HYS-r7-HAc"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Documentary Feature" textAlignment="center" id="j5k-2K-I0d">
+                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                        </label>
+                        <separator alignment="left" id="x0V-jY-2uz">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="oXp-oP-IXk">
+                            <items>
+                                <tableRow identifier="nominationRow" id="Jlt-cX-6bA" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="5KX-7F-WA4">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="ZFj-6G-rvR"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="dfName" destination="ZFj-6G-rvR" id="unR-lV-Spr"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Documentary Short" textAlignment="center" id="tQa-zi-AuJ">
+                            <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                        </label>
+                        <separator alignment="left" id="BHt-2C-qtL">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="phQ-2v-y4U">
+                            <items>
+                                <tableRow identifier="nominationRow" id="zs5-jz-hri" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="xvn-0v-g7X">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="Tyw-c0-N1k"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="dshName" destination="Tyw-c0-N1k" id="aIM-dD-w7C"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Film Editing" textAlignment="center" id="byi-5Q-qak"/>
+                        <separator alignment="left" id="tT6-Kc-h5H">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="Wi4-CU-Dyr">
+                            <items>
+                                <tableRow identifier="nominationRow" id="2qB-5w-XUK" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="rWB-m0-RsY">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="mcs-bg-TFZ"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="feName" destination="mcs-bg-TFZ" id="v2n-go-c8z"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Foreign" textAlignment="center" id="eJv-kH-uW6"/>
+                        <separator alignment="left" id="DdV-fT-LDF">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="EXR-z7-R0Z">
+                            <items>
+                                <tableRow identifier="nominationRow" id="HrG-cf-0oq" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="OsB-CG-Dxs">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="b2s-CD-AVd"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="fName" destination="b2s-CD-AVd" id="0u8-JH-lqA"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Makeup" textAlignment="center" id="Ivc-Kd-Hzp"/>
+                        <separator alignment="left" id="ya6-ur-ckc">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="7NU-M6-A0C">
+                            <items>
+                                <tableRow identifier="nominationRow" id="nGb-O7-uAt" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="DBd-pK-VBa">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="cTH-9z-cbZ"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="mName" destination="cTH-9z-cbZ" id="9LE-jg-Ahi"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Original Score" textAlignment="center" id="N1A-J9-8pu"/>
+                        <separator alignment="left" id="Lah-fy-CoY">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="yZA-66-14f">
+                            <items>
+                                <tableRow identifier="nominationRow" id="Iwu-e6-ucH" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="v1e-yV-Tff">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="7ll-Db-HdQ"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="mscName" destination="7ll-Db-HdQ" id="xPo-EX-lYV"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Original Song" textAlignment="center" id="HKT-Eb-VDh"/>
+                        <separator alignment="left" id="8dS-ig-ePc">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="q3f-Q0-IpQ">
+                            <items>
+                                <tableRow identifier="nominationRow" id="p0T-DU-36v" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="Gin-Xm-7Bp">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="xfW-WZ-0Uk"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="msoName" destination="xfW-WZ-0Uk" id="myd-jB-CaG"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Production Design" textAlignment="center" id="mfC-d5-Cfv">
+                            <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
+                        </label>
+                        <separator alignment="left" id="b44-Vm-6C5">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="ovx-IS-eFd">
+                            <items>
+                                <tableRow identifier="nominationRow" id="KD3-f4-sza" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="rtW-wj-T8j">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="iif-3j-5pR"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="pdName" destination="iif-3j-5pR" id="cMK-NP-EYW"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Short Animated" textAlignment="center" id="hqz-Ci-n4A"/>
+                        <separator alignment="left" id="VDN-Um-eGa">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="oZd-m6-JEc">
+                            <items>
+                                <tableRow identifier="nominationRow" id="VqD-iq-Sys" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="7Uo-o2-241">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="lTZ-IB-Gq4"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="shaName" destination="lTZ-IB-Gq4" id="Now-vr-I0B"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Short Live" textAlignment="center" id="x0t-j2-3sh"/>
+                        <separator alignment="left" id="5be-yl-Yje">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="fcB-dZ-A3W">
+                            <items>
+                                <tableRow identifier="nominationRow" id="bFF-XY-i8C" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="CLW-5M-9ly">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="Hmd-tf-biG"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="shlName" destination="Hmd-tf-biG" id="b44-Pa-c1U"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Sound Editing" textAlignment="center" id="wNC-ZN-FYY"/>
+                        <separator alignment="left" id="k7W-o6-TB2">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="mGE-p3-1La">
+                            <items>
+                                <tableRow identifier="nominationRow" id="nzl-FL-Qhz" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="6ml-hG-hep">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="0gD-E6-ML9"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="seName" destination="0gD-E6-ML9" id="BER-OV-nru"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Sound Mixing" textAlignment="center" id="dWj-fw-Op0"/>
+                        <separator alignment="left" id="aPH-5m-VXL">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="feh-ve-Cnv">
+                            <items>
+                                <tableRow identifier="nominationRow" id="kLP-lF-WMG" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="9sL-Dq-8CA">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="Iql-XW-Iix"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="smName" destination="Iql-XW-Iix" id="jz6-JE-ggo"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Visual Effects" textAlignment="center" id="D88-b0-9Zg"/>
+                        <separator alignment="left" id="4ST-J5-ZHk">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="7hB-i6-Spu">
+                            <items>
+                                <tableRow identifier="nominationRow" id="OFt-Uc-DAJ" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="4mU-eX-0CY">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="kiS-je-YWM"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="veName" destination="kiS-je-YWM" id="gBG-9g-pab"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Writing Adapted" textAlignment="center" id="2q9-Ia-Y4z"/>
+                        <separator alignment="left" id="Aaq-a5-cG3">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="gKh-7z-r1f">
+                            <items>
+                                <tableRow identifier="nominationRow" id="TMb-Yi-4hc" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="5a5-J1-1cE">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="j1v-bc-wsp"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="waName" destination="j1v-bc-wsp" id="PG9-5H-B7N"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label width="1" alignment="left" text="Writing Original" textAlignment="center" id="OC7-1E-Kyj"/>
+                        <separator alignment="left" id="nPq-me-vsV">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <table alignment="left" id="Mmd-vI-30B">
+                            <items>
+                                <tableRow identifier="nominationRow" id="cbJ-nz-vs8" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="iHT-yR-Ms3">
+                                        <items>
+                                            <label height="30" alignment="left" text="Label" id="v2M-vR-2d0"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="woName" destination="v2M-vR-2d0" id="pHQ-uB-x82"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <menu key="menu" id="DB3-1z-ABZ">
+                        <items>
+                            <menuItem title="Unseen" icon="info" id="2Ky-Y9-tVE">
+                                <connections>
+                                    <action selector="unseenMenuItem" destination="AgC-eL-Hgc" id="LUe-Vj-blE"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                    <connections>
+                        <outlet property="aTable" destination="FXT-ma-hAL" id="6El-Xf-Jv6"/>
+                        <outlet property="baTable" destination="gvd-nf-IFf" id="HF1-FD-q3l"/>
+                        <outlet property="basTable" destination="GEW-d2-sxW" id="fav-io-jhg"/>
+                        <outlet property="bpTable" destination="KCA-l3-2Hh" id="jNC-v3-glv"/>
+                        <outlet property="bsaTable" destination="wnY-fM-pRW" id="rgG-61-iNm"/>
+                        <outlet property="bsasTable" destination="IFk-dh-4ti" id="NRZ-hP-6Gj"/>
+                        <outlet property="cTable" destination="OU4-tk-YiG" id="vQQ-k1-B2L"/>
+                        <outlet property="cdTable" destination="bee-Hi-xL8" id="eQK-px-43L"/>
+                        <outlet property="dTable" destination="0ih-WG-P2O" id="YnY-l8-eXQ"/>
+                        <outlet property="dfTable" destination="oXp-oP-IXk" id="diw-Vo-3tr"/>
+                        <outlet property="dsTable" destination="phQ-2v-y4U" id="9fS-WC-ZTa"/>
+                        <outlet property="fTable" destination="EXR-z7-R0Z" id="TVK-bt-AaV"/>
+                        <outlet property="feTable" destination="Wi4-CU-Dyr" id="xUk-Kd-FZ0"/>
+                        <outlet property="mTable" destination="7NU-M6-A0C" id="g5C-ED-yZL"/>
+                        <outlet property="oscTable" destination="yZA-66-14f" id="yqj-ps-beA"/>
+                        <outlet property="osoTable" destination="q3f-Q0-IpQ" id="IVY-Jl-Cak"/>
+                        <outlet property="pdTable" destination="ovx-IS-eFd" id="DoY-MH-jkP"/>
+                        <outlet property="seTable" destination="mGE-p3-1La" id="asR-Gu-kjD"/>
+                        <outlet property="shaTable" destination="oZd-m6-JEc" id="mQ8-RY-cma"/>
+                        <outlet property="shlTable" destination="fcB-dZ-A3W" id="w7b-MB-RSk"/>
+                        <outlet property="smTable" destination="feh-ve-Cnv" id="LBJ-5p-xdf"/>
+                        <outlet property="veTable" destination="7hB-i6-Spu" id="Vtd-I9-ao2"/>
+                        <outlet property="waTable" destination="gKh-7z-r1f" id="5Oo-O7-vst"/>
+                        <outlet property="woTable" destination="Mmd-vI-30B" id="p47-kJ-wvd"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="-145" y="469"/>
+        </scene>
+        <!--UnseenController-->
+        <scene sceneID="nVO-fm-glq">
+            <objects>
+                <controller identifier="UnseenController" id="rna-ZN-rJe" customClass="UnseenInterfaceController" customModule="OscarsWatch_Extension">
+                    <items>
+                        <label width="1" alignment="left" text="Unseen" textAlignment="center" id="r8x-QW-LFD"/>
+                        <table alignment="left" id="RPI-8g-GpG">
+                            <items>
+                                <tableRow identifier="unseenRow" id="lgw-Qk-Qk8" customClass="UnseenRowController" customModule="OscarsWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="5wz-0l-n1V">
+                                        <items>
+                                            <label width="1" height="30" alignment="left" text="Label" id="Stf-SC-MEQ"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="nameLabel" destination="Stf-SC-MEQ" id="zYm-vP-BR0"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="unseenTable" destination="RPI-8g-GpG" id="PFE-Hk-gsq"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="220" y="302"/>
+        </scene>
+        <!--DetailController-->
+        <scene sceneID="uQ2-WU-Bca">
+            <objects>
+                <controller identifier="DetailController" id="DDo-yk-kQF" customClass="DetailInterfaceController" customModule="OscarsWatch_Extension">
+                    <items>
+                        <label width="1" alignment="left" text="Name" textAlignment="center" numberOfLines="0" id="k0K-Rw-0Or">
+                            <fontDescription key="font" type="boldSystem" pointSize="22"/>
+                        </label>
+                        <separator alignment="left" id="jUi-nO-xXm">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <label alignment="left" text="Description:" textAlignment="left" id="mlx-aF-OFP">
+                            <fontDescription key="font" type="italicSystem" pointSize="19"/>
+                        </label>
+                        <label width="1" alignment="left" text="Description Info" textAlignment="center" numberOfLines="0" id="W7u-dv-KZe"/>
+                        <separator alignment="left" id="9hx-0w-oHb">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <label alignment="left" text="Starring:" textAlignment="left" id="U9Q-Tz-Kc7">
+                            <fontDescription key="font" type="italicSystem" pointSize="19"/>
+                        </label>
+                        <label width="1" alignment="left" text="Cast Info" textAlignment="center" numberOfLines="0" id="o3t-ZB-PTR"/>
+                        <separator alignment="left" id="iF0-gp-1Ru">
+                            <color key="color" red="0.84079501290000003" green="0.67984679989999997" blue="0.086197095089999995" alpha="0.79263864439999998" colorSpace="custom" customColorSpace="displayP3"/>
+                        </separator>
+                        <label alignment="left" text="Nominated For:" id="euX-9m-bJA">
+                            <fontDescription key="font" type="italicSystem" pointSize="19"/>
+                        </label>
+                        <label width="1" alignment="left" text="Nominations" textAlignment="center" numberOfLines="0" id="0At-hK-yEm"/>
+                        <button width="1" alignment="left" title="Seen/Unseen" id="sXp-Bg-fqv">
+                            <connections>
+                                <action selector="seenButtonClicked" destination="DDo-yk-kQF" id="hkY-aP-amS"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="castLabel" destination="o3t-ZB-PTR" id="gQ3-Sh-kWj"/>
+                        <outlet property="descriptionLabel" destination="W7u-dv-KZe" id="uKZ-C8-hdH"/>
+                        <outlet property="nameLabel" destination="k0K-Rw-0Or" id="a9T-Um-kBe"/>
+                        <outlet property="nominationsLabel" destination="0At-hK-yEm" id="lJp-qd-NSh"/>
+                        <outlet property="seenButton" destination="sXp-Bg-fqv" id="F1z-1g-PJP"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="443" y="345"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="AEw-b0-oYE">
+            <objects>
+                <notificationController id="YCC-NB-fut">
+                    <items>
+                        <label alignment="left" text="Alert Label" id="IdU-wH-bcW"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
+                        <segue destination="4sK-HA-Art" kind="relationship" relationship="dynamicNotificationInterface" id="kXh-Jw-8B1"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="220" y="643"/>
+        </scene>
+        <!--Notification Controller-->
+        <scene sceneID="ZPc-GJ-vnh">
+            <objects>
+                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="OscarsWatch" customModuleProvider="target"/>
+            </objects>
+            <point key="canvasLocation" x="468" y="643"/>
+        </scene>
+    </scenes>
+</document>

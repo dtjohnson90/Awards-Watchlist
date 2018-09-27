@@ -7,21 +7,136 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D102FBEF1FE207270059CB1E /* userMovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D102FBEE1FE207270059CB1E /* userMovieList.swift */; };
+		D103C7F5200D4206008338EE /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D103C7F4200D4206008338EE /* FriendsTableViewController.swift */; };
 		D108CE691E259D6800EB2C70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE681E259D6800EB2C70 /* AppDelegate.swift */; };
-		D108CE6B1E259D6800EB2C70 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE6A1E259D6800EB2C70 /* ViewController.swift */; };
 		D108CE6E1E259D6800EB2C70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D108CE6C1E259D6800EB2C70 /* Main.storyboard */; };
 		D108CE701E259D6800EB2C70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D108CE6F1E259D6800EB2C70 /* Assets.xcassets */; };
 		D108CE731E259D6800EB2C70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D108CE711E259D6800EB2C70 /* LaunchScreen.storyboard */; };
+		D108CE811E25A9ED00EB2C70 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE801E25A9ED00EB2C70 /* TableViewController.swift */; };
+		D108CE831E25C13100EB2C70 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE821E25C13100EB2C70 /* DetailViewController.swift */; };
+		D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */; };
+		D1104828200CF959004B926C /* PredictionsTableViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1104827200CF959004B926C /* PredictionsTableViewController2.swift */; };
+		D11ABFA3201AB27800C99BEE /* loadingImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D11ABFA2201AB27800C99BEE /* loadingImage.jpg */; };
+		D11BC7BC2021070200AE084D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D11BC7BA2021070200AE084D /* Interface.storyboard */; };
+		D11BC7BE2021070600AE084D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D11BC7BD2021070600AE084D /* Assets.xcassets */; };
+		D11BC7C52021070600AE084D /* OscarsWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D11BC7C42021070600AE084D /* OscarsWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D11BC7CA2021070600AE084D /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BC7C92021070600AE084D /* InterfaceController.swift */; };
+		D11BC7CC2021070600AE084D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BC7CB2021070600AE084D /* ExtensionDelegate.swift */; };
+		D11BC7CE2021070600AE084D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BC7CD2021070600AE084D /* NotificationController.swift */; };
+		D11BC7D02021070700AE084D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D11BC7CF2021070700AE084D /* Assets.xcassets */; };
+		D11BC7D52021070700AE084D /* OscarsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D11BC7B82021070200AE084D /* OscarsWatch.app */; };
+		D11BC7E020210D7C00AE084D /* userMovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D102FBEE1FE207270059CB1E /* userMovieList.swift */; };
+		D11BC7E2202113D900AE084D /* NominationsRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BC7E1202113D900AE084D /* NominationsRowController.swift */; };
+		D11BC7E6202115F800AE084D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D11BC7E5202115F800AE084D /* CloudKit.framework */; };
+		D15D121820474BB1005BCA57 /* NominationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121720474BB1005BCA57 /* NominationsTableViewController.swift */; };
+		D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */; };
+		D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */; };
+		D1765E5620222E1D007417B4 /* DetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5520222E1D007417B4 /* DetailInterfaceController.swift */; };
+		D1765E5820223D7B007417B4 /* UnseenInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5720223D7B007417B4 /* UnseenInterfaceController.swift */; };
+		D1765E5A20223DE7007417B4 /* UnseenRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5920223DE7007417B4 /* UnseenRowController.swift */; };
+		D1765E5C20226A32007417B4 /* watchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5B20226A32007417B4 /* watchData.swift */; };
+		D1A8624F20193E4800E4D93F /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8624E20193E4800E4D93F /* TutorialViewController.swift */; };
+		D1A862692019535300E4D93F /* Tutorial1-1.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862642019534100E4D93F /* Tutorial1-1.png */; };
+		D1A8626B2019535600E4D93F /* Tutorial2.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862672019535000E4D93F /* Tutorial2.png */; };
+		D1A8626C2019535900E4D93F /* Tutorial3.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862652019535000E4D93F /* Tutorial3.png */; };
+		D1A8626D2019535B00E4D93F /* Tutorial4.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862662019535000E4D93F /* Tutorial4.png */; };
+		D1A8626F20195F9F00E4D93F /* Page1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8626E20195F9F00E4D93F /* Page1ViewController.swift */; };
+		D1A86271201961B200E4D93F /* GoldArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A86270201961B000E4D93F /* GoldArrow.png */; };
+		D1B6344F1FDB318400520114 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B6344E1FDB318400520114 /* LoadingViewController.swift */; };
+		D1E55A531FEB47E1000C518A /* oscarsBackground.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = D1E55A521FEB47E1000C518A /* oscarsBackground.jpeg */; };
+		D1E578331E3AD3B300124770 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1E578321E3AD3B300124770 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D11BC7C62021070600AE084D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D108CE5D1E259D6800EB2C70 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D11BC7C32021070600AE084D;
+			remoteInfo = "OscarsWatch Extension";
+		};
+		D11BC7D32021070700AE084D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D108CE5D1E259D6800EB2C70 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D11BC7B72021070200AE084D;
+			remoteInfo = OscarsWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D11BC7DB2021070700AE084D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D11BC7C52021070600AE084D /* OscarsWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D11BC7DD2021070700AE084D /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				D11BC7D52021070700AE084D /* OscarsWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		D102FBEE1FE207270059CB1E /* userMovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userMovieList.swift; sourceTree = "<group>"; };
+		D103C7F4200D4206008338EE /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		D108CE651E259D6800EB2C70 /* Oscars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oscars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D108CE681E259D6800EB2C70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D108CE6A1E259D6800EB2C70 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D108CE6D1E259D6800EB2C70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D108CE6F1E259D6800EB2C70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D108CE721E259D6800EB2C70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D108CE741E259D6800EB2C70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D108CE801E25A9ED00EB2C70 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewController.swift; path = ../TableViewController.swift; sourceTree = "<group>"; };
+		D108CE821E25C13100EB2C70 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesNotSeenTableViewController.swift; sourceTree = "<group>"; };
+		D1104827200CF959004B926C /* PredictionsTableViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsTableViewController2.swift; sourceTree = "<group>"; };
+		D11ABFA2201AB27800C99BEE /* loadingImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loadingImage.jpg; sourceTree = "<group>"; };
+		D11BC7B82021070200AE084D /* OscarsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OscarsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D11BC7BB2021070200AE084D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		D11BC7BD2021070600AE084D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D11BC7BF2021070600AE084D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D11BC7C42021070600AE084D /* OscarsWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "OscarsWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D11BC7C92021070600AE084D /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		D11BC7CB2021070600AE084D /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		D11BC7CD2021070600AE084D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		D11BC7CF2021070700AE084D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D11BC7D12021070700AE084D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D11BC7D22021070700AE084D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		D11BC7E1202113D900AE084D /* NominationsRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsRowController.swift; sourceTree = "<group>"; };
+		D11BC7E32021155700AE084D /* OscarsWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OscarsWatch.entitlements; sourceTree = "<group>"; };
+		D11BC7E4202115F100AE084D /* OscarsWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OscarsWatch Extension.entitlements"; sourceTree = "<group>"; };
+		D11BC7E5202115F800AE084D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		D12F942C1E36D532000BF27E /* Oscars.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Oscars.entitlements; sourceTree = "<group>"; };
+		D15D121720474BB1005BCA57 /* NominationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewController.swift; sourceTree = "<group>"; };
+		D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewCell.swift; sourceTree = "<group>"; };
+		D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D1765E5520222E1D007417B4 /* DetailInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInterfaceController.swift; sourceTree = "<group>"; };
+		D1765E5720223D7B007417B4 /* UnseenInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnseenInterfaceController.swift; sourceTree = "<group>"; };
+		D1765E5920223DE7007417B4 /* UnseenRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnseenRowController.swift; sourceTree = "<group>"; };
+		D1765E5B20226A32007417B4 /* watchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchData.swift; sourceTree = "<group>"; };
+		D1A8624E20193E4800E4D93F /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		D1A862642019534100E4D93F /* Tutorial1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Tutorial1-1.png"; path = "../Oscars.xcodeproj/Tutorial1-1.png"; sourceTree = "<group>"; };
+		D1A862652019535000E4D93F /* Tutorial3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tutorial3.png; path = ../Oscars.xcodeproj/Tutorial3.png; sourceTree = "<group>"; };
+		D1A862662019535000E4D93F /* Tutorial4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tutorial4.png; path = /Users/dustinjohnson/Desktop/Oscars/Oscars/Oscars/Tutorial4.png; sourceTree = "<absolute>"; };
+		D1A862672019535000E4D93F /* Tutorial2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tutorial2.png; path = /Users/dustinjohnson/Desktop/Oscars/Oscars/Oscars/Tutorial2.png; sourceTree = "<absolute>"; };
+		D1A8626E20195F9F00E4D93F /* Page1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page1ViewController.swift; sourceTree = "<group>"; };
+		D1A86270201961B000E4D93F /* GoldArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GoldArrow.png; path = ../Oscars.xcodeproj/GoldArrow.png; sourceTree = "<group>"; };
+		D1B6344E1FDB318400520114 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		D1E55A521FEB47E1000C518A /* oscarsBackground.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = oscarsBackground.jpeg; sourceTree = "<group>"; };
+		D1E578321E3AD3B300124770 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +144,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1E578331E3AD3B300124770 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D11BC7C12021070600AE084D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D11BC7E6202115F800AE084D /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,7 +163,10 @@
 			isa = PBXGroup;
 			children = (
 				D108CE671E259D6800EB2C70 /* Oscars */,
+				D11BC7B92021070200AE084D /* OscarsWatch */,
+				D11BC7C82021070600AE084D /* OscarsWatch Extension */,
 				D108CE661E259D6800EB2C70 /* Products */,
+				D1E5782E1E39E58A00124770 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -47,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				D108CE651E259D6800EB2C70 /* Oscars.app */,
+				D11BC7B82021070200AE084D /* OscarsWatch.app */,
+				D11BC7C42021070600AE084D /* OscarsWatch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -54,14 +183,80 @@
 		D108CE671E259D6800EB2C70 /* Oscars */ = {
 			isa = PBXGroup;
 			children = (
-				D108CE681E259D6800EB2C70 /* AppDelegate.swift */,
-				D108CE6A1E259D6800EB2C70 /* ViewController.swift */,
 				D108CE6C1E259D6800EB2C70 /* Main.storyboard */,
+				D12F942C1E36D532000BF27E /* Oscars.entitlements */,
+				D15D121720474BB1005BCA57 /* NominationsTableViewController.swift */,
+				D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */,
+				D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */,
+				D108CE801E25A9ED00EB2C70 /* TableViewController.swift */,
+				D108CE681E259D6800EB2C70 /* AppDelegate.swift */,
+				D11ABFA2201AB27800C99BEE /* loadingImage.jpg */,
+				D1A8626E20195F9F00E4D93F /* Page1ViewController.swift */,
+				D1A8624E20193E4800E4D93F /* TutorialViewController.swift */,
+				D103C7F4200D4206008338EE /* FriendsTableViewController.swift */,
+				D1104827200CF959004B926C /* PredictionsTableViewController2.swift */,
+				D1B6344E1FDB318400520114 /* LoadingViewController.swift */,
+				D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */,
+				D102FBEE1FE207270059CB1E /* userMovieList.swift */,
+				D108CE821E25C13100EB2C70 /* DetailViewController.swift */,
+				D1A86270201961B000E4D93F /* GoldArrow.png */,
+				D1A862642019534100E4D93F /* Tutorial1-1.png */,
+				D1A862672019535000E4D93F /* Tutorial2.png */,
+				D1A862652019535000E4D93F /* Tutorial3.png */,
+				D1A862662019535000E4D93F /* Tutorial4.png */,
 				D108CE6F1E259D6800EB2C70 /* Assets.xcassets */,
 				D108CE711E259D6800EB2C70 /* LaunchScreen.storyboard */,
 				D108CE741E259D6800EB2C70 /* Info.plist */,
+				D1E55A521FEB47E1000C518A /* oscarsBackground.jpeg */,
+				D1E578311E3A98C600124770 /* src */,
 			);
 			path = Oscars;
+			sourceTree = "<group>";
+		};
+		D11BC7B92021070200AE084D /* OscarsWatch */ = {
+			isa = PBXGroup;
+			children = (
+				D11BC7E32021155700AE084D /* OscarsWatch.entitlements */,
+				D11BC7BA2021070200AE084D /* Interface.storyboard */,
+				D11BC7BD2021070600AE084D /* Assets.xcassets */,
+				D11BC7BF2021070600AE084D /* Info.plist */,
+			);
+			path = OscarsWatch;
+			sourceTree = "<group>";
+		};
+		D11BC7C82021070600AE084D /* OscarsWatch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D11BC7E4202115F100AE084D /* OscarsWatch Extension.entitlements */,
+				D1765E5720223D7B007417B4 /* UnseenInterfaceController.swift */,
+				D11BC7C92021070600AE084D /* InterfaceController.swift */,
+				D1765E5B20226A32007417B4 /* watchData.swift */,
+				D1765E5520222E1D007417B4 /* DetailInterfaceController.swift */,
+				D11BC7E1202113D900AE084D /* NominationsRowController.swift */,
+				D1765E5920223DE7007417B4 /* UnseenRowController.swift */,
+				D11BC7CB2021070600AE084D /* ExtensionDelegate.swift */,
+				D11BC7CD2021070600AE084D /* NotificationController.swift */,
+				D11BC7CF2021070700AE084D /* Assets.xcassets */,
+				D11BC7D12021070700AE084D /* Info.plist */,
+				D11BC7D22021070700AE084D /* PushNotificationPayload.apns */,
+			);
+			path = "OscarsWatch Extension";
+			sourceTree = "<group>";
+		};
+		D1E5782E1E39E58A00124770 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D11BC7E5202115F800AE084D /* CloudKit.framework */,
+				D1E578321E3AD3B300124770 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D1E578311E3A98C600124770 /* src */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,15 +269,51 @@
 				D108CE611E259D6800EB2C70 /* Sources */,
 				D108CE621E259D6800EB2C70 /* Frameworks */,
 				D108CE631E259D6800EB2C70 /* Resources */,
+				D11BC7DD2021070700AE084D /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D11BC7D42021070700AE084D /* PBXTargetDependency */,
 			);
 			name = Oscars;
 			productName = Oscars;
 			productReference = D108CE651E259D6800EB2C70 /* Oscars.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D11BC7B72021070200AE084D /* OscarsWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D11BC7DC2021070700AE084D /* Build configuration list for PBXNativeTarget "OscarsWatch" */;
+			buildPhases = (
+				D11BC7B62021070200AE084D /* Resources */,
+				D11BC7DB2021070700AE084D /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D11BC7C72021070600AE084D /* PBXTargetDependency */,
+			);
+			name = OscarsWatch;
+			productName = OscarsWatch;
+			productReference = D11BC7B82021070200AE084D /* OscarsWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		D11BC7C32021070600AE084D /* OscarsWatch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D11BC7DA2021070700AE084D /* Build configuration list for PBXNativeTarget "OscarsWatch Extension" */;
+			buildPhases = (
+				D11BC7C02021070600AE084D /* Sources */,
+				D11BC7C12021070600AE084D /* Frameworks */,
+				D11BC7C22021070600AE084D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OscarsWatch Extension";
+			productName = "OscarsWatch Extension";
+			productReference = D11BC7C42021070600AE084D /* OscarsWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -90,14 +321,55 @@
 		D108CE5D1E259D6800EB2C70 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Dustin Johnson";
 				TargetAttributes = {
 					D108CE641E259D6800EB2C70 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = D7J3GEMRNU;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
+					D11BC7B72021070200AE084D = {
+						CreatedOnToolsVersion = 9.3;
+						DevelopmentTeam = D7J3GEMRNU;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+						};
+					};
+					D11BC7C32021070600AE084D = {
+						CreatedOnToolsVersion = 9.3;
+						DevelopmentTeam = D7J3GEMRNU;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -115,6 +387,8 @@
 			projectRoot = "";
 			targets = (
 				D108CE641E259D6800EB2C70 /* Oscars */,
+				D11BC7B72021070200AE084D /* OscarsWatch */,
+				D11BC7C32021070600AE084D /* OscarsWatch Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -124,9 +398,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1A862692019535300E4D93F /* Tutorial1-1.png in Resources */,
+				D1A86271201961B200E4D93F /* GoldArrow.png in Resources */,
+				D1E55A531FEB47E1000C518A /* oscarsBackground.jpeg in Resources */,
+				D1A8626B2019535600E4D93F /* Tutorial2.png in Resources */,
+				D11ABFA3201AB27800C99BEE /* loadingImage.jpg in Resources */,
 				D108CE731E259D6800EB2C70 /* LaunchScreen.storyboard in Resources */,
 				D108CE701E259D6800EB2C70 /* Assets.xcassets in Resources */,
 				D108CE6E1E259D6800EB2C70 /* Main.storyboard in Resources */,
+				D1A8626D2019535B00E4D93F /* Tutorial4.png in Resources */,
+				D1A8626C2019535900E4D93F /* Tutorial3.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D11BC7B62021070200AE084D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D11BC7BE2021070600AE084D /* Assets.xcassets in Resources */,
+				D11BC7BC2021070200AE084D /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D11BC7C22021070600AE084D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D11BC7D02021070700AE084D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,12 +435,52 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D108CE6B1E259D6800EB2C70 /* ViewController.swift in Sources */,
+				D108CE831E25C13100EB2C70 /* DetailViewController.swift in Sources */,
+				D15D121820474BB1005BCA57 /* NominationsTableViewController.swift in Sources */,
+				D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */,
+				D1A8626F20195F9F00E4D93F /* Page1ViewController.swift in Sources */,
+				D1A8624F20193E4800E4D93F /* TutorialViewController.swift in Sources */,
 				D108CE691E259D6800EB2C70 /* AppDelegate.swift in Sources */,
+				D103C7F5200D4206008338EE /* FriendsTableViewController.swift in Sources */,
+				D108CE811E25A9ED00EB2C70 /* TableViewController.swift in Sources */,
+				D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */,
+				D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */,
+				D1104828200CF959004B926C /* PredictionsTableViewController2.swift in Sources */,
+				D1B6344F1FDB318400520114 /* LoadingViewController.swift in Sources */,
+				D102FBEF1FE207270059CB1E /* userMovieList.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D11BC7C02021070600AE084D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1765E5620222E1D007417B4 /* DetailInterfaceController.swift in Sources */,
+				D1765E5820223D7B007417B4 /* UnseenInterfaceController.swift in Sources */,
+				D11BC7CE2021070600AE084D /* NotificationController.swift in Sources */,
+				D11BC7E020210D7C00AE084D /* userMovieList.swift in Sources */,
+				D11BC7CC2021070600AE084D /* ExtensionDelegate.swift in Sources */,
+				D11BC7E2202113D900AE084D /* NominationsRowController.swift in Sources */,
+				D1765E5A20223DE7007417B4 /* UnseenRowController.swift in Sources */,
+				D1765E5C20226A32007417B4 /* watchData.swift in Sources */,
+				D11BC7CA2021070600AE084D /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D11BC7C72021070600AE084D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D11BC7C32021070600AE084D /* OscarsWatch Extension */;
+			targetProxy = D11BC7C62021070600AE084D /* PBXContainerItemProxy */;
+		};
+		D11BC7D42021070700AE084D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D11BC7B72021070200AE084D /* OscarsWatch */;
+			targetProxy = D11BC7D32021070700AE084D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D108CE6C1E259D6800EB2C70 /* Main.storyboard */ = {
@@ -161,6 +499,14 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		D11BC7BA2021070200AE084D /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D11BC7BB2021070200AE084D /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -173,15 +519,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -210,6 +564,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -223,15 +578,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -252,6 +615,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -261,12 +625,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = Oscars/Oscars.entitlements;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Oscars";
 				INFOPLIST_FILE = Oscars/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "Oscars/Bridging-Header.h";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -274,12 +644,116 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = Oscars/Oscars.entitlements;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Oscars";
 				INFOPLIST_FILE = Oscars/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "Oscars/Bridging-Header.h";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D11BC7D62021070700AE084D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D7J3GEMRNU;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IBSC_MODULE = OscarsWatch_Extension;
+				INFOPLIST_FILE = OscarsWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Debug;
+		};
+		D11BC7D72021070700AE084D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D7J3GEMRNU;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IBSC_MODULE = OscarsWatch_Extension;
+				INFOPLIST_FILE = OscarsWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Release;
+		};
+		D11BC7D82021070700AE084D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "OscarsWatch Extension/OscarsWatch Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D7J3GEMRNU;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "OscarsWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Debug;
+		};
+		D11BC7D92021070700AE084D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "OscarsWatch Extension/OscarsWatch Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D7J3GEMRNU;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "OscarsWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};
@@ -302,6 +776,25 @@
 				D108CE791E259D6800EB2C70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D11BC7DA2021070700AE084D /* Build configuration list for PBXNativeTarget "OscarsWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D11BC7D82021070700AE084D /* Debug */,
+				D11BC7D92021070700AE084D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D11BC7DC2021070700AE084D /* Build configuration list for PBXNativeTarget "OscarsWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D11BC7D62021070700AE084D /* Debug */,
+				D11BC7D72021070700AE084D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
