@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D102FBEF1FE207270059CB1E /* userMovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D102FBEE1FE207270059CB1E /* userMovieList.swift */; };
-		D103C7F5200D4206008338EE /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D103C7F4200D4206008338EE /* FriendsTableViewController.swift */; };
+		2F864A1516C0564E413D6131 /* Pods_Oscars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34DDCCECAC1C00768D15AAD2 /* Pods_Oscars.framework */; };
+		D102FBEF1FE207270059CB1E /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D102FBEE1FE207270059CB1E /* AppData.swift */; };
 		D108CE691E259D6800EB2C70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE681E259D6800EB2C70 /* AppDelegate.swift */; };
 		D108CE6E1E259D6800EB2C70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D108CE6C1E259D6800EB2C70 /* Main.storyboard */; };
 		D108CE701E259D6800EB2C70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D108CE6F1E259D6800EB2C70 /* Assets.xcassets */; };
@@ -17,7 +17,6 @@
 		D108CE831E25C13100EB2C70 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE821E25C13100EB2C70 /* DetailViewController.swift */; };
 		D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */; };
 		D1104828200CF959004B926C /* PredictionsTableViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1104827200CF959004B926C /* PredictionsTableViewController2.swift */; };
-		D11ABFA3201AB27800C99BEE /* loadingImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D11ABFA2201AB27800C99BEE /* loadingImage.jpg */; };
 		D11BC7BC2021070200AE084D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D11BC7BA2021070200AE084D /* Interface.storyboard */; };
 		D11BC7BE2021070600AE084D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D11BC7BD2021070600AE084D /* Assets.xcassets */; };
 		D11BC7C52021070600AE084D /* OscarsWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D11BC7C42021070600AE084D /* OscarsWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -26,16 +25,16 @@
 		D11BC7CE2021070600AE084D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BC7CD2021070600AE084D /* NotificationController.swift */; };
 		D11BC7D02021070700AE084D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D11BC7CF2021070700AE084D /* Assets.xcassets */; };
 		D11BC7D52021070700AE084D /* OscarsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D11BC7B82021070200AE084D /* OscarsWatch.app */; };
-		D11BC7E020210D7C00AE084D /* userMovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D102FBEE1FE207270059CB1E /* userMovieList.swift */; };
 		D11BC7E2202113D900AE084D /* NominationsRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BC7E1202113D900AE084D /* NominationsRowController.swift */; };
 		D11BC7E6202115F800AE084D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D11BC7E5202115F800AE084D /* CloudKit.framework */; };
-		D15D121820474BB1005BCA57 /* NominationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121720474BB1005BCA57 /* NominationsTableViewController.swift */; };
+		D14272D3216BAD5F004A2620 /* LoadingNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */; };
 		D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */; };
 		D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */; };
 		D1765E5620222E1D007417B4 /* DetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5520222E1D007417B4 /* DetailInterfaceController.swift */; };
 		D1765E5820223D7B007417B4 /* UnseenInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5720223D7B007417B4 /* UnseenInterfaceController.swift */; };
 		D1765E5A20223DE7007417B4 /* UnseenRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5920223DE7007417B4 /* UnseenRowController.swift */; };
 		D1765E5C20226A32007417B4 /* watchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5B20226A32007417B4 /* watchData.swift */; };
+		D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D184F358216BF31000B7F2ED /* NominationsViewController.swift */; };
 		D1A8624F20193E4800E4D93F /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8624E20193E4800E4D93F /* TutorialViewController.swift */; };
 		D1A862692019535300E4D93F /* Tutorial1-1.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862642019534100E4D93F /* Tutorial1-1.png */; };
 		D1A8626B2019535600E4D93F /* Tutorial2.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862672019535000E4D93F /* Tutorial2.png */; };
@@ -43,8 +42,8 @@
 		D1A8626D2019535B00E4D93F /* Tutorial4.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862662019535000E4D93F /* Tutorial4.png */; };
 		D1A8626F20195F9F00E4D93F /* Page1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8626E20195F9F00E4D93F /* Page1ViewController.swift */; };
 		D1A86271201961B200E4D93F /* GoldArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A86270201961B000E4D93F /* GoldArrow.png */; };
+		D1B2C981216BB0FD00D22444 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1B2C980216BB0FC00D22444 /* GoogleService-Info.plist */; };
 		D1B6344F1FDB318400520114 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B6344E1FDB318400520114 /* LoadingViewController.swift */; };
-		D1E55A531FEB47E1000C518A /* oscarsBackground.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = D1E55A521FEB47E1000C518A /* oscarsBackground.jpeg */; };
 		D1E578331E3AD3B300124770 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1E578321E3AD3B300124770 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -91,19 +90,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D102FBEE1FE207270059CB1E /* userMovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userMovieList.swift; sourceTree = "<group>"; };
-		D103C7F4200D4206008338EE /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
+		34DDCCECAC1C00768D15AAD2 /* Pods_Oscars.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oscars.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7DD64F009C88EA9CE6C8B49 /* Pods-Oscars.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oscars.release.xcconfig"; path = "Pods/Target Support Files/Pods-Oscars/Pods-Oscars.release.xcconfig"; sourceTree = "<group>"; };
+		C912A94E3CA7EE45CD911C6C /* Pods-Oscars.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oscars.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oscars/Pods-Oscars.debug.xcconfig"; sourceTree = "<group>"; };
+		D102FBEE1FE207270059CB1E /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		D108CE651E259D6800EB2C70 /* Oscars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oscars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D108CE681E259D6800EB2C70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D108CE6D1E259D6800EB2C70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D108CE6F1E259D6800EB2C70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D108CE721E259D6800EB2C70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D108CE741E259D6800EB2C70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D108CE801E25A9ED00EB2C70 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewController.swift; path = ../TableViewController.swift; sourceTree = "<group>"; };
+		D108CE801E25A9ED00EB2C70 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		D108CE821E25C13100EB2C70 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesNotSeenTableViewController.swift; sourceTree = "<group>"; };
 		D1104827200CF959004B926C /* PredictionsTableViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsTableViewController2.swift; sourceTree = "<group>"; };
-		D11ABFA2201AB27800C99BEE /* loadingImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loadingImage.jpg; sourceTree = "<group>"; };
 		D11BC7B82021070200AE084D /* OscarsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OscarsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D11BC7BB2021070200AE084D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D11BC7BD2021070600AE084D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -120,31 +120,40 @@
 		D11BC7E4202115F100AE084D /* OscarsWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OscarsWatch Extension.entitlements"; sourceTree = "<group>"; };
 		D11BC7E5202115F800AE084D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		D12F942C1E36D532000BF27E /* Oscars.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Oscars.entitlements; sourceTree = "<group>"; };
-		D15D121720474BB1005BCA57 /* NominationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewController.swift; sourceTree = "<group>"; };
+		D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingNewViewController.swift; sourceTree = "<group>"; };
 		D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewCell.swift; sourceTree = "<group>"; };
 		D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D1765E5520222E1D007417B4 /* DetailInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInterfaceController.swift; sourceTree = "<group>"; };
 		D1765E5720223D7B007417B4 /* UnseenInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnseenInterfaceController.swift; sourceTree = "<group>"; };
 		D1765E5920223DE7007417B4 /* UnseenRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnseenRowController.swift; sourceTree = "<group>"; };
 		D1765E5B20226A32007417B4 /* watchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchData.swift; sourceTree = "<group>"; };
+		D184F358216BF31000B7F2ED /* NominationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsViewController.swift; sourceTree = "<group>"; };
 		D1A8624E20193E4800E4D93F /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
-		D1A862642019534100E4D93F /* Tutorial1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Tutorial1-1.png"; path = "../Oscars.xcodeproj/Tutorial1-1.png"; sourceTree = "<group>"; };
-		D1A862652019535000E4D93F /* Tutorial3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tutorial3.png; path = ../Oscars.xcodeproj/Tutorial3.png; sourceTree = "<group>"; };
+		D1A862642019534100E4D93F /* Tutorial1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tutorial1-1.png"; sourceTree = "<group>"; };
+		D1A862652019535000E4D93F /* Tutorial3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tutorial3.png; sourceTree = "<group>"; };
 		D1A862662019535000E4D93F /* Tutorial4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tutorial4.png; path = /Users/dustinjohnson/Desktop/Oscars/Oscars/Oscars/Tutorial4.png; sourceTree = "<absolute>"; };
 		D1A862672019535000E4D93F /* Tutorial2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tutorial2.png; path = /Users/dustinjohnson/Desktop/Oscars/Oscars/Oscars/Tutorial2.png; sourceTree = "<absolute>"; };
 		D1A8626E20195F9F00E4D93F /* Page1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page1ViewController.swift; sourceTree = "<group>"; };
-		D1A86270201961B000E4D93F /* GoldArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GoldArrow.png; path = ../Oscars.xcodeproj/GoldArrow.png; sourceTree = "<group>"; };
+		D1A86270201961B000E4D93F /* GoldArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GoldArrow.png; sourceTree = "<group>"; };
+		D1B2C980216BB0FC00D22444 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D1B6344E1FDB318400520114 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
-		D1E55A521FEB47E1000C518A /* oscarsBackground.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = oscarsBackground.jpeg; sourceTree = "<group>"; };
 		D1E578321E3AD3B300124770 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B27EBA8842DEF8CA758FBF6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D108CE621E259D6800EB2C70 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D1E578331E3AD3B300124770 /* CloudKit.framework in Frameworks */,
+				2F864A1516C0564E413D6131 /* Pods_Oscars.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +168,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F194A69BF2760F0F981895F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C912A94E3CA7EE45CD911C6C /* Pods-Oscars.debug.xcconfig */,
+				A7DD64F009C88EA9CE6C8B49 /* Pods-Oscars.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		D108CE5C1E259D6800EB2C70 = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +185,7 @@
 				D11BC7C82021070600AE084D /* OscarsWatch Extension */,
 				D108CE661E259D6800EB2C70 /* Products */,
 				D1E5782E1E39E58A00124770 /* Frameworks */,
+				2F194A69BF2760F0F981895F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -184,30 +203,18 @@
 			isa = PBXGroup;
 			children = (
 				D108CE6C1E259D6800EB2C70 /* Main.storyboard */,
-				D12F942C1E36D532000BF27E /* Oscars.entitlements */,
-				D15D121720474BB1005BCA57 /* NominationsTableViewController.swift */,
-				D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */,
-				D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */,
-				D108CE801E25A9ED00EB2C70 /* TableViewController.swift */,
-				D108CE681E259D6800EB2C70 /* AppDelegate.swift */,
-				D11ABFA2201AB27800C99BEE /* loadingImage.jpg */,
-				D1A8626E20195F9F00E4D93F /* Page1ViewController.swift */,
-				D1A8624E20193E4800E4D93F /* TutorialViewController.swift */,
-				D103C7F4200D4206008338EE /* FriendsTableViewController.swift */,
-				D1104827200CF959004B926C /* PredictionsTableViewController2.swift */,
-				D1B6344E1FDB318400520114 /* LoadingViewController.swift */,
+				D102FBEE1FE207270059CB1E /* AppData.swift */,
 				D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */,
-				D102FBEE1FE207270059CB1E /* userMovieList.swift */,
-				D108CE821E25C13100EB2C70 /* DetailViewController.swift */,
-				D1A86270201961B000E4D93F /* GoldArrow.png */,
-				D1A862642019534100E4D93F /* Tutorial1-1.png */,
-				D1A862672019535000E4D93F /* Tutorial2.png */,
-				D1A862652019535000E4D93F /* Tutorial3.png */,
-				D1A862662019535000E4D93F /* Tutorial4.png */,
+				D184F357216BE8CB00B7F2ED /* Loading */,
+				D184F356216BE8BA00B7F2ED /* MovieDetails */,
+				D184F355216BE8A700B7F2ED /* Nominations */,
+				D12F942C1E36D532000BF27E /* Oscars.entitlements */,
+				D16066E5216BA73C0022794E /* Old Files */,
+				D108CE681E259D6800EB2C70 /* AppDelegate.swift */,
 				D108CE6F1E259D6800EB2C70 /* Assets.xcassets */,
 				D108CE711E259D6800EB2C70 /* LaunchScreen.storyboard */,
 				D108CE741E259D6800EB2C70 /* Info.plist */,
-				D1E55A521FEB47E1000C518A /* oscarsBackground.jpeg */,
+				D1B2C980216BB0FC00D22444 /* GoogleService-Info.plist */,
 				D1E578311E3A98C600124770 /* src */,
 			);
 			path = Oscars;
@@ -243,11 +250,55 @@
 			path = "OscarsWatch Extension";
 			sourceTree = "<group>";
 		};
+		D16066E5216BA73C0022794E /* Old Files */ = {
+			isa = PBXGroup;
+			children = (
+				D108CE801E25A9ED00EB2C70 /* TableViewController.swift */,
+				D1A8626E20195F9F00E4D93F /* Page1ViewController.swift */,
+				D1A8624E20193E4800E4D93F /* TutorialViewController.swift */,
+				D1104827200CF959004B926C /* PredictionsTableViewController2.swift */,
+				D1B6344E1FDB318400520114 /* LoadingViewController.swift */,
+				D1A86270201961B000E4D93F /* GoldArrow.png */,
+				D1A862642019534100E4D93F /* Tutorial1-1.png */,
+				D1A862672019535000E4D93F /* Tutorial2.png */,
+				D1A862652019535000E4D93F /* Tutorial3.png */,
+				D1A862662019535000E4D93F /* Tutorial4.png */,
+			);
+			path = "Old Files";
+			sourceTree = "<group>";
+		};
+		D184F355216BE8A700B7F2ED /* Nominations */ = {
+			isa = PBXGroup;
+			children = (
+				D184F358216BF31000B7F2ED /* NominationsViewController.swift */,
+				D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */,
+				D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */,
+			);
+			path = Nominations;
+			sourceTree = "<group>";
+		};
+		D184F356216BE8BA00B7F2ED /* MovieDetails */ = {
+			isa = PBXGroup;
+			children = (
+				D108CE821E25C13100EB2C70 /* DetailViewController.swift */,
+			);
+			path = MovieDetails;
+			sourceTree = "<group>";
+		};
+		D184F357216BE8CB00B7F2ED /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
 		D1E5782E1E39E58A00124770 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				D11BC7E5202115F800AE084D /* CloudKit.framework */,
 				D1E578321E3AD3B300124770 /* CloudKit.framework */,
+				34DDCCECAC1C00768D15AAD2 /* Pods_Oscars.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -266,10 +317,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D108CE771E259D6800EB2C70 /* Build configuration list for PBXNativeTarget "Oscars" */;
 			buildPhases = (
+				1BE5FE90E20CD5E71BE70D15 /* [CP] Check Pods Manifest.lock */,
 				D108CE611E259D6800EB2C70 /* Sources */,
 				D108CE621E259D6800EB2C70 /* Frameworks */,
 				D108CE631E259D6800EB2C70 /* Resources */,
 				D11BC7DD2021070700AE084D /* Embed Watch Content */,
+				D6C192D8D89E61AE3691AD6B /* [CP] Embed Pods Frameworks */,
+				41EC7B09259665EA95680A16 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -287,6 +341,7 @@
 			buildPhases = (
 				D11BC7B62021070200AE084D /* Resources */,
 				D11BC7DB2021070700AE084D /* Embed App Extensions */,
+				B27EBA8842DEF8CA758FBF6F /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -400,12 +455,11 @@
 			files = (
 				D1A862692019535300E4D93F /* Tutorial1-1.png in Resources */,
 				D1A86271201961B200E4D93F /* GoldArrow.png in Resources */,
-				D1E55A531FEB47E1000C518A /* oscarsBackground.jpeg in Resources */,
 				D1A8626B2019535600E4D93F /* Tutorial2.png in Resources */,
-				D11ABFA3201AB27800C99BEE /* loadingImage.jpg in Resources */,
 				D108CE731E259D6800EB2C70 /* LaunchScreen.storyboard in Resources */,
 				D108CE701E259D6800EB2C70 /* Assets.xcassets in Resources */,
 				D108CE6E1E259D6800EB2C70 /* Main.storyboard in Resources */,
+				D1B2C981216BB0FD00D22444 /* GoogleService-Info.plist in Resources */,
 				D1A8626D2019535B00E4D93F /* Tutorial4.png in Resources */,
 				D1A8626C2019535900E4D93F /* Tutorial3.png in Resources */,
 			);
@@ -430,24 +484,107 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1BE5FE90E20CD5E71BE70D15 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Oscars-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		41EC7B09259665EA95680A16 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D6C192D8D89E61AE3691AD6B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D108CE611E259D6800EB2C70 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D108CE831E25C13100EB2C70 /* DetailViewController.swift in Sources */,
-				D15D121820474BB1005BCA57 /* NominationsTableViewController.swift in Sources */,
 				D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */,
 				D1A8626F20195F9F00E4D93F /* Page1ViewController.swift in Sources */,
 				D1A8624F20193E4800E4D93F /* TutorialViewController.swift in Sources */,
 				D108CE691E259D6800EB2C70 /* AppDelegate.swift in Sources */,
-				D103C7F5200D4206008338EE /* FriendsTableViewController.swift in Sources */,
 				D108CE811E25A9ED00EB2C70 /* TableViewController.swift in Sources */,
 				D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */,
+				D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */,
 				D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */,
 				D1104828200CF959004B926C /* PredictionsTableViewController2.swift in Sources */,
 				D1B6344F1FDB318400520114 /* LoadingViewController.swift in Sources */,
-				D102FBEF1FE207270059CB1E /* userMovieList.swift in Sources */,
+				D14272D3216BAD5F004A2620 /* LoadingNewViewController.swift in Sources */,
+				D102FBEF1FE207270059CB1E /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,7 +595,6 @@
 				D1765E5620222E1D007417B4 /* DetailInterfaceController.swift in Sources */,
 				D1765E5820223D7B007417B4 /* UnseenInterfaceController.swift in Sources */,
 				D11BC7CE2021070600AE084D /* NotificationController.swift in Sources */,
-				D11BC7E020210D7C00AE084D /* userMovieList.swift in Sources */,
 				D11BC7CC2021070600AE084D /* ExtensionDelegate.swift in Sources */,
 				D11BC7E2202113D900AE084D /* NominationsRowController.swift in Sources */,
 				D1765E5A20223DE7007417B4 /* UnseenRowController.swift in Sources */,
@@ -623,12 +759,13 @@
 		};
 		D108CE781E259D6800EB2C70 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C912A94E3CA7EE45CD911C6C /* Pods-Oscars.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = Oscars/Oscars.entitlements;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Oscars";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Oscars/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
@@ -642,12 +779,13 @@
 		};
 		D108CE791E259D6800EB2C70 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7DD64F009C88EA9CE6C8B49 /* Pods-Oscars.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = Oscars/Oscars.entitlements;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Oscars";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Oscars/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";

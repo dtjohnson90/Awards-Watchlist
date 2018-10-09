@@ -617,9 +617,8 @@ class TableViewController: UITableViewController, MFMessageComposeViewController
             let secondScene = segue.destination as! DetailViewController
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let currentMovie = movieArray[indexPath.section][indexPath.row]
-                secondScene.movieTitle = currentMovie
+                //secondScene.movieTitle = currentMovie
             }
-            secondScene.viewControllerTest = "A"
         }
     }
     
