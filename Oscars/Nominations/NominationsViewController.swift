@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import WatchConnectivity
 
-class NominationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+class NominationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WCSessionDelegate {
+
     var movieSelected = Items.movie(actors: [String](), cover: UIImage(), description: String(), idmb: String(), name: String(), nominatedFor: [String](), youtube: String())
+    var tempBA = Items.sharedInstance.actorArray
+    var tempBAS = Items.sharedInstance.actorArray
+    var tempSA = Items.sharedInstance.actorArray
+    var session: WCSession?
     
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var detailTableView: UITableView!
@@ -36,20 +41,50 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         // Do any additional setup after loading the view.
         listTableView.isHidden = true
         detailTableView.isHidden = false
+        
+        if WCSession.isSupported() {
+            session = WCSession.default
+            session?.delegate = self
+            session?.activate()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+            self.validateSession()
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        listTableView.reloadData()
-        detailTableView.reloadData()
+        DispatchQueue.main.async {
+            self.tempBA = Items.sharedInstance.actorArray
+            self.tempBAS = Items.sharedInstance.actorArray
+            self.tempSA = Items.sharedInstance.actorArray
+            
+            self.listTableView.reloadData()
+            //self.detailTableView.reloadData()
+        }
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //UIApplication.shared.statusBarStyle = .lightContent
+    func validateSession() {
+        if let validSession = session {
+            let nomCombo = [Items.sharedInstance.bestPicture,Items.sharedInstance.bestActor,Items.sharedInstance.bestActress,Items.sharedInstance.supportingActor,Items.sharedInstance.supportingActress,Items.sharedInstance.animated,Items.sharedInstance.cinematography,Items.sharedInstance.costumeDesign,Items.sharedInstance.directing,Items.sharedInstance.documentaryFeature,Items.sharedInstance.documentaryShort,Items.sharedInstance.filmEditing,Items.sharedInstance.foreignFilm,Items.sharedInstance.makeup,Items.sharedInstance.musicScore,Items.sharedInstance.musicSong,Items.sharedInstance.productionDesign,Items.sharedInstance.shortAnimated,Items.sharedInstance.shortLive,Items.sharedInstance.soundEditing,Items.sharedInstance.soundMixing,Items.sharedInstance.visualEffects,Items.sharedInstance.writingAdapted,Items.sharedInstance.writingOriginal,Items.sharedInstance.allMovieList]
+            
+            let iphoneAppContext = ["Nominations": nomCombo, "Details": Items.sharedInstance.allMovieDetails]
+            do {
+                try validSession.updateApplicationContext(iphoneAppContext)
+            } catch {
+                print("Something went wrong")
+            }
+        }
     }
     
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return .lightContent
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -130,15 +165,118 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-            cell.textLabel?.adjustsFontSizeToFitWidth = true
+            let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! ListTableViewCell
+            let currentMovie = Items.sharedInstance.sortedMovieArray[indexPath.section][indexPath.row]
             
-            cell.textLabel?.text = Items.sharedInstance.sortedMovieArray[indexPath.section][indexPath.row].name
-            if Items.sharedInstance.moviesSeenArray.contains(Items.sharedInstance.sortedMovieArray[indexPath.section][indexPath.row]){
-                cell.textLabel?.textColor = UIColor.green
+            cell.titleLabel.adjustsFontSizeToFitWidth = true
+            cell.starringLabel.adjustsFontSizeToFitWidth = true
+            
+            if indexPath.section == 1 {
+                for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                    if actor.nominatedFor == "Best Actor" && actor.movie == currentMovie.name {
+                        cell.coverImage.image = actor.image
+                        cell.titleLabel.text = actor.name
+                        cell.starringLabel.text = currentMovie.name
+                        var tempCount = index
+                        while tempCount < Items.sharedInstance.actorArray.count {
+                            if tempCount == Items.sharedInstance.actorArray.count-1 {
+                                Items.sharedInstance.actorArray[tempCount] = actor
+                                tempCount += 1
+                            } else {
+                                Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                                tempCount += 1
+                            }
+                        }
+                        break
+                    }
+                }
+            } else if indexPath.section == 2 {
+                for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                    if actor.nominatedFor == "Best Actress" && actor.movie == currentMovie.name {
+                        cell.coverImage.image = actor.image
+                        cell.titleLabel.text = actor.name
+                        cell.starringLabel.text = currentMovie.name
+                        var tempCount = index
+                        while tempCount < Items.sharedInstance.actorArray.count {
+                            if tempCount == Items.sharedInstance.actorArray.count-1 {
+                                Items.sharedInstance.actorArray[tempCount] = actor
+                                tempCount += 1
+                            } else {
+                                Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                                tempCount += 1
+                            }
+                        }
+                        break
+                    }
+                }
+            } else if indexPath.section == 3 {
+                for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                    if actor.nominatedFor == "Supporting Actor" && actor.movie == currentMovie.name {
+                        cell.coverImage.image = actor.image
+                        cell.titleLabel.text = actor.name
+                        cell.starringLabel.text = currentMovie.name
+                        var tempCount = index
+                        while tempCount < Items.sharedInstance.actorArray.count {
+                            if tempCount == Items.sharedInstance.actorArray.count-1 {
+                                Items.sharedInstance.actorArray[tempCount] = actor
+                                tempCount += 1
+                            } else {
+                                Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                                tempCount += 1
+                            }
+                        }
+                        break
+                    }
+                }
+            } else if indexPath.section == 4 {
+                for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                    if actor.nominatedFor == "Supporting Actress" && actor.movie == currentMovie.name {
+                        cell.coverImage.image = actor.image
+                        cell.titleLabel.text = actor.name
+                        cell.starringLabel.text = currentMovie.name
+                        var tempCount = index
+                        while tempCount < Items.sharedInstance.actorArray.count {
+                            if tempCount == Items.sharedInstance.actorArray.count-1 {
+                                Items.sharedInstance.actorArray[tempCount] = actor
+                                tempCount += 1
+                            } else {
+                                Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                                tempCount += 1
+                            }
+                        }
+                        break
+                    }
+                }
+            } else if indexPath.section == 8 {
+                for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                    if actor.nominatedFor == "Directing" && actor.movie == currentMovie.name {
+                        cell.coverImage.image = actor.image
+                        cell.titleLabel.text = actor.name
+                        cell.starringLabel.text = currentMovie.name
+                        var tempCount = index
+                        while tempCount < Items.sharedInstance.actorArray.count {
+                            if tempCount == Items.sharedInstance.actorArray.count-1 {
+                                Items.sharedInstance.actorArray[tempCount] = actor
+                                tempCount += 1
+                            } else {
+                                Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                                tempCount += 1
+                            }
+                        }
+                        break
+                    }
+                }
             }
             else {
-                cell.textLabel?.textColor = UIColor.white
+                cell.coverImage.image = currentMovie.cover
+                cell.titleLabel.text = currentMovie.name
+                cell.starringLabel.text = "Starring: " + currentMovie.actors[0]
+            }
+            
+            if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
+                cell.hiddenView.isHidden = false
+            } else {
+                cell.hiddenView.isHidden = true
             }
             
             return cell
@@ -158,7 +296,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         if tableView == detailTableView {
             return 220;//Choose your custom row height
         } else {
-            return 44
+            return 75
         }
     }
     
@@ -268,11 +406,115 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell",
-                                                      for: indexPath) as! NominationsCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! NominationsCollectionViewCell
+        let movieSeen = Items.sharedInstance.sortedMovieArray[collectionView.tag][indexPath.item]
         
-        let image = Items.sharedInstance.sortedMovieArray[collectionView.tag][indexPath.item].cover
-        cell.movieImage.image = image
+        //if collectionView.tag == 1 || collectionView.tag == 2 || collectionView.tag == 3 || collectionView.tag == 4
+        if collectionView.tag == 1 {
+            for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                if actor.nominatedFor == "Best Actor" && actor.movie == movieSeen.name {
+                    cell.movieImage.image = actor.image
+                    cell.ActorName.text = actor.name
+                    cell.ActorName.isHidden = false
+                    var tempCount = index
+                    while tempCount < Items.sharedInstance.actorArray.count {
+                        if tempCount == Items.sharedInstance.actorArray.count-1 {
+                            Items.sharedInstance.actorArray[tempCount] = actor
+                            tempCount += 1
+                        } else {
+                            Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                            tempCount += 1
+                        }
+                    }
+                    break
+                }
+            }
+        } else if collectionView.tag == 2 {
+            for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                if actor.nominatedFor == "Best Actress" && actor.movie == movieSeen.name {
+                    cell.movieImage.image = actor.image
+                    cell.ActorName.text = actor.name
+                    cell.ActorName.isHidden = false
+                    var tempCount = index
+                    while tempCount < Items.sharedInstance.actorArray.count {
+                        if tempCount == Items.sharedInstance.actorArray.count-1 {
+                            Items.sharedInstance.actorArray[tempCount] = actor
+                            tempCount += 1
+                        } else {
+                            Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                            tempCount += 1
+                        }
+                    }
+                    break
+                }
+            }
+        } else if collectionView.tag == 3 {
+            for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                if actor.nominatedFor == "Supporting Actor" && actor.movie == movieSeen.name {
+                    cell.movieImage.image = actor.image
+                    cell.ActorName.text = actor.name
+                    cell.ActorName.isHidden = false
+                    var tempCount = index
+                    while tempCount < Items.sharedInstance.actorArray.count {
+                        if tempCount == Items.sharedInstance.actorArray.count-1 {
+                            Items.sharedInstance.actorArray[tempCount] = actor
+                            tempCount += 1
+                        } else {
+                            Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                            tempCount += 1
+                        }
+                    }
+                    break
+                }
+            }
+        } else if collectionView.tag == 4 {
+            for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                if actor.nominatedFor == "Supporting Actress" && actor.movie == movieSeen.name {
+                    cell.movieImage.image = actor.image
+                    cell.ActorName.text = actor.name
+                    cell.ActorName.isHidden = false
+                    var tempCount = index
+                    while tempCount < Items.sharedInstance.actorArray.count {
+                        if tempCount == Items.sharedInstance.actorArray.count-1 {
+                            Items.sharedInstance.actorArray[tempCount] = actor
+                            tempCount += 1
+                        } else {
+                            Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                            tempCount += 1
+                        }
+                    }
+                    break
+                }
+            }
+        } else if collectionView.tag == 8 {
+            for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
+                if actor.nominatedFor == "Directing" && actor.movie == movieSeen.name {
+                    cell.movieImage.image = actor.image
+                    cell.ActorName.text = actor.name
+                    cell.ActorName.isHidden = false
+                    var tempCount = index
+                    while tempCount < Items.sharedInstance.actorArray.count {
+                        if tempCount == Items.sharedInstance.actorArray.count-1 {
+                            Items.sharedInstance.actorArray[tempCount] = actor
+                            tempCount += 1
+                        } else {
+                            Items.sharedInstance.actorArray[tempCount] = Items.sharedInstance.actorArray[tempCount + 1]
+                            tempCount += 1
+                        }
+                    }
+                    break
+                }
+            }
+        } else {
+            cell.movieImage.image = movieSeen.cover
+            cell.ActorName.isHidden = true
+        }
+        
+        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+            cell.hiddenView.isHidden = false
+        } else {
+            cell.hiddenView.isHidden = true
+        }
         
         return cell
         
@@ -296,5 +538,9 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
             let secondScene = segue.destination as! DetailViewController
             secondScene.movieSelected = movieSelected
         }
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = "Nominations"
+        navigationItem.backBarButtonItem = backItem
     }
 }

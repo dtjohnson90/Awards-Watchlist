@@ -22,9 +22,18 @@ class Items {
         let youtube: String
     }
     
+    struct actors: Equatable {
+        let name: String
+        let image: UIImage
+        let nominatedFor: String
+        var movie: String
+        var used: Bool
+    }
+    
     var movieArray = [movie]()
     var sortedMovieArray = [[movie]]()
     var moviesSeenArray = [movie]()
+    var actorArray = [actors]()
     
     
     

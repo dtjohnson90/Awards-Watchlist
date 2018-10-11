@@ -27,6 +27,8 @@
 		D11BC7D52021070700AE084D /* OscarsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D11BC7B82021070200AE084D /* OscarsWatch.app */; };
 		D11BC7E2202113D900AE084D /* NominationsRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BC7E1202113D900AE084D /* NominationsRowController.swift */; };
 		D11BC7E6202115F800AE084D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D11BC7E5202115F800AE084D /* CloudKit.framework */; };
+		D13E36D8216E85F000213DBC /* 0000016_facebook-like-button-plugin.png in Resources */ = {isa = PBXBuildFile; fileRef = D13E36D7216E85EF00213DBC /* 0000016_facebook-like-button-plugin.png */; };
+		D13E36DA216E867B00213DBC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13E36D9216E867B00213DBC /* LoginViewController.swift */; };
 		D14272D3216BAD5F004A2620 /* LoadingNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */; };
 		D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */; };
 		D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */; };
@@ -35,6 +37,10 @@
 		D1765E5A20223DE7007417B4 /* UnseenRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5920223DE7007417B4 /* UnseenRowController.swift */; };
 		D1765E5C20226A32007417B4 /* watchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5B20226A32007417B4 /* watchData.swift */; };
 		D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D184F358216BF31000B7F2ED /* NominationsViewController.swift */; };
+		D19BEE46216E3F5300C1F176 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE45216E3F5300C1F176 /* ListTableViewCell.swift */; };
+		D19BEE48216E566700C1F176 /* ActorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE47216E566700C1F176 /* ActorsCollectionViewCell.swift */; };
+		D19BEE4A216E592600C1F176 /* NoPhotoAvailable.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D19BEE49216E592600C1F176 /* NoPhotoAvailable.jpg */; };
+		D19BEE4C216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE4B216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift */; };
 		D1A8624F20193E4800E4D93F /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8624E20193E4800E4D93F /* TutorialViewController.swift */; };
 		D1A862692019535300E4D93F /* Tutorial1-1.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862642019534100E4D93F /* Tutorial1-1.png */; };
 		D1A8626B2019535600E4D93F /* Tutorial2.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862672019535000E4D93F /* Tutorial2.png */; };
@@ -120,6 +126,8 @@
 		D11BC7E4202115F100AE084D /* OscarsWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OscarsWatch Extension.entitlements"; sourceTree = "<group>"; };
 		D11BC7E5202115F800AE084D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		D12F942C1E36D532000BF27E /* Oscars.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Oscars.entitlements; sourceTree = "<group>"; };
+		D13E36D7216E85EF00213DBC /* 0000016_facebook-like-button-plugin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0000016_facebook-like-button-plugin.png"; sourceTree = "<group>"; };
+		D13E36D9216E867B00213DBC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingNewViewController.swift; sourceTree = "<group>"; };
 		D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewCell.swift; sourceTree = "<group>"; };
 		D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -128,6 +136,10 @@
 		D1765E5920223DE7007417B4 /* UnseenRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnseenRowController.swift; sourceTree = "<group>"; };
 		D1765E5B20226A32007417B4 /* watchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchData.swift; sourceTree = "<group>"; };
 		D184F358216BF31000B7F2ED /* NominationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsViewController.swift; sourceTree = "<group>"; };
+		D19BEE45216E3F5300C1F176 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		D19BEE47216E566700C1F176 /* ActorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D19BEE49216E592600C1F176 /* NoPhotoAvailable.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = NoPhotoAvailable.jpg; sourceTree = "<group>"; };
+		D19BEE4B216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesNotSeenTableViewCell.swift; sourceTree = "<group>"; };
 		D1A8624E20193E4800E4D93F /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		D1A862642019534100E4D93F /* Tutorial1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tutorial1-1.png"; sourceTree = "<group>"; };
 		D1A862652019535000E4D93F /* Tutorial3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tutorial3.png; sourceTree = "<group>"; };
@@ -204,13 +216,15 @@
 			children = (
 				D108CE6C1E259D6800EB2C70 /* Main.storyboard */,
 				D102FBEE1FE207270059CB1E /* AppData.swift */,
-				D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */,
 				D184F357216BE8CB00B7F2ED /* Loading */,
-				D184F356216BE8BA00B7F2ED /* MovieDetails */,
 				D184F355216BE8A700B7F2ED /* Nominations */,
+				D19BEE4D216E703800C1F176 /* MoviesNotSeen */,
+				D184F356216BE8BA00B7F2ED /* MovieDetails */,
 				D12F942C1E36D532000BF27E /* Oscars.entitlements */,
+				D13E36D7216E85EF00213DBC /* 0000016_facebook-like-button-plugin.png */,
 				D16066E5216BA73C0022794E /* Old Files */,
 				D108CE681E259D6800EB2C70 /* AppDelegate.swift */,
+				D19BEE49216E592600C1F176 /* NoPhotoAvailable.jpg */,
 				D108CE6F1E259D6800EB2C70 /* Assets.xcassets */,
 				D108CE711E259D6800EB2C70 /* LaunchScreen.storyboard */,
 				D108CE741E259D6800EB2C70 /* Info.plist */,
@@ -270,6 +284,7 @@
 		D184F355216BE8A700B7F2ED /* Nominations */ = {
 			isa = PBXGroup;
 			children = (
+				D19BEE45216E3F5300C1F176 /* ListTableViewCell.swift */,
 				D184F358216BF31000B7F2ED /* NominationsViewController.swift */,
 				D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */,
 				D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */,
@@ -281,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				D108CE821E25C13100EB2C70 /* DetailViewController.swift */,
+				D19BEE47216E566700C1F176 /* ActorsCollectionViewCell.swift */,
 			);
 			path = MovieDetails;
 			sourceTree = "<group>";
@@ -288,9 +304,19 @@
 		D184F357216BE8CB00B7F2ED /* Loading */ = {
 			isa = PBXGroup;
 			children = (
+				D13E36D9216E867B00213DBC /* LoginViewController.swift */,
 				D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */,
 			);
 			path = Loading;
+			sourceTree = "<group>";
+		};
+		D19BEE4D216E703800C1F176 /* MoviesNotSeen */ = {
+			isa = PBXGroup;
+			children = (
+				D19BEE4B216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift */,
+				D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */,
+			);
+			path = MoviesNotSeen;
 			sourceTree = "<group>";
 		};
 		D1E5782E1E39E58A00124770 /* Frameworks */ = {
@@ -392,6 +418,9 @@
 							com.apple.GameCenter = {
 								enabled = 0;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -454,12 +483,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1A862692019535300E4D93F /* Tutorial1-1.png in Resources */,
+				D13E36D8216E85F000213DBC /* 0000016_facebook-like-button-plugin.png in Resources */,
 				D1A86271201961B200E4D93F /* GoldArrow.png in Resources */,
 				D1A8626B2019535600E4D93F /* Tutorial2.png in Resources */,
 				D108CE731E259D6800EB2C70 /* LaunchScreen.storyboard in Resources */,
 				D108CE701E259D6800EB2C70 /* Assets.xcassets in Resources */,
 				D108CE6E1E259D6800EB2C70 /* Main.storyboard in Resources */,
 				D1B2C981216BB0FD00D22444 /* GoogleService-Info.plist in Resources */,
+				D19BEE4A216E592600C1F176 /* NoPhotoAvailable.jpg in Resources */,
 				D1A8626D2019535B00E4D93F /* Tutorial4.png in Resources */,
 				D1A8626C2019535900E4D93F /* Tutorial3.png in Resources */,
 			);
@@ -511,14 +542,24 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -532,12 +573,22 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
@@ -547,12 +598,22 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
@@ -579,9 +640,13 @@
 				D108CE691E259D6800EB2C70 /* AppDelegate.swift in Sources */,
 				D108CE811E25A9ED00EB2C70 /* TableViewController.swift in Sources */,
 				D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */,
+				D19BEE46216E3F5300C1F176 /* ListTableViewCell.swift in Sources */,
 				D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */,
+				D19BEE48216E566700C1F176 /* ActorsCollectionViewCell.swift in Sources */,
+				D19BEE4C216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift in Sources */,
 				D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */,
 				D1104828200CF959004B926C /* PredictionsTableViewController2.swift in Sources */,
+				D13E36DA216E867B00213DBC /* LoginViewController.swift in Sources */,
 				D1B6344F1FDB318400520114 /* LoadingViewController.swift in Sources */,
 				D14272D3216BAD5F004A2620 /* LoadingNewViewController.swift in Sources */,
 				D102FBEF1FE207270059CB1E /* AppData.swift in Sources */,

@@ -13,7 +13,6 @@ class MoviesNotSeenTableViewController: UITableViewController {
 
     var moviesLeftList = [Items.movie]()
     
-    @IBOutlet weak var moviesLeftLabel: UILabel!
     @IBAction func unwindToList2(segue: UIStoryboardSegue) {}
     
     override func viewDidLoad() {
@@ -28,7 +27,7 @@ class MoviesNotSeenTableViewController: UITableViewController {
             }
         }
         moviesLeftList.sort { $0.name < $1.name }
-        moviesLeftLabel.text = String(moviesLeftList.count) + " / " + String(Items.sharedInstance.movieArray.count) + " Movies Left"
+        self.title = String(moviesLeftList.count) + " / " + String(Items.sharedInstance.movieArray.count) + " Movies To Watch"
         self.tableView.reloadData()
     }
 
@@ -45,10 +44,12 @@ class MoviesNotSeenTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-
-        cell.textLabel?.text = moviesLeftList[indexPath.row].name
-        cell.textLabel?.textColor = UIColor.white
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MoviesNotSeenTableViewCell
+        let currentMovie = moviesLeftList[indexPath.row]
+        
+        cell.movieImage.image = currentMovie.cover
+        cell.movieTitle.text = currentMovie.name
+        cell.movieStarring.text = "Starring: " + currentMovie.actors[0]
         
         return cell
     }
@@ -60,5 +61,9 @@ class MoviesNotSeenTableViewController: UITableViewController {
             let currentMovie = moviesLeftList[inpath2.row]
             secondScene.movieSelected = currentMovie
         }
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = "Movies Left"
+        navigationItem.backBarButtonItem = backItem
     }
 }

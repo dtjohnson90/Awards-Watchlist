@@ -10,5 +10,7 @@ import UIKit
 
 class NominationsCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var ActorName: UILabel!
+    @IBOutlet weak var hiddenView: UIView!
     @IBOutlet var movieImage: UIImageView!
 }
