@@ -1,27 +1,19 @@
 //
-//  Page1ViewController.swift
+//  TabBarViewController.swift
 //  Oscars
 //
-//  Created by Dustin Johnson on 1/24/18.
+//  Created by Dustin Johnson on 10/15/18.
 //  Copyright © 2018 Dustin Johnson. All rights reserved.
 //
 
 import UIKit
 
-class Page1ViewController: UIViewController {
+class TabBarViewController: UITabBarController {
 
-    @IBOutlet var detailLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        detailLabel.adjustsFontSizeToFitWidth = true
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
@@ -30,7 +22,7 @@ class Page1ViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
+        // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
     */

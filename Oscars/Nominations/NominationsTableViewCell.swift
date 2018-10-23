@@ -35,5 +35,4 @@ class NominationsTableViewCell: UITableViewCell {
             self.collectionView.reloadData()
         }
     }
-
 }

@@ -11,5 +11,23 @@ import UIKit
 
 class Items2 {
     static let sharedInstance = Items2()
-    var allMovieDetails = [[String]]()
+    
+    struct movie: Equatable {
+        let actors: [String]
+        let description: String
+        let name: String
+        let nominatedFor: [String]
+    }
+    
+    struct actors: Equatable {
+        let name: String
+        let image: UIImage
+        let nominatedFor: String
+        var movie: String
+        var used: Bool
+    }
+    
+    var movieArray = [movie]()
+    var sortedMovieArray = [[movie]]()
+    var moviesSeenArray = [movie]()
 }

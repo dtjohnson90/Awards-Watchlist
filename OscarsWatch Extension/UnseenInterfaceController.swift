@@ -12,19 +12,18 @@ import Foundation
 
 class UnseenInterfaceController: WKInterfaceController {
 
-    var moviesLeftList = [String]()
-    var allMovieList = [[String]]()
+    var moviesLeftList = [Items2.movie]()
     @IBOutlet var unseenTable: WKInterfaceTable!
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
         // Configure interface objects here.
-        moviesLeftList = context as! [String]
+        moviesLeftList = context as! [Items2.movie]
         self.unseenTable.setNumberOfRows(self.moviesLeftList.count, withRowType: "unseenRow")
         for index in 0..<self.moviesLeftList.count {
             guard let controller = self.unseenTable.rowController(at: index) as? UnseenRowController else { continue }
-            controller.nameLabel.setText(self.moviesLeftList[index])
+            controller.nameLabel.setText(self.moviesLeftList[index].name)
         }
     }
 
@@ -39,16 +38,15 @@ class UnseenInterfaceController: WKInterfaceController {
     }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
-        var movie = [String]()
+        var movie: Items2.movie
         if table == unseenTable {
-            for item in Items2.sharedInstance.allMovieDetails {
-                if item[0] == moviesLeftList[rowIndex] {
+            for item in Items2.sharedInstance.movieArray {
+                if item == moviesLeftList[rowIndex] {
                     movie = item
+                    presentController(withName: "DetailController", context: movie)
                     break
                 }
             }
-            presentController(withName: "DetailController", context: movie)
         }
     }
-
 }

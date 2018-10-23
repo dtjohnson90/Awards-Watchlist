@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import CloudKit
+import FirebaseFirestore
 
 class MoviesNotSeenTableViewController: UITableViewController {
 
@@ -27,7 +27,7 @@ class MoviesNotSeenTableViewController: UITableViewController {
             }
         }
         moviesLeftList.sort { $0.name < $1.name }
-        self.title = String(moviesLeftList.count) + " / " + String(Items.sharedInstance.movieArray.count) + " Movies To Watch"
+        self.navigationItem.title = String(moviesLeftList.count) + " / " + String(Items.sharedInstance.movieArray.count) + " Movies To Watch"
         self.tableView.reloadData()
     }
 

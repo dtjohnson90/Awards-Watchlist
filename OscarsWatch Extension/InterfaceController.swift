@@ -11,7 +11,6 @@ import Foundation
 import CloudKit
 import WatchConnectivity
 
-
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBOutlet var bpTable: WKInterfaceTable!
@@ -39,223 +38,218 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var waTable: WKInterfaceTable!
     @IBOutlet var woTable: WKInterfaceTable!
     @IBAction func unseenMenuItem() {
-        var moviesLeftList = allMovieList
-        var userMovieList = [String]()
-        for item in allMovieDetails {
-            if item[4] == "Seen" {
-                userMovieList.append(item[0])
+        var moviesLeftList = [Items2.movie]()
+        for movie in Items2.sharedInstance.movieArray {
+            if !Items2.sharedInstance.moviesSeenArray.contains(movie) {
+                moviesLeftList.append(movie)
             }
         }
-        moviesLeftList = moviesLeftList.filter { !userMovieList.contains($0) }
-        moviesLeftList = moviesLeftList.sorted { $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending }
+        moviesLeftList.sort { $0.name < $1.name }
         pushController(withName: "UnseenController", context: moviesLeftList)
     }
     
-    var bestPicture = [String](), makeup = [String](), bestActor = [String](), bestActress = [String](), supportingActor = [String](), supportingActress = [String](), animated = [String](), cinematography = [String](), costumeDesign = [String](), directing = [String](), documentaryFeature = [String](), documentaryShort = [String](), filmEditing = [String](), foreignFilm = [String](), musicScore = [String](), musicSong = [String](), productionDesign = [String](), shortAnimated = [String](), shortLive = [String](), soundEditing = [String](), soundMixing = [String](), visualEffects = [String](), writingAdapted = [String](), writingOriginal = [String](), allMovieList = [String]()
-    var bestActor2 = ["Timothée Chalamet","Gary Oldman","Daniel Kaluuya","Daniel Day-Lewis","Denzel Washington"]
-    var bestActress2 = ["Margot Robbie","Saoirse Ronan","Meryl Streep","Sally Hawkins","Frances McDormand"]
-    var supportingActor2 = ["Christopher Plummer", "Willem Dafoe", "Richard Jenkins", "Woody Harrelson", "Sam Rockwell"]
-    var supportingActress2 = ["Allison Janney", "Laurie Metcalf","Mary J. Blige","Lesley Manville","Octavia Spencer"]
-    var directing2 = ["Christopher Nolan","Jordan Peele","Greta Gerwig","Paul Thomas Anderson","Guillermo del Toro"]
-    var musicSong2 = ["Mystery of Love", "Remember Me","Stand Up For Something","Mighty River","This Is Me"]
     let session = WCSession.default
-    var allMovieDetails = [[String]]()
-    //@IBOutlet var nominationName: WKInterfaceLabel!
+
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         // Configure interface objects here.
         
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
             self.processApplicationContext()
-            self.bpTable.setNumberOfRows(self.bestPicture.count, withRowType: "nominationRow")
-            for index in 0..<self.bestPicture.count {
+        })
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+            let movieArray = Items2.sharedInstance.sortedMovieArray
+            self.bpTable.setNumberOfRows(movieArray[0].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[0].count {
                 guard let controller = self.bpTable.rowController(at: index) as? NominationsRowController else { continue }
-                controller.bpName.setText(self.bestPicture[index])
+                controller.bpName.setText(movieArray[0][index].name)
                 if index == 7 {
                     controller.bpName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.baTable.setNumberOfRows(self.bestActor.count, withRowType: "nominationRow")
-            for index in 0..<self.bestActor.count {
+            self.baTable.setNumberOfRows(movieArray[1].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[1].count {
                 guard let controller = self.baTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.baName.setText(self.bestActor2[index])
+                controller.baName.setText(movieArray[1][index].name)
                 if index == 1 {
                     controller.baName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.basTable.setNumberOfRows(self.bestActress.count, withRowType: "nominationRow")
-            for index in 0..<self.bestActress.count {
+            self.basTable.setNumberOfRows(movieArray[2].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[2].count {
                 guard let controller = self.basTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.basName.setText(self.bestActress2[index])
+                controller.basName.setText(movieArray[2][index].name)
                 if index == 4 {
                     controller.basName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.bsaTable.setNumberOfRows(self.supportingActor.count, withRowType: "nominationRow")
-            for index in 0..<self.supportingActor.count {
+            self.bsaTable.setNumberOfRows(movieArray[3].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[3].count {
                 guard let controller = self.bsaTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.saName.setText(self.supportingActor2[index])
+                controller.saName.setText(movieArray[3][index].name)
                 if index == 4 {
                     controller.saName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.bsasTable.setNumberOfRows(self.supportingActress.count, withRowType: "nominationRow")
-            for index in 0..<self.supportingActress.count {
+            self.bsasTable.setNumberOfRows(movieArray[4].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[4].count {
                 guard let controller = self.bsasTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.sasName.setText(self.supportingActress2[index])
+                controller.sasName.setText(movieArray[4][index].name)
                 if index == 0 {
                     controller.sasName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.aTable.setNumberOfRows(self.animated.count, withRowType: "nominationRow")
-            for index in 0..<self.animated.count {
+            self.aTable.setNumberOfRows(movieArray[5].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[5].count {
                 guard let controller = self.aTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.aName.setText(self.animated[index])
+                controller.aName.setText(movieArray[5][index].name)
                 if index == 0 {
                     controller.aName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.cTable.setNumberOfRows(self.cinematography.count, withRowType: "nominationRow")
-            for index in 0..<self.cinematography.count {
+            self.cTable.setNumberOfRows(movieArray[6].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[6].count {
                 guard let controller = self.cTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.cName.setText(self.cinematography[index])
+                controller.cName.setText(movieArray[6][index].name)
                 if index == 0 {
                     controller.cName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.cdTable.setNumberOfRows(self.costumeDesign.count, withRowType: "nominationRow")
-            for index in 0..<self.costumeDesign.count {
+            self.cdTable.setNumberOfRows(movieArray[7].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[7].count {
                 guard let controller = self.cdTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.cdName.setText(self.costumeDesign[index])
+                controller.cdName.setText(movieArray[7][index].name)
                 if index == 2 {
                     controller.cdName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.dTable.setNumberOfRows(self.directing.count, withRowType: "nominationRow")
-            for index in 0..<self.directing.count {
+            self.dTable.setNumberOfRows(movieArray[8].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[8].count {
                 guard let controller = self.dTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.dName.setText(self.directing2[index])
+                controller.dName.setText(movieArray[8][index].name)
                 if index == 4 {
                     controller.dName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.dfTable.setNumberOfRows(self.documentaryFeature.count, withRowType: "nominationRow")
-            for index in 0..<self.documentaryFeature.count {
+            self.dfTable.setNumberOfRows(movieArray[9].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[9].count {
                 guard let controller = self.dfTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.dfName.setText(self.documentaryFeature[index])
+                controller.dfName.setText(movieArray[9][index].name)
                 if index == 2 {
                     controller.dfName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.dsTable.setNumberOfRows(self.documentaryShort.count, withRowType: "nominationRow")
-            for index in 0..<self.documentaryShort.count {
+            self.dsTable.setNumberOfRows(movieArray[10].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[10].count {
                 guard let controller = self.dsTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.dshName.setText(self.documentaryShort[index])
+                controller.dshName.setText(movieArray[10][index].name)
                 if index == 1 {
                     controller.dshName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.feTable.setNumberOfRows(self.filmEditing.count, withRowType: "nominationRow")
-            for index in 0..<self.filmEditing.count {
+            self.feTable.setNumberOfRows(movieArray[11].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[11].count {
                 guard let controller = self.feTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.feName.setText(self.filmEditing[index])
+                controller.feName.setText(movieArray[11][index].name)
                 if index == 1 {
                     controller.feName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.fTable.setNumberOfRows(self.foreignFilm.count, withRowType: "nominationRow")
-            for index in 0..<self.foreignFilm.count {
+            self.fTable.setNumberOfRows(movieArray[12].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[12].count {
                 guard let controller = self.fTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.fName.setText(self.foreignFilm[index])
+                controller.fName.setText(movieArray[12][index].name)
                 if index == 0 {
                     controller.fName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.mTable.setNumberOfRows(self.makeup.count, withRowType: "nominationRow")
-            for index in 0..<self.makeup.count {
+            self.mTable.setNumberOfRows(movieArray[13].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[13].count {
                 guard let controller = self.mTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.mName.setText(self.makeup[index])
+                controller.mName.setText(movieArray[13][index].name)
                 if index == 0 {
                     controller.mName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.oscTable.setNumberOfRows(self.musicScore.count, withRowType: "nominationRow")
-            for index in 0..<self.musicScore.count {
+            self.oscTable.setNumberOfRows(movieArray[14].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[14].count {
                 guard let controller = self.oscTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.mscName.setText(self.musicScore[index])
+                controller.mscName.setText(movieArray[14][index].name)
                 if index == 3 {
                     controller.mscName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.osoTable.setNumberOfRows(self.musicSong.count, withRowType: "nominationRow")
-            for index in 0..<self.musicSong.count {
+            self.osoTable.setNumberOfRows(movieArray[15].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[15].count {
                 guard let controller = self.osoTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.msoName.setText(self.musicSong2[index])
+                controller.msoName.setText(movieArray[15][index].name)
                 if index == 1 {
                     controller.msoName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.pdTable.setNumberOfRows(self.productionDesign.count, withRowType: "nominationRow")
-            for index in 0..<self.productionDesign.count {
+            self.pdTable.setNumberOfRows(movieArray[16].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[16].count {
                 guard let controller = self.pdTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.pdName.setText(self.productionDesign[index])
+                controller.pdName.setText(movieArray[16][index].name)
                 if index == 4 {
                     controller.pdName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.shaTable.setNumberOfRows(self.shortAnimated.count, withRowType: "nominationRow")
-            for index in 0..<self.shortAnimated.count {
+            self.shaTable.setNumberOfRows(movieArray[17].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[17].count {
                 guard let controller = self.shaTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.shaName.setText(self.shortAnimated[index])
+                controller.shaName.setText(movieArray[17][index].name)
                 if index == 0 {
                     controller.shaName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.shlTable.setNumberOfRows(self.shortLive.count, withRowType: "nominationRow")
-            for index in 0..<self.shortLive.count {
+            self.shlTable.setNumberOfRows(movieArray[18].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[18].count {
                 guard let controller = self.shlTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.shlName.setText(self.shortLive[index])
+                controller.shlName.setText(movieArray[18][index].name)
                 if index == 3 {
                     controller.shlName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.seTable.setNumberOfRows(self.soundEditing.count, withRowType: "nominationRow")
-            for index in 0..<self.soundEditing.count {
+            self.seTable.setNumberOfRows(movieArray[19].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[19].count {
                 guard let controller = self.seTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.seName.setText(self.soundEditing[index])
+                controller.seName.setText(movieArray[19][index].name)
                 if index == 2 {
                     controller.seName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.smTable.setNumberOfRows(self.soundMixing.count, withRowType: "nominationRow")
-            for index in 0..<self.soundMixing.count {
+            self.smTable.setNumberOfRows(movieArray[20].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[20].count {
                 guard let controller = self.smTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.smName.setText(self.soundMixing[index])
+                controller.smName.setText(movieArray[20][index].name)
                 if index == 2 {
                     controller.smName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.veTable.setNumberOfRows(self.visualEffects.count, withRowType: "nominationRow")
-            for index in 0..<self.visualEffects.count {
+            self.veTable.setNumberOfRows(movieArray[21].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[21].count {
                 guard let controller = self.veTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.veName.setText(self.visualEffects[index])
+                controller.veName.setText(movieArray[21][index].name)
                 if index == 0 {
                     controller.veName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.waTable.setNumberOfRows(self.writingAdapted.count, withRowType: "nominationRow")
-            for index in 0..<self.writingAdapted.count {
+            self.waTable.setNumberOfRows(movieArray[22].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[22].count {
                 guard let controller = self.waTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.waName.setText(self.writingAdapted[index])
+                controller.waName.setText(movieArray[22][index].name)
                 if index == 0 {
                     controller.waName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.woTable.setNumberOfRows(self.writingOriginal.count, withRowType: "nominationRow")
-            for index in 0..<self.writingOriginal.count {
+            self.woTable.setNumberOfRows(movieArray[23].count, withRowType: "nominationRow")
+            for index in 0..<movieArray[23].count {
                 guard let controller = self.woTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.woName.setText(self.writingOriginal[index])
+                controller.woName.setText(movieArray[23][index].name)
                 if index == 0 {
                     controller.woName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
@@ -276,243 +270,167 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     func processApplicationContext() {
-        if let iPhoneContext = session.receivedApplicationContext as? [String : [[String]]] {
-            let nominationArray = iPhoneContext["Nominations"]
-            bestPicture = nominationArray![0]
-            bestActor = nominationArray![1]
-            bestActress = nominationArray![2]
-            supportingActor = nominationArray![3]
-            supportingActress = nominationArray![4]
-            animated = nominationArray![5]
-            cinematography = nominationArray![6]
-            costumeDesign = nominationArray![7]
-            directing = nominationArray![8]
-            documentaryFeature = nominationArray![9]
-            documentaryShort = nominationArray![10]
-            filmEditing = nominationArray![11]
-            foreignFilm = nominationArray![12]
-            makeup = nominationArray![13]
-            musicScore = nominationArray![14]
-            musicSong = nominationArray![15]
-            productionDesign = nominationArray![16]
-            shortAnimated = nominationArray![17]
-            shortLive = nominationArray![18]
-            soundEditing = nominationArray![19]
-            soundMixing = nominationArray![20]
-            visualEffects = nominationArray![21]
-            writingAdapted = nominationArray![22]
-            writingOriginal = nominationArray![23]
-            allMovieList = nominationArray![24]
-            let movieDetailsArray = iPhoneContext["Details"]
-            allMovieDetails = movieDetailsArray!
-            Items2.sharedInstance.allMovieDetails = movieDetailsArray!
+        if let iPhoneContext = session.receivedApplicationContext as? [String : Any] {
+            let movieArray = iPhoneContext["Details"] as! NSArray
+            let moviesSeen = iPhoneContext["Seen"] as! NSArray
+            for _ in 0 ... 23 {
+                Items2.sharedInstance.sortedMovieArray.append([Items2.movie]())
+            }
+            
+            let movieDownloading = DispatchGroup()
+            for movie2 in movieArray {
+                movieDownloading.enter()
+                let tempAll = movie2 as! NSDictionary
+                Items2.sharedInstance.movieArray.append(Items2.movie(actors: tempAll.object(forKey: "Actors") as! [String], description: tempAll.object(forKey: "Description") as! String, name: tempAll.object(forKey: "Name") as! String, nominatedFor: tempAll.object(forKey: "NominatedFor") as! [String]))
+                movieDownloading.leave()
+            }
+            movieDownloading.notify(queue: .main) {
+                for movie in Items2.sharedInstance.movieArray {
+                    for nomination in movie.nominatedFor {
+                        switch nomination {
+                        case "Best Picture":
+                            Items2.sharedInstance.sortedMovieArray[0].append(movie)
+                        case "Best Actor":
+                            Items2.sharedInstance.sortedMovieArray[1].append(movie)
+                        case "Best Actress":
+                            Items2.sharedInstance.sortedMovieArray[2].append(movie)
+                        case "Supporting Actor":
+                            Items2.sharedInstance.sortedMovieArray[3].append(movie)
+                        case "Supporting Actress":
+                            Items2.sharedInstance.sortedMovieArray[4].append(movie)
+                        case "Animated":
+                            Items2.sharedInstance.sortedMovieArray[5].append(movie)
+                        case "Cinematography":
+                            Items2.sharedInstance.sortedMovieArray[6].append(movie)
+                        case "Costume Design":
+                            Items2.sharedInstance.sortedMovieArray[7].append(movie)
+                        case "Directing":
+                            Items2.sharedInstance.sortedMovieArray[8].append(movie)
+                        case "Documentary Feature":
+                            Items2.sharedInstance.sortedMovieArray[9].append(movie)
+                        case "Documentary Short":
+                            Items2.sharedInstance.sortedMovieArray[10].append(movie)
+                        case "Film Editing":
+                            Items2.sharedInstance.sortedMovieArray[11].append(movie)
+                        case "Foreign Film":
+                            Items2.sharedInstance.sortedMovieArray[12].append(movie)
+                        case "Makeup":
+                            Items2.sharedInstance.sortedMovieArray[13].append(movie)
+                        case "Music Score":
+                            Items2.sharedInstance.sortedMovieArray[14].append(movie)
+                        case "Music Song":
+                            Items2.sharedInstance.sortedMovieArray[15].append(movie)
+                        case "Production Design":
+                            Items2.sharedInstance.sortedMovieArray[16].append(movie)
+                        case "Animated Short":
+                            Items2.sharedInstance.sortedMovieArray[17].append(movie)
+                        case "Live Action Short":
+                            Items2.sharedInstance.sortedMovieArray[18].append(movie)
+                        case "Sound Editing":
+                            Items2.sharedInstance.sortedMovieArray[19].append(movie)
+                        case "Sound Mixing":
+                            Items2.sharedInstance.sortedMovieArray[20].append(movie)
+                        case "Visual Effects":
+                            Items2.sharedInstance.sortedMovieArray[21].append(movie)
+                        case "Writing Adapted":
+                            Items2.sharedInstance.sortedMovieArray[22].append(movie)
+                        case "Writing Original":
+                            Items2.sharedInstance.sortedMovieArray[23].append(movie)
+                        default:
+                            print("There was an error")
+                        }
+                    }
+                }
+            }
+            
+            for movie3 in moviesSeen {
+                let seen = movie3 as! NSDictionary
+                Items2.sharedInstance.moviesSeenArray.append(Items2.movie(actors: seen.object(forKey: "Actors") as! [String], description: seen.object(forKey: "Description") as! String, name: seen.object(forKey: "Name") as! String, nominatedFor: seen.object(forKey: "NominatedFor") as! [String]))
+            }            
         }
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
     }
     
-    private func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
-        DispatchQueue.main.async() {
-            self.processApplicationContext()
-        }
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        self.processApplicationContext()
     }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
-        var movie = [String]()
+        var movie: Items2.movie
         if table == bpTable {
-            for item in allMovieDetails {
-                if item[0] == bestPicture[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[0][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == baTable {
-            for item in allMovieDetails {
-                if item[0] == bestActor[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[1][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == bsaTable {
-            for item in allMovieDetails {
-                if item[0] == supportingActor[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[2][rowIndex]
             presentController(withName: "DetailController", context: movie)
         }else if table == basTable {
-            for item in allMovieDetails {
-                if item[0] == bestActress[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[3][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == bsasTable {
-            for item in allMovieDetails {
-                if item[0] == supportingActress[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[4][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == aTable {
-            for item in allMovieDetails {
-                if item[0] == animated[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[5][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == cTable {
-            for item in allMovieDetails {
-                if item[0] == cinematography[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[6][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == cdTable {
-            for item in allMovieDetails {
-                if item[0] == costumeDesign[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[7][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == dTable {
-            for item in allMovieDetails {
-                if item[0] == directing[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[8][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == dfTable {
-            for item in allMovieDetails {
-                if item[0] == documentaryFeature[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[9][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == dsTable {
-            for item in allMovieDetails {
-                if item[0] == documentaryShort[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[10][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == feTable {
-            for item in allMovieDetails {
-                if item[0] == filmEditing[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[11][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == fTable {
-            for item in allMovieDetails {
-                if item[0] == foreignFilm[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[12][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == mTable {
-            for item in allMovieDetails {
-                if item[0] == makeup[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[13][rowIndex]
             presentController(withName: "DetailController", context: movie)
         }
         else if table == oscTable {
-            for item in allMovieDetails {
-                if item[0] == musicScore[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[14][rowIndex]
             presentController(withName: "DetailController", context: movie)
-        }
-        else if table == osoTable {
-            for item in allMovieDetails {
-                if item[0] == musicSong[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+        } else if table == osoTable {
+            movie = Items2.sharedInstance.sortedMovieArray[15][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == pdTable {
-            for item in allMovieDetails {
-                if item[0] == productionDesign[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[16][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == shaTable {
-            for item in allMovieDetails {
-                if item[0] == shortAnimated[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[17][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == shlTable {
-            for item in allMovieDetails {
-                if item[0] == shortLive[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[18][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == seTable {
-            for item in allMovieDetails {
-                if item[0] == soundEditing[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[19][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == smTable {
-            for item in allMovieDetails {
-                if item[0] == soundMixing[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[20][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == veTable {
-            for item in allMovieDetails {
-                if item[0] == visualEffects[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[21][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == waTable {
-            for item in allMovieDetails {
-                if item[0] == writingAdapted[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[22][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == woTable {
-            for item in allMovieDetails {
-                if item[0] == writingOriginal[rowIndex] {
-                    movie = item
-                    break
-                }
-            }
+            movie = Items2.sharedInstance.sortedMovieArray[23][rowIndex]
             presentController(withName: "DetailController", context: movie)
         }
     }

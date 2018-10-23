@@ -15,6 +15,10 @@ import FirebaseUI
 class LoadingNewViewController: UIViewController {
 
     @IBOutlet weak var myActivityView: NVActivityIndicatorView!
+    //var storageType = String()
+    var testArray = [Bool](repeating: false, count: 3)
+    var checkTimer: Timer!
+    var timeLoopCheck = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +32,15 @@ class LoadingNewViewController: UIViewController {
         
         myActivityView.startAnimating()
         
+        self.checkTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(LoadingNewViewController.repeatCheck),userInfo: nil, repeats: true)
+        
         Firestore.firestore().collection("Actors").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
+                let actorDownloading = DispatchGroup()
                 for actorList in querySnapshot!.documents {
+                    actorDownloading.enter()
                     let actorInfo = actorList.data()
                     let gsReference = Storage.storage().reference(forURL: "gs://oscarswatchlist.appspot.com/Actors/\(actorList.documentID).jpg")
                     gsReference.getData(maxSize: 1 * 1024 * 1024) { data, error in
@@ -42,12 +50,44 @@ class LoadingNewViewController: UIViewController {
                         } else {
                             // Data for "images/island.jpg" is returned
                             Items.sharedInstance.actorArray.append(Items.actors(name: actorList.documentID, image: UIImage(data: data!)!, nominatedFor: actorInfo["NominatedFor"] as! String, movie: actorInfo["Movie"] as! String, used: false))
+                            actorDownloading.leave()
                         }
                     }
+                }
+                actorDownloading.notify(queue: .main) {
+                    self.testArray[0] = true
                 }
             }
         }
         
+        if UserDefaults.standard.contains(key: "loggedIn") {
+            Items.sharedInstance.loggedIn = UserDefaults.standard.string(forKey: "loggedIn")!
+            
+            switch Items.sharedInstance.loggedIn {
+            case "Local":
+                if UserDefaults.standard.contains(key: "Predictions") {
+                    Items.sharedInstance.predictions = UserDefaults.standard.array(forKey: "Predictions") as! [String]
+                }
+                self.testArray[1] = true
+            default:
+                let userRef = db.collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let nomList = ["Best Picture","Best Actor","Best Actress","Supporting Actor","Supporting Actress","Animated","Cinematography","Costume Design","Directing","Documentary Feature","Documentary Short","Film Editing","Foreign","Makeup","Music Score","Music Song","Production Design","Short Animated","Short Live","Sound Editing","Sound Mixing","Visual Effects","Writing Adapted","Writing Original"]
+                        for item in nomList {
+                            Items.sharedInstance.predictions.append(document.data()![item] as! String)
+                        }
+                        self.testArray[1] = true
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
+            }
+        } else {
+            Items.sharedInstance.loggedIn = "Local"
+            Items.sharedInstance.predictions = [String](repeating: "", count: 24)
+            self.testArray[1] = true
+        }
         
         let downloading = DispatchGroup()
         Firestore.firestore().collection("Movies").getDocuments() { (querySnapshot, err) in
@@ -73,7 +113,7 @@ class LoadingNewViewController: UIViewController {
                 }
                     
                 downloading.notify(queue: .main) {
-                    
+                    // All movies are done downloading
                     let hanlderBlock: (Bool) -> Void = { doneWork in
                         if doneWork {
                             let sorting = DispatchGroup()
@@ -212,17 +252,38 @@ class LoadingNewViewController: UIViewController {
                                 sorting.leave()
                             }
                             sorting.notify(queue: .main) {
-                                self.performSegue(withIdentifier: "loadingSegue", sender: self)
+                                self.testArray[2] = true
                             }
                         }
                     }
                     
-                    if Auth.auth().currentUser?.email != nil {
-                        Firestore.firestore().collection("UserMovieList").document((Auth.auth().currentUser?.email)!).getDocument { (document, error) in
+                    if Items.sharedInstance.loggedIn == "Local" {
+                        let configModel = ConfigurationModel()
+                        let downloading3 = DispatchGroup()
+                        
+                        if configModel.savedMovies.isEmpty {
+                            hanlderBlock(true)
+                        } else {
+                            for movie in configModel.savedMovies {
+                                downloading3.enter()
+                                for item in Items.sharedInstance.movieArray {
+                                    if item.name == movie {
+                                        Items.sharedInstance.moviesSeenArray.append(item)
+                                        downloading3.leave()
+                                        break
+                                    }
+                                }
+                            }
+                            downloading3.notify(queue: .main) {
+                                hanlderBlock(true)
+                            }
+                        }
+                    } else {
+                    Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).getDocument { (document, error) in
                             if let document = document, document.exists {
                                 let moviesSeen = document.data()!["movies"] as! [String]
-                                
                                 let downloading2 = DispatchGroup()
+                                
                                 for item in moviesSeen {
                                     downloading2.enter()
                                     for movie in Items.sharedInstance.movieArray {
@@ -240,12 +301,22 @@ class LoadingNewViewController: UIViewController {
                                 hanlderBlock(true)
                             }
                         }
-                    } else {
-                        hanlderBlock(true)
                     }
                 }
             }
         }
+    }
+    
+    @objc func repeatCheck() {
+        timeLoopCheck += 1
+        for item in testArray {
+            if item == false {
+                return
+            }
+        }
+        myActivityView.stopAnimating()
+        self.performSegue(withIdentifier: "loadingSegue", sender: self)
+        checkTimer.invalidate()
     }
     
     func sortMovies(column: Int, movie: Items.movie) {
@@ -259,5 +330,11 @@ class LoadingNewViewController: UIViewController {
                 movieCount -= 1
             }
         }
+    }
+}
+
+extension Array where Element: Comparable {
+    func containsSameElements(as other: [Element]) -> Bool {
+        return self.count == other.count && self.sorted() == other.sorted()
     }
 }

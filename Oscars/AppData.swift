@@ -34,6 +34,8 @@ class Items {
     var sortedMovieArray = [[movie]]()
     var moviesSeenArray = [movie]()
     var actorArray = [actors]()
+    var predictions = [String]()
+    var loggedIn = String()
     
     
     

@@ -8,14 +8,15 @@
 
 import UIKit
 import WatchConnectivity
+import FirebaseUI
+import FacebookLogin
+import GoogleSignIn
 
-class NominationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WCSessionDelegate {
+class NominationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WCSessionDelegate, UIPopoverPresentationControllerDelegate {
 
     var movieSelected = Items.movie(actors: [String](), cover: UIImage(), description: String(), idmb: String(), name: String(), nominatedFor: [String](), youtube: String())
-    var tempBA = Items.sharedInstance.actorArray
-    var tempBAS = Items.sharedInstance.actorArray
-    var tempSA = Items.sharedInstance.actorArray
-    var session: WCSession?
+    var sending: WCSession?
+    let receiving = WCSession.default
     
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var detailTableView: UITableView!
@@ -43,39 +44,151 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         detailTableView.isHidden = false
         
         if WCSession.isSupported() {
-            session = WCSession.default
-            session?.delegate = self
-            session?.activate()
+            sending = WCSession.default
+            sending?.delegate = self
+            sending?.activate()
+            receiving.delegate = self
+            receiving.activate()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
             self.validateSession()
         })
+        
+        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            
+            let invitationsList = data["Invitations"] as! [String]
+            if invitationsList.isEmpty {
+                if let tabItems = self.tabBarController?.tabBar.items {
+                    // In this case we want to modify the badge number of the third tab:
+                    let tabItem = tabItems[3]
+                    tabItem.badgeValue = nil
+                }
+            } else {
+                if let tabItems = self.tabBarController?.tabBar.items {
+                    // In this case we want to modify the badge number of the third tab:
+                    let tabItem = tabItems[3]
+                    tabItem.badgeValue = String(invitationsList.count)
+                }
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.async {
-            self.tempBA = Items.sharedInstance.actorArray
-            self.tempBAS = Items.sharedInstance.actorArray
-            self.tempSA = Items.sharedInstance.actorArray
-            
             self.listTableView.reloadData()
-            //self.detailTableView.reloadData()
+            self.detailTableView.reloadData()
         }
-        
+    }
+    
+    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
     
     func validateSession() {
-        if let validSession = session {
-            let nomCombo = [Items.sharedInstance.bestPicture,Items.sharedInstance.bestActor,Items.sharedInstance.bestActress,Items.sharedInstance.supportingActor,Items.sharedInstance.supportingActress,Items.sharedInstance.animated,Items.sharedInstance.cinematography,Items.sharedInstance.costumeDesign,Items.sharedInstance.directing,Items.sharedInstance.documentaryFeature,Items.sharedInstance.documentaryShort,Items.sharedInstance.filmEditing,Items.sharedInstance.foreignFilm,Items.sharedInstance.makeup,Items.sharedInstance.musicScore,Items.sharedInstance.musicSong,Items.sharedInstance.productionDesign,Items.sharedInstance.shortAnimated,Items.sharedInstance.shortLive,Items.sharedInstance.soundEditing,Items.sharedInstance.soundMixing,Items.sharedInstance.visualEffects,Items.sharedInstance.writingAdapted,Items.sharedInstance.writingOriginal,Items.sharedInstance.allMovieList]
+        if let validSession = sending {
+            let movieArray = NSMutableArray()
+            for movie in Items.sharedInstance.movieArray {
+                let movieInfo = NSMutableDictionary()
+                movieInfo.setObject(movie.name, forKey: "Name" as NSCopying)
+                movieInfo.setObject(movie.actors, forKey: "Actors" as NSCopying)
+                movieInfo.setObject(movie.description, forKey: "Description" as NSCopying)
+                movieInfo.setObject(movie.nominatedFor, forKey: "NominatedFor" as NSCopying)
+                movieArray.add(movieInfo)
+            }
             
-            let iphoneAppContext = ["Nominations": nomCombo, "Details": Items.sharedInstance.allMovieDetails]
+            
+            let seenArray = NSMutableArray()
+            for movie in Items.sharedInstance.moviesSeenArray {
+                let seenMovieInfo = NSMutableDictionary()
+                seenMovieInfo.setObject(movie.name, forKey: "Name" as NSCopying)
+                seenMovieInfo.setObject(movie.actors, forKey: "Actors" as NSCopying)
+                seenMovieInfo.setObject(movie.description, forKey: "Description" as NSCopying)
+                seenMovieInfo.setObject(movie.nominatedFor, forKey: "NominatedFor" as NSCopying)
+                seenArray.add(seenMovieInfo)
+            }
+            
+            let iphoneAppContext = ["Details": movieArray, "Seen": seenArray] as [String : Any]
             do {
                 try validSession.updateApplicationContext(iphoneAppContext)
+                print("Success")
             } catch {
                 print("Something went wrong")
             }
         }
+    }
+    
+    func processApplicationContext(){
+        if let iPhoneContext = receiving.receivedApplicationContext as? [String : [String]] {
+            let initialArray = iPhoneContext["Seen"]! as [String]
+            var moviesSeen = [String]()
+            for item in initialArray {
+                if !moviesSeen.contains(item) {
+                    moviesSeen.append(item)
+                }
+            }
+            
+            Items.sharedInstance.moviesSeenArray.removeAll()
+            let downloading = DispatchGroup()
+            for movie in moviesSeen {
+                downloading.enter()
+                for movie2 in Items.sharedInstance.movieArray {
+                    if movie2.name == movie {
+                        Items.sharedInstance.moviesSeenArray.append(movie2)
+                        downloading.leave()
+                    }
+                }
+            }
+            downloading.notify(queue: .main) {
+                self.updateSavedData()
+                self.detailTableView.reloadData()
+                self.listTableView.reloadData()
+            }
+        }
+    }
+    
+    func updateSavedData() {
+        var tempMovieArray = [String]()
+        for seenMovie in Items.sharedInstance.moviesSeenArray {
+            tempMovieArray.append(seenMovie.name)
+        }
+        
+        if Items.sharedInstance.loggedIn == "Local" {
+            let configModel = ConfigurationModel()
+            configModel.savedMovies = tempMovieArray
+        } else {
+            let configModel = ConfigurationModel()
+            configModel.savedMovies = tempMovieArray
+            
+            Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+                "movies": tempMovieArray
+            ]) { err in
+                if let err = err {
+                    print("Error writing document: \(err)")
+                } else {
+                    print("Document successfully written!")
+                }
+            }
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            self.processApplicationContext()
+        })
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -162,6 +275,8 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             default :
                 print("There was an error")
             }
+            
+            cell.sectionLabel.adjustsFontSizeToFitWidth = true
             
             return cell
         } else {
@@ -537,10 +652,33 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
         if segue.identifier == "newDetail" {
             let secondScene = segue.destination as! DetailViewController
             secondScene.movieSelected = movieSelected
-        }
+        } 
         
         let backItem = UIBarButtonItem()
         backItem.title = "Nominations"
         navigationItem.backBarButtonItem = backItem
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
+}
+
+extension UIImage {
+    func scaleImage(toSize newSize: CGSize) -> UIImage? {
+        var newImage: UIImage?
+        let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
+        if let context = UIGraphicsGetCurrentContext(), let cgImage = self.cgImage {
+            context.interpolationQuality = .high
+            let flipVertical = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: newSize.height)
+            context.concatenate(flipVertical)
+            context.draw(cgImage, in: newRect)
+            if let img = context.makeImage() {
+                newImage = UIImage(cgImage: img)
+            }
+            UIGraphicsEndImageContext()
+        }
+        return newImage
     }
 }
