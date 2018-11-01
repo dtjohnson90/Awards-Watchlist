@@ -9,7 +9,8 @@
 import UIKit
 import WatchConnectivity
 import FirebaseUI
-import FacebookLogin
+//import FacebookLogin
+import FBSDKLoginKit
 import GoogleSignIn
 
 class NominationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WCSessionDelegate, UIPopoverPresentationControllerDelegate {
@@ -18,6 +19,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     var sending: WCSession?
     let receiving = WCSession.default
     
+    @IBOutlet weak var daysLeftLabel: UILabel!
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var viewSwitch: UISegmentedControl!
@@ -42,6 +44,42 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         // Do any additional setup after loading the view.
         listTableView.isHidden = true
         detailTableView.isHidden = false
+        
+        let calendar = Calendar.current
+        
+        var dateComponents = DateComponents()
+        dateComponents.year = 2019
+        dateComponents.month = 2
+        dateComponents.day = 25
+        dateComponents.timeZone = TimeZone(abbreviation: "CST") // Japan Standard Time
+        dateComponents.hour = 0
+        dateComponents.minute = 0
+        
+        var dateComponents2 = DateComponents()
+        dateComponents2.year = 2019
+        dateComponents2.month = 2
+        dateComponents2.day = 24
+        dateComponents2.timeZone = TimeZone(abbreviation: "CST") // Japan Standard Time
+        dateComponents2.hour = 19
+        dateComponents2.minute = 0
+        
+        // Replace the hour (time) of both dates with 00:00
+        let date1 = Date()
+        let date2 = calendar.date(from: dateComponents)!
+        let date3 = calendar.date(from: dateComponents2)!
+        let components = calendar.dateComponents([.day], from: date1, to: date2)
+        let components2 = calendar.dateComponents([.hour,.minute], from: date1, to: date3)
+        
+        if components.day == 0 {
+            daysLeftLabel.text = "\(components2.hour!) Hours and \(components2.minute!) Minutes Until Ceremony"
+        } else if components.day == 1 {
+            daysLeftLabel.text = "\(components.day!) Day Until Ceremony"
+        } else if components.day! < 0 {
+            daysLeftLabel.text = "Ceremony Has Commenced"
+        } else {
+            daysLeftLabel.text = "\(components.day!) Days Until Ceremony"
+        }
+        daysLeftLabel.adjustsFontSizeToFitWidth = true
         
         if WCSession.isSupported() {
             sending = WCSession.default

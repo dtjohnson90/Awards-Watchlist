@@ -15,7 +15,6 @@
 		D108CE731E259D6800EB2C70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D108CE711E259D6800EB2C70 /* LaunchScreen.storyboard */; };
 		D108CE831E25C13100EB2C70 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE821E25C13100EB2C70 /* DetailViewController.swift */; };
 		D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */; };
-		D1104828200CF959004B926C /* PredictionsTableViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1104827200CF959004B926C /* PredictionsTableViewController2.swift */; };
 		D11BC7BC2021070200AE084D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D11BC7BA2021070200AE084D /* Interface.storyboard */; };
 		D11BC7BE2021070600AE084D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D11BC7BD2021070600AE084D /* Assets.xcassets */; };
 		D11BC7C52021070600AE084D /* OscarsWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D11BC7C42021070600AE084D /* OscarsWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -40,12 +39,18 @@
 		D14272D3216BAD5F004A2620 /* LoadingNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */; };
 		D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */; };
 		D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */; };
+		D1715EF1218B32AF0023B14F /* PredictionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1715EF0218B32AF0023B14F /* PredictionsViewController.swift */; };
+		D1715EF3218B55100023B14F /* ProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1715EF2218B55100023B14F /* ProViewController.swift */; };
+		D1715EF5218B7FA60023B14F /* ImageUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1715EF4218B7FA60023B14F /* ImageUploadManager.swift */; };
 		D1765E5620222E1D007417B4 /* DetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5520222E1D007417B4 /* DetailInterfaceController.swift */; };
 		D1765E5820223D7B007417B4 /* UnseenInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5720223D7B007417B4 /* UnseenInterfaceController.swift */; };
 		D1765E5A20223DE7007417B4 /* UnseenRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5920223DE7007417B4 /* UnseenRowController.swift */; };
 		D1765E5C20226A32007417B4 /* watchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1765E5B20226A32007417B4 /* watchData.swift */; };
+		D180EE7B218101DB0001C37E /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D180EE7A218101DB0001C37E /* CreateAccountViewController.swift */; };
+		D180EE7D21838C370001C37E /* IAPHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D180EE7C21838C370001C37E /* IAPHandler.swift */; };
+		D180EE7F21838EE20001C37E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D180EE7E21838EE20001C37E /* StoreKit.framework */; };
+		D180EE8D2183B0A00001C37E /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */; };
 		D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D184F358216BF31000B7F2ED /* NominationsViewController.swift */; };
-		D1966ECE217519B000D4BD42 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ECD217519B000D4BD42 /* TabBarViewController.swift */; };
 		D1966ED221753A9500D4BD42 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED121753A9500D4BD42 /* ResultsViewController.swift */; };
 		D1966ED621753B0C00D4BD42 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED521753B0C00D4BD42 /* ResultsTableViewCell.swift */; };
 		D1966EDA2176762000D4BD42 /* InvitationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED92176762000D4BD42 /* InvitationTableViewCell.swift */; };
@@ -179,7 +184,6 @@
 		D108CE741E259D6800EB2C70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D108CE821E25C13100EB2C70 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		D108CE8E1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesNotSeenTableViewController.swift; sourceTree = "<group>"; };
-		D1104827200CF959004B926C /* PredictionsTableViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsTableViewController2.swift; sourceTree = "<group>"; };
 		D11BC7B82021070200AE084D /* OscarsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OscarsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D11BC7BB2021070200AE084D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D11BC7BD2021070600AE084D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -211,12 +215,18 @@
 		D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingNewViewController.swift; sourceTree = "<group>"; };
 		D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewCell.swift; sourceTree = "<group>"; };
 		D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D1715EF0218B32AF0023B14F /* PredictionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsViewController.swift; sourceTree = "<group>"; };
+		D1715EF2218B55100023B14F /* ProViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProViewController.swift; sourceTree = "<group>"; };
+		D1715EF4218B7FA60023B14F /* ImageUploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadManager.swift; sourceTree = "<group>"; };
 		D1765E5520222E1D007417B4 /* DetailInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInterfaceController.swift; sourceTree = "<group>"; };
 		D1765E5720223D7B007417B4 /* UnseenInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnseenInterfaceController.swift; sourceTree = "<group>"; };
 		D1765E5920223DE7007417B4 /* UnseenRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnseenRowController.swift; sourceTree = "<group>"; };
 		D1765E5B20226A32007417B4 /* watchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchData.swift; sourceTree = "<group>"; };
+		D180EE7A218101DB0001C37E /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		D180EE7C21838C370001C37E /* IAPHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHandler.swift; sourceTree = "<group>"; };
+		D180EE7E21838EE20001C37E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		D184F358216BF31000B7F2ED /* NominationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsViewController.swift; sourceTree = "<group>"; };
-		D1966ECD217519B000D4BD42 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		D1966ED121753A9500D4BD42 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		D1966ED521753B0C00D4BD42 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
 		D1966ED92176762000D4BD42 /* InvitationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationTableViewCell.swift; sourceTree = "<group>"; };
@@ -269,6 +279,7 @@
 				D1E578331E3AD3B300124770 /* CloudKit.framework in Frameworks */,
 				D12DB46B217E4EED000BBD7E /* ConfigKit.framework in Frameworks */,
 				2F864A1516C0564E413D6131 /* Pods_Oscars.framework in Frameworks */,
+				D180EE7F21838EE20001C37E /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,16 +376,14 @@
 			isa = PBXGroup;
 			children = (
 				D108CE6C1E259D6800EB2C70 /* Main.storyboard */,
-				D1D17AFD217F809100971F4A /* ChangeSettingsViewController.swift */,
-				D1C98B6B2179221100462865 /* SettingsViewController.swift */,
 				D102FBEE1FE207270059CB1E /* AppData.swift */,
-				D12DB44E217E45F5000BBD7E /* ConfigurationModel.swift */,
 				D184F357216BE8CB00B7F2ED /* Loading */,
 				D184F355216BE8A700B7F2ED /* Nominations */,
 				D19BEE4D216E703800C1F176 /* MoviesNotSeen */,
 				D184F356216BE8BA00B7F2ED /* MovieDetails */,
 				D13E36DF2170EB6400213DBC /* Predictions */,
 				D1C98B6A2177D7A400462865 /* Friends */,
+				D180EE79218101800001C37E /* Settings */,
 				D16066E5216BA73C0022794E /* Old Files */,
 				D108CE681E259D6800EB2C70 /* AppDelegate.swift */,
 				D108CE6F1E259D6800EB2C70 /* Assets.xcassets */,
@@ -441,7 +450,7 @@
 			children = (
 				D13E36DB2170E45E00213DBC /* PredictionsCollectionViewCell.swift */,
 				D13E36DD2170E48500213DBC /* PredictionsTableViewCell.swift */,
-				D1104827200CF959004B926C /* PredictionsTableViewController2.swift */,
+				D1715EF0218B32AF0023B14F /* PredictionsViewController.swift */,
 			);
 			path = Predictions;
 			sourceTree = "<group>";
@@ -456,6 +465,20 @@
 				D1A862662019535000E4D93F /* Tutorial4.png */,
 			);
 			path = "Old Files";
+			sourceTree = "<group>";
+		};
+		D180EE79218101800001C37E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D1715EF2218B55100023B14F /* ProViewController.swift */,
+				D1D17AFD217F809100971F4A /* ChangeSettingsViewController.swift */,
+				D1715EF4218B7FA60023B14F /* ImageUploadManager.swift */,
+				D12DB44E217E45F5000BBD7E /* ConfigurationModel.swift */,
+				D180EE7C21838C370001C37E /* IAPHandler.swift */,
+				D1C98B6B2179221100462865 /* SettingsViewController.swift */,
+				D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		D184F355216BE8A700B7F2ED /* Nominations */ = {
@@ -483,9 +506,9 @@
 		D184F357216BE8CB00B7F2ED /* Loading */ = {
 			isa = PBXGroup;
 			children = (
-				D1966ECD217519B000D4BD42 /* TabBarViewController.swift */,
-				D13E36D9216E867B00213DBC /* LoginViewController.swift */,
 				D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */,
+				D13E36D9216E867B00213DBC /* LoginViewController.swift */,
+				D180EE7A218101DB0001C37E /* CreateAccountViewController.swift */,
 			);
 			path = Loading;
 			sourceTree = "<group>";
@@ -548,6 +571,7 @@
 		D1E5782E1E39E58A00124770 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D180EE7E21838EE20001C37E /* StoreKit.framework */,
 				D11BC7E5202115F800AE084D /* CloudKit.framework */,
 				D1E578321E3AD3B300124770 /* CloudKit.framework */,
 				34DDCCECAC1C00768D15AAD2 /* Pods_Oscars.framework */,
@@ -586,9 +610,9 @@
 				D108CE621E259D6800EB2C70 /* Frameworks */,
 				D108CE631E259D6800EB2C70 /* Resources */,
 				D11BC7DD2021070700AE084D /* Embed Watch Content */,
-				D6C192D8D89E61AE3691AD6B /* [CP] Embed Pods Frameworks */,
-				41EC7B09259665EA95680A16 /* [CP] Copy Pods Resources */,
 				D12DB470217E4EED000BBD7E /* Embed Frameworks */,
+				362F949E673998BB0FB63AB7 /* [CP] Embed Pods Frameworks */,
+				B81AE528D6F7395114E5F9A0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -747,6 +771,9 @@
 							};
 							com.apple.GameCenter = {
 								enabled = 0;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
 							};
 							com.apple.Keychain = {
 								enabled = 1;
@@ -933,39 +960,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		41EC7B09259665EA95680A16 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D6C192D8D89E61AE3691AD6B /* [CP] Embed Pods Frameworks */ = {
+		362F949E673998BB0FB63AB7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -976,19 +971,19 @@
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
@@ -1001,19 +996,19 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
@@ -1025,6 +1020,38 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B81AE528D6F7395114E5F9A0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAnonymousAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAnonymousAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1032,26 +1059,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D180EE7B218101DB0001C37E /* CreateAccountViewController.swift in Sources */,
 				D108CE831E25C13100EB2C70 /* DetailViewController.swift in Sources */,
+				D180EE8D2183B0A00001C37E /* SettingsTableViewCell.swift in Sources */,
 				D1966ED621753B0C00D4BD42 /* ResultsTableViewCell.swift in Sources */,
 				D1C98B632177B05F00462865 /* FriendsSeenTableViewCell.swift in Sources */,
 				D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */,
 				D108CE691E259D6800EB2C70 /* AppDelegate.swift in Sources */,
+				D180EE7D21838C370001C37E /* IAPHandler.swift in Sources */,
 				D1C98B652177B31200462865 /* FriendsSeenViewController.swift in Sources */,
 				D13E36DC2170E45E00213DBC /* PredictionsCollectionViewCell.swift in Sources */,
 				D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */,
-				D1966ECE217519B000D4BD42 /* TabBarViewController.swift in Sources */,
 				D1966EDC21767C8600D4BD42 /* FriendsViewController.swift in Sources */,
 				D19BEE46216E3F5300C1F176 /* ListTableViewCell.swift in Sources */,
 				D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */,
+				D1715EF1218B32AF0023B14F /* PredictionsViewController.swift in Sources */,
 				D19BEE48216E566700C1F176 /* ActorsCollectionViewCell.swift in Sources */,
+				D1715EF3218B55100023B14F /* ProViewController.swift in Sources */,
 				D19BEE4C216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift in Sources */,
 				D1C98B672177C93800462865 /* FriendPredictionsViewController.swift in Sources */,
 				D1D17AFE217F809100971F4A /* ChangeSettingsViewController.swift in Sources */,
 				D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */,
 				D1C98B5F217794D900462865 /* FriendsTableViewCell.swift in Sources */,
+				D1715EF5218B7FA60023B14F /* ImageUploadManager.swift in Sources */,
 				D1966EDA2176762000D4BD42 /* InvitationTableViewCell.swift in Sources */,
-				D1104828200CF959004B926C /* PredictionsTableViewController2.swift in Sources */,
 				D13E36DA216E867B00213DBC /* LoginViewController.swift in Sources */,
 				D1C98B6C2179221100462865 /* SettingsViewController.swift in Sources */,
 				D1C98B692177C94C00462865 /* FriendPredictionsTableViewCell.swift in Sources */,

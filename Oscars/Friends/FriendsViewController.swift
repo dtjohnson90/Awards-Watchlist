@@ -14,6 +14,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     struct friends {
         let name: String
         let email: String
+        let photo: UIImage
     }
     struct inviteInfo {
         let name: String
@@ -38,6 +39,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var invitationsTableHeight: NSLayoutConstraint!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet weak var purchaseView: UIView!
     
     @IBAction func searchClicked(_ sender: Any) {
         if (searchField.text?.isEmpty)! {
@@ -122,6 +124,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if Items.sharedInstance.purchased {
+            purchaseView.isHidden = true
+        } else {
+            purchaseView.isHidden = false
+            self.scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        }
+        
         friendsTableView.dataSource = nil
         invitationsTableView.dataSource = nil
         friendsHiddenView.isHidden = true
@@ -165,12 +174,35 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 friendDownloading.enter()
                 Firestore.firestore().collection("UserMovieList").document(friend).getDocument { (document2, error) in
                     if let document2 = document2, document2.exists {
-                        self.friendsList.append(friends(name: document2.data()!["Name"] as! String, email: friend))
-                        friendDownloading.leave()
+                        var photo = UIImage()
+                        let photoURL = document2.data()!["Image URL"] as! String
+                        if photoURL == "nil" {
+                            photo = UIImage(named: "profilePic")!
+                            self.friendsList.append(friends(name: document2.data()!["Name"] as! String, email: friend, photo: photo))
+                            friendDownloading.leave()
+                        } else {
+                            let url = URL(string: photoURL)!
+                            self.getData(from: url) { data, response, error in
+                                guard let data = data, error == nil else {
+                                    photo = UIImage(named: "profilePic")!
+                                    self.friendsList.append(friends(name: document2.data()!["Name"] as! String, email: friend, photo: photo))
+                                    friendDownloading.leave()
+                                    return
+                                }
+                                print(response?.suggestedFilename ?? url.lastPathComponent)
+                                print("Download Finished")
+                                DispatchQueue.main.async() {
+                                    photo = UIImage(data: data)!
+                                    self.friendsList.append(friends(name: document2.data()!["Name"] as! String, email: friend, photo: photo))
+                                    friendDownloading.leave()
+                                }
+                            }
+                        }
                     }
                 }
             }
             friendDownloading.notify(queue: .main) {
+                print("Done")
                 self.friendsTableView.dataSource = self
                 self.friendsTableView.reloadData()
                 if self.friendsList.count == 0 {
@@ -205,6 +237,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.3, animations: {
             self.view.frame = CGRect(x:self.view.frame.origin.x, y:self.view.frame.origin.y - 200, width:self.view.frame.size.width, height:self.view.frame.size.height);
@@ -220,17 +256,11 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if Items.sharedInstance.loggedIn == "Local" {
-            let alertController = UIAlertController(title: "Friends", message: "You have to be signed into an account in order to access 'Friends'. Click 'Ok' below to go to the settings", preferredStyle: UIAlertControllerStyle.alert)
-            
-            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
-                (result : UIAlertAction) -> Void in
-                self.tabBarController?.selectedIndex = 4
-            }
-            
-            alertController.addAction(ok)
-            
-            self.present(alertController, animated: true, completion: nil)
+        if Items.sharedInstance.purchased {
+            purchaseView.isHidden = true
+        } else {
+            purchaseView.isHidden = false
+            self.scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
     }
     
@@ -247,6 +277,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! FriendsTableViewCell
             
             cell.nameLabel.text = friendsList[indexPath.row].name
+            cell.profilePic.image = friendsList[indexPath.row].photo
             
             return cell
         } else {

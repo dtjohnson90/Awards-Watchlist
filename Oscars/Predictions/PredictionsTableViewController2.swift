@@ -42,27 +42,11 @@ class PredictionsTableViewController2: UITableViewController {
             }
         }
         
-        if !UserDefaults.standard.contains(key: "offeredSignIn") {
-            let alertController = UIAlertController(title: "Saving Data", message: "Would you like to save your data locally to this device or would you like to create an account to save your data across multiple devices?", preferredStyle: UIAlertControllerStyle.alert)
+        if !Items.sharedInstance.purchased {
             
-            let local = UIAlertAction(title: "Save to this device only", style: UIAlertActionStyle.default) {
-                (result : UIAlertAction) -> Void in
-                UserDefaults.standard.set("Local", forKey: "Storage")
-                UserDefaults.standard.set(true, forKey: "offeredSignIn")
-                UserDefaults.standard.set("Local", forKey: "loggedIn")
-                UserDefaults.standard.set([String](), forKey: "LocalStorage")
-                Items.sharedInstance.loggedIn = "Local"
-            }
-            let account = UIAlertAction(title: "Create Account", style: UIAlertActionStyle.default) {
-                (result : UIAlertAction) -> Void in
-                UserDefaults.standard.set("Cloud", forKey: "Storage")
-                self.performSegue(withIdentifier: "logInSegue2", sender: self)
-            }
-            
-            alertController.addAction(local)
-            alertController.addAction(account)
-            self.present(alertController, animated: true, completion: nil)
         }
+        
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +70,11 @@ class PredictionsTableViewController2: UITableViewController {
             alertController.addAction(local)
             alertController.addAction(account)
             self.present(alertController, animated: true, completion: nil)
+        }
+        
+        if Items.sharedInstance.dataCleared {
+            Items.sharedInstance.dataCleared = false
+            tableView.reloadData()
         }
     }
     
@@ -189,14 +178,8 @@ class PredictionsTableViewController2: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "resultsSegue" {
-            let secondScene = segue.destination as! ResultsViewController
-            secondScene.resultsChosen = rowSelected
-        } else {
-            let secondScene = segue.destination as! LoginViewController
-            secondScene.comingFrom = "B"
-        }
-        
+        let secondScene = segue.destination as! ResultsViewController
+        secondScene.resultsChosen = rowSelected
         let backItem = UIBarButtonItem()
         backItem.title = "Predictions"
         navigationItem.backBarButtonItem = backItem
