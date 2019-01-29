@@ -39,4 +39,5 @@ class Items {
     var dataCleared = Bool()
     var purchased = Bool()
     var profilePic = UIImage(named: "profilePic")
+    var notificationToken = String()
 }

@@ -13,6 +13,15 @@ class NominationsTableViewCell: UITableViewCell {
     @IBOutlet var sectionLabel: UILabel!
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    var collectionViewOffset: CGFloat {
+        get {
+            return collectionView.contentOffset.x
+        }
+        set {
+            collectionView.contentOffset.x = newValue
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

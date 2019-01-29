@@ -17,6 +17,11 @@ class PredictionsViewController: UIViewController, UITableViewDelegate, UITableV
     var supportingActressArray = [Items.actors]()
     var directorArray = [Items.actors]()
     var rowSelected = Int()
+    var storedOffsets = [Int: CGFloat]()
+    var scrollViewTag = 0
+    var stopScroll = false
+    var stoppedDragging = CGPoint(x:0, y:0)
+    var stoppedDecelerate = CGPoint(x: 0, y: 0)
     
     @IBOutlet weak var purchaseView: UIView!
     @IBOutlet weak var predictionsTable: UITableView!
@@ -54,6 +59,7 @@ class PredictionsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.logError(logString: "In Predictions VC")
         if Items.sharedInstance.purchased {
             purchaseView.isHidden = true
         } else {
@@ -121,10 +127,8 @@ class PredictionsViewController: UIViewController, UITableViewDelegate, UITableV
             cell.sectionLabel.text = "Visual Effects"
         case 22 :
             cell.sectionLabel.text = "Writing (Adapated Screenplay)"
-        case 23 :
-            cell.sectionLabel.text = "Writing (Original Screenplay)"
         default :
-            print("There was an error")
+            cell.sectionLabel.text = "Writing (Original Screenplay)"
         }
         
         cell.resultsButton.addTarget(self, action: #selector(self.connected(_:)), for: .touchUpInside)
@@ -135,12 +139,19 @@ class PredictionsViewController: UIViewController, UITableViewDelegate, UITableV
     
     @objc func connected (_ sender: UIButton){
         rowSelected = sender.tag
+        self.logError(logString: "Predictions VC - Going to results with row \(rowSelected)")
         performSegue(withIdentifier: "resultsSegue", sender: self)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let tableViewCell = cell as? PredictionsTableViewCell else { return }
         tableViewCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
+        tableViewCell.collectionViewOffset = storedOffsets[indexPath.row] ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let tableViewCell = cell as? PredictionsTableViewCell else { return }
+        storedOffsets[indexPath.row] = tableViewCell.collectionViewOffset
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
@@ -154,12 +165,38 @@ class PredictionsViewController: UIViewController, UITableViewDelegate, UITableV
         return 259
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 259
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let secondScene = segue.destination as! ResultsViewController
-        secondScene.resultsChosen = rowSelected
+        if segue.identifier == "resultsSegue" {
+            let secondScene = segue.destination as! ResultsViewController
+            secondScene.resultsChosen = rowSelected
+        }
         let backItem = UIBarButtonItem()
         backItem.title = "Predictions"
         navigationItem.backBarButtonItem = backItem
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        //caused by user
+        print("SCROLL scrollViewDidEndDecelerating")
+        scrollViewTag = scrollView.tag
+        stopScroll = false
+        stoppedDecelerate = scrollView.contentOffset
+        print(stoppedDecelerate)
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if (!decelerate) {
+            //cause by user
+            print("SCROLL scrollViewDidEndDragging")
+            scrollViewTag = scrollView.tag
+            stopScroll = true
+            stoppedDragging = scrollView.contentOffset
+            print(stoppedDragging)
+        }
     }
 }
 
@@ -243,6 +280,7 @@ extension PredictionsViewController: UICollectionViewDelegateFlowLayout, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        UIApplication.shared.beginIgnoringInteractionEvents()
         let movieSelected = Items.sharedInstance.sortedMovieArray[collectionView.tag][indexPath.row]
         let predictionsArray = ["Best Picture","Best Actor","Best Actress","Supporting Actor","Supporting Actress","Animated","Cinematography","Costume Design","Directing","Documentary Feature","Documentary Short","Film Editing","Foreign","Makeup","Music Score","Music Song","Production Design","Short Animated","Short Live","Sound Editing","Sound Mixing","Visual Effects","Writing Adapted","Writing Original"]
         
@@ -250,324 +288,470 @@ extension PredictionsViewController: UICollectionViewDelegateFlowLayout, UIColle
             switch collectionView.tag {
             case 1:
                 if Items.sharedInstance.predictions[collectionView.tag] != bestActorArray[indexPath.row].name {
+                    self.logError(logString: "Predictions VC - Predicting \(bestActorArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
                     let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: bestActorArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
-                            print("Error updating document: \(err)")
-                        } else {
-                            print("Document successfully updated")
+                            self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                            }
+                            
+                            alertController.addAction(ok)
+                            self.present(alertController, animated: true, completion: nil)
                         }
                     }
                     
                     let predictionsRef = Firestore.firestore().collection("Predictions").document(predictionsArray[collectionView.tag])
                     predictionsRef.getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let newPredictionCount = document.data()![self.bestActorArray[indexPath.row].name] as! Int
-                            if Items.sharedInstance.predictions[collectionView.tag] != "" {
-                                let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
-                                Items.sharedInstance.predictions[collectionView.tag] = self.bestActorArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                let oldPredictionCount = document.data()![oldMovie] as! Int
-                                
-                                predictionsRef.updateData([
-                                    self.bestActorArray[indexPath.row].name: newPredictionCount + 1,
-                                    oldMovie: oldPredictionCount - 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
+                        if let error = error {
+                            self.logError(logString: "Predictions VC - Error Accessing Predictions Document \(predictionsArray[collectionView.tag])", logError: error.localizedDescription)
+                        } else {
+                            if let document = document, document.exists {
+                                let newPredictionCount = document.data()![self.bestActorArray[indexPath.row].name] as! Int
+                                if Items.sharedInstance.predictions[collectionView.tag] != "" {
+                                    let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.bestActorArray[indexPath.row].name
+                                    let oldPredictionCount = document.data()![oldMovie] as! Int
+                                    
+                                    predictionsRef.updateData([
+                                        self.bestActorArray[indexPath.row].name: newPredictionCount + 1,
+                                        oldMovie: oldPredictionCount - 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Subtracing/Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            var indexP = [indexPath]
+                                            for (index,item) in self.bestActorArray.enumerated() {
+                                                if item.name == oldMovie {
+                                                    indexP.append(IndexPath(row: index, section: 0))
+                                                }
+                                            }
+                                            collectionView.reloadItems(at: indexP)
+                                        }
+                                    }
+                                } else {
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.bestActorArray[indexPath.row].name
+                                    predictionsRef.updateData([
+                                        self.bestActorArray[indexPath.row].name: newPredictionCount + 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            collectionView.reloadItems(at: [indexPath])
+                                        }
                                     }
                                 }
                             } else {
-                                Items.sharedInstance.predictions[collectionView.tag] = self.bestActorArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                predictionsRef.updateData([
-                                    self.bestActorArray[indexPath.row].name: newPredictionCount + 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
-                                    }
-                                }
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                                self.logError(logString: "Predictions VC - \(predictionsArray[collectionView.tag]) Document Doesn't Exist")
                             }
-                        } else {
-                            print("Document does not exist")
                         }
                     }
                 }
             case 2:
                 if Items.sharedInstance.predictions[collectionView.tag] != bestActressArray[indexPath.row].name {
+                    self.logError(logString: "Predictions VC - Predicting \(bestActressArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
                     let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: bestActressArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
-                            print("Error updating document: \(err)")
-                        } else {
-                            print("Document successfully updated")
+                            self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                            }
+                            
+                            alertController.addAction(ok)
+                            self.present(alertController, animated: true, completion: nil)
                         }
                     }
                     
                     let predictionsRef = Firestore.firestore().collection("Predictions").document(predictionsArray[collectionView.tag])
                     predictionsRef.getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let newPredictionCount = document.data()![self.bestActressArray[indexPath.row].name] as! Int
-                            if Items.sharedInstance.predictions[collectionView.tag] != "" {
-                                let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
-                                Items.sharedInstance.predictions[collectionView.tag] = self.bestActressArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                let oldPredictionCount = document.data()![oldMovie] as! Int
-                                
-                                predictionsRef.updateData([
-                                    self.bestActressArray[indexPath.row].name: newPredictionCount + 1,
-                                    oldMovie: oldPredictionCount - 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
+                        if let error = error {
+                            self.logError(logString: "Predictions VC - Error Accessing Predictions Document \(predictionsArray[collectionView.tag])", logError: error.localizedDescription)
+                        } else {
+                            if let document = document, document.exists {
+                                let newPredictionCount = document.data()![self.bestActressArray[indexPath.row].name] as! Int
+                                if Items.sharedInstance.predictions[collectionView.tag] != "" {
+                                    let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.bestActressArray[indexPath.row].name
+                                    let oldPredictionCount = document.data()![oldMovie] as! Int
+                                    
+                                    predictionsRef.updateData([
+                                        self.bestActressArray[indexPath.row].name: newPredictionCount + 1,
+                                        oldMovie: oldPredictionCount - 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Subtracing/Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            var indexP = [indexPath]
+                                            for (index,item) in self.bestActressArray.enumerated() {
+                                                if item.name == oldMovie {
+                                                    indexP.append(IndexPath(row: index, section: 0))
+                                                }
+                                            }
+                                            collectionView.reloadItems(at: indexP)
+                                        }
+                                    }
+                                } else {
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.bestActressArray[indexPath.row].name
+                                    predictionsRef.updateData([
+                                        self.bestActressArray[indexPath.row].name: newPredictionCount + 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            collectionView.reloadItems(at: [indexPath])
+                                        }
                                     }
                                 }
                             } else {
-                                Items.sharedInstance.predictions[collectionView.tag] = self.bestActressArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                predictionsRef.updateData([
-                                    self.bestActressArray[indexPath.row].name: newPredictionCount + 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
-                                    }
-                                }
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                                self.logError(logString: "Predictions VC - \(predictionsArray[collectionView.tag]) Document Doesn't Exist")
                             }
-                        } else {
-                            print("Document does not exist")
                         }
                     }
                 }
             case 3:
                 if Items.sharedInstance.predictions[collectionView.tag] != supportingActorArray[indexPath.row].name {
+                    self.logError(logString: "Predictions VC - Predicting \(supportingActorArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
                     let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: supportingActorArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
-                            print("Error updating document: \(err)")
-                        } else {
-                            print("Document successfully updated")
+                            self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                            }
+                            
+                            alertController.addAction(ok)
+                            self.present(alertController, animated: true, completion: nil)
                         }
                     }
                     
                     let predictionsRef = Firestore.firestore().collection("Predictions").document(predictionsArray[collectionView.tag])
                     predictionsRef.getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let newPredictionCount = document.data()![self.supportingActorArray[indexPath.row].name] as! Int
-                            if Items.sharedInstance.predictions[collectionView.tag] != "" {
-                                let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
-                                Items.sharedInstance.predictions[collectionView.tag] = self.supportingActorArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                let oldPredictionCount = document.data()![oldMovie] as! Int
-                                
-                                predictionsRef.updateData([
-                                    self.supportingActorArray[indexPath.row].name: newPredictionCount + 1,
-                                    oldMovie: oldPredictionCount - 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
+                        if let error = error {
+                            self.logError(logString: "Predictions VC - Error Accessing Predictions Document \(predictionsArray[collectionView.tag])", logError: error.localizedDescription)
+                        } else {
+                            if let document = document, document.exists {
+                                let newPredictionCount = document.data()![self.supportingActorArray[indexPath.row].name] as! Int
+                                if Items.sharedInstance.predictions[collectionView.tag] != "" {
+                                    let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.supportingActorArray[indexPath.row].name
+                                    let oldPredictionCount = document.data()![oldMovie] as! Int
+                                    
+                                    predictionsRef.updateData([
+                                        self.supportingActorArray[indexPath.row].name: newPredictionCount + 1,
+                                        oldMovie: oldPredictionCount - 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Subtracing/Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            var indexP = [indexPath]
+                                            for (index,item) in self.supportingActorArray.enumerated() {
+                                                if item.name == oldMovie {
+                                                    indexP.append(IndexPath(row: index, section: 0))
+                                                }
+                                            }
+                                            collectionView.reloadItems(at: indexP)
+                                        }
+                                    }
+                                } else {
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.supportingActorArray[indexPath.row].name
+                                    predictionsRef.updateData([
+                                        self.supportingActorArray[indexPath.row].name: newPredictionCount + 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            collectionView.reloadItems(at: [indexPath])
+                                        }
                                     }
                                 }
                             } else {
-                                Items.sharedInstance.predictions[collectionView.tag] = self.supportingActorArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                predictionsRef.updateData([
-                                    self.supportingActorArray[indexPath.row].name: newPredictionCount + 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
-                                    }
-                                }
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                                self.logError(logString: "Predictions VC - \(predictionsArray[collectionView.tag]) Document Doesn't Exist")
                             }
-                        } else {
-                            print("Document does not exist")
                         }
                     }
                 }
             case 4:
                 if Items.sharedInstance.predictions[collectionView.tag] != supportingActressArray[indexPath.row].name {
+                    self.logError(logString: "Predictions VC - Predicting \(supportingActressArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
                     let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: supportingActressArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
-                            print("Error updating document: \(err)")
-                        } else {
-                            print("Document successfully updated")
+                            self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                            }
+                            
+                            alertController.addAction(ok)
+                            self.present(alertController, animated: true, completion: nil)
                         }
                     }
                     
                     let predictionsRef = Firestore.firestore().collection("Predictions").document(predictionsArray[collectionView.tag])
                     predictionsRef.getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let newPredictionCount = document.data()![self.supportingActressArray[indexPath.row].name] as! Int
-                            if Items.sharedInstance.predictions[collectionView.tag] != "" {
-                                let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
-                                Items.sharedInstance.predictions[collectionView.tag] = self.supportingActressArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                let oldPredictionCount = document.data()![oldMovie] as! Int
-                                
-                                predictionsRef.updateData([
-                                    self.supportingActressArray[indexPath.row].name: newPredictionCount + 1,
-                                    oldMovie: oldPredictionCount - 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
+                        if let error = error {
+                            self.logError(logString: "Predictions VC - Error Accessing Predictions Document \(predictionsArray[collectionView.tag])", logError: error.localizedDescription)
+                        } else {
+                            if let document = document, document.exists {
+                                let newPredictionCount = document.data()![self.supportingActressArray[indexPath.row].name] as! Int
+                                if Items.sharedInstance.predictions[collectionView.tag] != "" {
+                                    let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.supportingActressArray[indexPath.row].name
+                                    let oldPredictionCount = document.data()![oldMovie] as! Int
+                                    
+                                    predictionsRef.updateData([
+                                        self.supportingActressArray[indexPath.row].name: newPredictionCount + 1,
+                                        oldMovie: oldPredictionCount - 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Subtracing/Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            var indexP = [indexPath]
+                                            for (index,item) in self.supportingActressArray.enumerated() {
+                                                if item.name == oldMovie {
+                                                    indexP.append(IndexPath(row: index, section: 0))
+                                                }
+                                            }
+                                            collectionView.reloadItems(at: indexP)
+                                        }
+                                    }
+                                } else {
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.supportingActressArray[indexPath.row].name
+                                    predictionsRef.updateData([
+                                        self.supportingActressArray[indexPath.row].name: newPredictionCount + 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            collectionView.reloadItems(at: [indexPath])
+                                        }
                                     }
                                 }
                             } else {
-                                Items.sharedInstance.predictions[collectionView.tag] = self.supportingActressArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                predictionsRef.updateData([
-                                    self.supportingActressArray[indexPath.row].name: newPredictionCount + 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
-                                    }
-                                }
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                                self.logError(logString: "Predictions VC - \(predictionsArray[collectionView.tag]) Document Doesn't Exist")
                             }
-                        } else {
-                            print("Document does not exist")
                         }
                     }
                 }
             case 8:
                 if Items.sharedInstance.predictions[collectionView.tag] != directorArray[indexPath.row].name {
+                    self.logError(logString: "Predictions VC - Predicting \(directorArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
                     let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: directorArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
-                            print("Error updating document: \(err)")
-                        } else {
-                            print("Document successfully updated")
+                            self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                            }
+                            
+                            alertController.addAction(ok)
+                            self.present(alertController, animated: true, completion: nil)
                         }
                     }
                     
                     let predictionsRef = Firestore.firestore().collection("Predictions").document(predictionsArray[collectionView.tag])
                     predictionsRef.getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let newPredictionCount = document.data()![self.directorArray[indexPath.row].name] as! Int
-                            if Items.sharedInstance.predictions[collectionView.tag] != "" {
-                                let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
-                                Items.sharedInstance.predictions[collectionView.tag] = self.directorArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                let oldPredictionCount = document.data()![oldMovie] as! Int
-                                
-                                predictionsRef.updateData([
-                                    self.directorArray[indexPath.row].name: newPredictionCount + 1,
-                                    oldMovie: oldPredictionCount - 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
+                        if let error = error {
+                            self.logError(logString: "Predictions VC - Error Accessing Predictions Document \(predictionsArray[collectionView.tag])", logError: error.localizedDescription)
+                        } else {
+                            if let document = document, document.exists {
+                                let newPredictionCount = document.data()![self.directorArray[indexPath.row].name] as! Int
+                                if Items.sharedInstance.predictions[collectionView.tag] != "" {
+                                    let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.directorArray[indexPath.row].name
+                                    let oldPredictionCount = document.data()![oldMovie] as! Int
+                                    
+                                    predictionsRef.updateData([
+                                        self.directorArray[indexPath.row].name: newPredictionCount + 1,
+                                        oldMovie: oldPredictionCount - 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Subtracing/Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            var indexP = [indexPath]
+                                            for (index,item) in self.directorArray.enumerated() {
+                                                if item.name == oldMovie {
+                                                    indexP.append(IndexPath(row: index, section: 0))
+                                                }
+                                            }
+                                            collectionView.reloadItems(at: indexP)
+                                        }
+                                    }
+                                } else {
+                                    Items.sharedInstance.predictions[collectionView.tag] = self.directorArray[indexPath.row].name
+                                    predictionsRef.updateData([
+                                        self.directorArray[indexPath.row].name: newPredictionCount + 1
+                                    ]) { err in
+                                        if let err = err {
+                                            self.logError(logString: "Predictions VC - Error Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                        } else {
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            collectionView.reloadItems(at: [indexPath])
+                                        }
                                     }
                                 }
                             } else {
-                                Items.sharedInstance.predictions[collectionView.tag] = self.directorArray[indexPath.row].name
-                                UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                                predictionsRef.updateData([
-                                    self.directorArray[indexPath.row].name: newPredictionCount + 1
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating document: \(err)")
-                                    } else {
-                                        print("Document successfully updated")
-                                        self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
-                                    }
-                                }
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                                self.logError(logString: "Predictions VC - \(predictionsArray[collectionView.tag]) Document Doesn't Exist")
                             }
-                        } else {
-                            print("Document does not exist")
                         }
                     }
                 }
             default:
+                UIApplication.shared.endIgnoringInteractionEvents()
                 return
             }
         } else {
             if Items.sharedInstance.predictions[collectionView.tag] != movieSelected.name {
+                self.logError(logString: "Predictions VC - Predicting \(movieSelected.name) for \(predictionsArray[collectionView.tag])")
                 let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                 userPredRef.updateData([
                     predictionsArray[collectionView.tag]: movieSelected.name
                 ]) { err in
                     if let err = err {
-                        print("Error updating document: \(err)")
-                    } else {
-                        print("Document successfully updated")
+                        self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            (result : UIAlertAction) -> Void in
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                        }
+                        
+                        alertController.addAction(ok)
+                        self.present(alertController, animated: true, completion: nil)
                     }
                 }
                 
                 let predictionsRef = Firestore.firestore().collection("Predictions").document(predictionsArray[collectionView.tag])
                 predictionsRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        let newPredictionCount = document.data()![movieSelected.name] as! Int
-                        if Items.sharedInstance.predictions[collectionView.tag] != "" {
-                            let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
-                            Items.sharedInstance.predictions[collectionView.tag] = movieSelected.name
-                            UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                            let oldPredictionCount = document.data()![oldMovie] as! Int
-                            
-                            predictionsRef.updateData([
-                                movieSelected.name: newPredictionCount + 1,
-                                oldMovie: oldPredictionCount - 1
-                            ]) { err in
-                                if let err = err {
-                                    print("Error updating document: \(err)")
-                                } else {
-                                    print("Document successfully updated")
-                                    self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
+                    if let error = error {
+                        self.logError(logString: "Predictions VC - Error Accessing Predictions Document \(predictionsArray[collectionView.tag])", logError: error.localizedDescription)
+                    } else {
+                        if let document = document, document.exists {
+                            let newPredictionCount = document.data()![movieSelected.name] as! Int
+                            if Items.sharedInstance.predictions[collectionView.tag] != "" {
+                                let oldMovie = Items.sharedInstance.predictions[collectionView.tag]
+                                Items.sharedInstance.predictions[collectionView.tag] = movieSelected.name
+                                let oldPredictionCount = document.data()![oldMovie] as! Int
+                                
+                                predictionsRef.updateData([
+                                    movieSelected.name: newPredictionCount + 1,
+                                    oldMovie: oldPredictionCount - 1
+                                ]) { err in
+                                    if let err = err {
+                                        self.logError(logString: "Predictions VC - Error Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                        UIApplication.shared.endIgnoringInteractionEvents()
+                                    } else {
+                                        UIApplication.shared.endIgnoringInteractionEvents()
+                                        var indexP = [indexPath]
+                                        for (index,item) in Items.sharedInstance.sortedMovieArray[collectionView.tag].enumerated() {
+                                            if item.name == oldMovie {
+                                                indexP.append(IndexPath(row: index, section: 0))
+                                            }
+                                        }
+                                        collectionView.reloadItems(at: indexP)
+                                    }
+                                }
+                            } else {
+                                Items.sharedInstance.predictions[collectionView.tag] = movieSelected.name
+                                predictionsRef.updateData([
+                                    movieSelected.name: newPredictionCount + 1
+                                ]) { err in
+                                    if let err = err {
+                                        self.logError(logString: "Predictions VC - Error Subtracing/Adding \(predictionsArray[collectionView.tag]) Count", logError: err.localizedDescription)
+                                        UIApplication.shared.endIgnoringInteractionEvents()
+                                    } else {
+                                        UIApplication.shared.endIgnoringInteractionEvents()
+                                        collectionView.reloadItems(at: [indexPath])
+                                    }
                                 }
                             }
                         } else {
-                            Items.sharedInstance.predictions[collectionView.tag] = movieSelected.name
-                            UserDefaults.standard.set(Items.sharedInstance.predictions, forKey: "Predictions")
-                            predictionsRef.updateData([
-                                movieSelected.name: newPredictionCount + 1
-                            ]) { err in
-                                if let err = err {
-                                    print("Error updating document: \(err)")
-                                } else {
-                                    print("Document successfully updated")
-                                    self.predictionsTable.reloadRows(at: [IndexPath(row: collectionView.tag, section: 0)], with: .none)
-                                }
-                            }
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            self.logError(logString: "Predictions VC - \(predictionsArray[collectionView.tag]) Document Doesn't Exist")
                         }
-                    } else {
-                        print("Document does not exist")
                     }
                 }
+            }
+        }
+    }
+    
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
             }
         }
     }

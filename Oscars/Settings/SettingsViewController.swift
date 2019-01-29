@@ -13,8 +13,9 @@ import GoogleSignIn
 import FirebaseAuth
 import FirebaseFirestore
 import StoreKit
+import MessageUI
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, GIDSignInDelegate, GIDSignInUIDelegate, MFMailComposeViewControllerDelegate {
     
     var accountArray = [String](repeating: "", count: 3)
     var dataArray = ["Clear Movies Seen", "Clear Predictions","Clear All Data"]
@@ -36,6 +37,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var profilePic: UIImageView!
     
     @IBAction func rateClicked(_ sender: Any) {
+        self.logError(logString: "Settings VC - Rate App Clicked")
         if #available(iOS 10.3, *) {
             SKStoreReviewController.requestReview()
         } else {
@@ -43,16 +45,19 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     @IBAction func purchaseClicked(_ sender: Any) {
+        self.logError(logString: "Settings VC - Purchase Pro Clicked")
         performSegue(withIdentifier: "purchaseSegue", sender: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("loading")
 
         // Do any additional setup after loading the view
         profilePic.image = Items.sharedInstance.profilePic
         versionLabel.text = "Version " + ((Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String)!)
+        versionLabel.isUserInteractionEnabled = true
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTap))
+        versionLabel.addGestureRecognizer(longGesture)
         
         if Items.sharedInstance.purchased {
             self.proLabel.isHidden = false
@@ -80,14 +85,28 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         let docRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
         docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                self.nameLabel.text = document.data()!["Name"] as? String
-                self.emailLabel.text = document.documentID
+            if let error = error {
+                self.logError(logString: "Settings VC - Error accessing User document", logError: error.localizedDescription)
             } else {
-                print("Document does not exist")
+                if let document = document, document.exists {
+                    self.nameLabel.text = document.data()!["Name"] as? String
+                    self.emailLabel.text = document.documentID
+                } else {
+                    self.logError(logString: "Settings VC - User Document Doesn't Exist")
+                    let alertController = UIAlertController(title: "Error", message: "There was a problem accessing your information. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        (result : UIAlertAction) -> Void in
+                        Items.sharedInstance.loggedIn = ""
+                        UserDefaults.standard.removeObject(forKey: "loggedIn")
+                    }
+                    
+                    alertController.addAction(ok)
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
         }
-        
         NotificationCenter.default.addObserver(self, selector: #selector(updatePurchased), name:NSNotification.Name(rawValue: "purchased"), object: nil)
     }
     
@@ -102,16 +121,20 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("View Appeared")
+        self.logError(logString: "In Settings VC")
         if AccessToken.current != nil {
+            self.logError(logString: "Settings VC - Facebook Login: True")
             accountArray[0] = "Log Out Of Facebook"
         } else {
+            self.logError(logString: "Settings VC - Facebook Login: False")
             accountArray[0] = "Log Into Facebook"
         }
         
         if GIDSignIn.sharedInstance().hasAuthInKeychain() {
+            self.logError(logString: "Settings VC - Google Login: True")
             accountArray[1] = "Log Out Of Google"
         } else {
+            self.logError(logString: "Settings VC - Google Login: False")
             accountArray[1] = "Log into Google"
         }
         
@@ -125,11 +148,27 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         let docRef2 = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
         docRef2.getDocument { (document2, error) in
-            if let document2 = document2, document2.exists {
-                self.nameLabel.text = document2.data()!["Name"] as? String
+            if let error = error {
+                self.logError(logString: "Settings VC - Error Accessing User Document", logError: error.localizedDescription)
             } else {
-                print("Document does not exist")
+                if let document2 = document2, document2.exists {
+                    self.nameLabel.text = document2.data()!["Name"] as? String
+                } else {
+                    self.logError(logString: "Settings VC - User Document Doesn't Exist")
+                    let alertController = UIAlertController(title: "Error", message: "There was a problem accessing your information. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        (result : UIAlertAction) -> Void in
+                        Items.sharedInstance.loggedIn = ""
+                        UserDefaults.standard.removeObject(forKey: "loggedIn")
+                    }
+                    
+                    alertController.addAction(ok)
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
+            
         }
         profilePic.image = Items.sharedInstance.profilePic
     }
@@ -157,6 +196,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         if tableView == accountTable {
             if indexPath.row == 0 {
                 if AccessToken.current != nil {
+                    self.logError(logString: "Settings VC - Logging Out Of Facebook")
                     LoginManager().logOut()
                     accountArray[0] = "Log Into Facebook"
                     accountTable.reloadData()
@@ -165,11 +205,22 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     loginManager.logIn(readPermissions: [ReadPermission.publicProfile, ReadPermission.email], viewController: self) {loginResult in
                         switch loginResult {
                         case .failed(let error):
-                            print(error)
+                            self.logError(logString: "Settings VC - Facebook Login Failed", logError: error.localizedDescription)
+                            let alertController = UIAlertController(title: "Error", message: "Unable to login to Facebook. Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                Items.sharedInstance.loggedIn = ""
+                                UserDefaults.standard.removeObject(forKey: "loggedIn")
+                            }
+                            
+                            alertController.addAction(ok)
+                            self.present(alertController, animated: true, completion: nil)
                         case .cancelled:
-                            print("User cancelled login")
+                            self.logError(logString: "Settings VC - Facebook Login Cancelled")
                         case .success:
-                            print("Logged in")
+                            self.logError(logString: "Settings VC - Facebook Login Succesfull")
                             self.accountArray[0] = "Log Out Of Facebook"
                             self.accountTable.reloadData()
                         }
@@ -177,6 +228,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             } else if indexPath.row == 1 {
                 if GIDSignIn.sharedInstance().hasAuthInKeychain() {
+                    self.logError(logString: "Settings VC - Logging Out Of Google")
                     GIDSignIn.sharedInstance()?.signOut()
                     accountArray[1] = "Log Into Google"
                     accountTable.reloadData()
@@ -192,16 +244,27 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     }
                     let account = UIAlertAction(title: "Sign Out", style: UIAlertActionStyle.default) {
                         (result : UIAlertAction) -> Void in
+                        self.logError(logString: "Settings VC - Logging Out Of Application")
                         do {
                             try Auth.auth().signOut()
                         } catch let signOutError as NSError {
-                            print ("Error signing out: %@", signOutError)
+                            self.logError(logString: "Settings VC - Problem Logging Out of Auth", logError: signOutError.localizedDescription)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem signing out. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                            }
+                            
+                            alertController.addAction(ok)
+                            self.present(alertController, animated: true, completion: nil)
                         }
                         UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
                         UserDefaults.standard.synchronize()
                         Items.sharedInstance.predictions = [String](repeating: "", count: 24)
                         Items.sharedInstance.loggedIn = String()
                         Items.sharedInstance.moviesSeenArray.removeAll()
+                        Items.sharedInstance.movieArray.removeAll()
                         LoginManager().logOut()
                         GIDSignIn.sharedInstance().signOut()
                         self.performSegue(withIdentifier: "signOutSegue", sender: self)
@@ -213,8 +276,62 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         } else {
-            clearData(clear: indexPath.row)
+            DispatchQueue.main.async {
+                self.clearData(clear: indexPath.row)
+            }
         }
+    }
+    
+    @objc func longTap() {
+        let alertController = UIAlertController(title: "Error Reporting", message: "Would you like to email the developer with an error?", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+        }
+        let email = UIAlertAction(title: "Email Logs", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+            self.logError(logString: "Settings VC - Sending Logs via Email")
+            self.sendMail()
+        }
+        
+        alertController.addAction(email)
+        alertController.addAction(cancel)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func sendMail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["dtjohnsonapps@gmail.com"])
+            mail.setSubject("\(Items.sharedInstance.loggedIn) Log Files: \(Date())")
+            mail.setMessageBody("<p>Please describe the issue in as much detail as possible. Pictures are highly recommended if available.</p>", isHTML: true)
+            
+            let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+            let url = dir.appendingPathComponent("logFile.txt")
+            if let fileData = NSData(contentsOf: url)
+            {
+                print("File data loaded.")
+                mail.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "logFile.txt")
+            }
+            
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+            self.logError(logString: "Settings VC - Unable to send email with Logs")
+            let alertController = UIAlertController(title: "Error", message: "The email is unable to automatically send. Please send an email to 'dtjohnsonapps@gmail.com' to file an issue report.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                (result : UIAlertAction) -> Void in
+            }
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
     
     fileprivate func rateApp(appId: String) {
@@ -231,10 +348,20 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-        // ...
+        UIApplication.shared.beginIgnoringInteractionEvents()
         if let error = error {
-            // ...
-            print(error)
+            self.logError(logString: "Settings VC - Google Login Failed", logError: error.localizedDescription)
+            UIApplication.shared.endIgnoringInteractionEvents()
+            let alertController = UIAlertController(title: "Error", message: "There was a problem signing into Google. Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            
+            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                (result : UIAlertAction) -> Void in
+                
+            }
+            
+            alertController.addAction(ok)
+            self.present(alertController, animated: true, completion: nil)
             return
         }
         
@@ -248,7 +375,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
             if let error = error {
-                // ...
+                self.logError(logString: "Settings VC - Unable to Authenticate via Google", logError: error.localizedDescription)
+                UIApplication.shared.endIgnoringInteractionEvents()
                 let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
                 
                 let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
@@ -260,73 +388,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 alertController.addAction(account)
                 self.present(alertController, animated: true, completion: nil)
             } else {
-                let docRef = Firestore.firestore().collection("UserMovieList").document((Auth.auth().currentUser?.email)!)
-                docRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        Items.sharedInstance.moviesSeenArray.removeAll()
-                        Items.sharedInstance.predictions.removeAll()
-                        
-                        let nomList = ["Best Picture","Best Actor","Best Actress","Supporting Actor","Supporting Actress","Animated","Cinematography","Costume Design","Directing","Documentary Feature","Documentary Short","Film Editing","Foreign","Makeup","Music Score","Music Song","Production Design","Short Animated","Short Live","Sound Editing","Sound Mixing","Visual Effects","Writing Adapted","Writing Original"]
-                        for item in nomList {
-                            Items.sharedInstance.predictions.append(document.data()![item] as! String)
-                        }
-                        
-                        let movies = document.data()!["movies"] as! [String]
-                        for item in movies {
-                            for movie in Items.sharedInstance.movieArray {
-                                if item == movie.name {
-                                    Items.sharedInstance.moviesSeenArray.append(movie)
-                                }
-                            }
-                        }
-                        self.accountArray[1] = "Log Out Of Google"
-                        self.accountTable.reloadData()
-                    } else {
-                        var tempMovieArray = [String]()
-                        for seenMovie in Items.sharedInstance.moviesSeenArray {
-                            tempMovieArray.append(seenMovie.name)
-                        }
-                        Items.sharedInstance.predictions = [String](repeating: "", count: 24)
-                        Firestore.firestore().collection("UserMovieList").document((Auth.auth().currentUser?.email)!).setData([
-                            "movies": tempMovieArray,
-                            "Best Picture": "",
-                            "Best Actor": "",
-                            "Best Actress": "",
-                            "Supporting Actor": "",
-                            "Supporting Actress": "",
-                            "Animated": "",
-                            "Cinematography": "",
-                            "Costume Design": "",
-                            "Directing": "",
-                            "Documentary Feature": "",
-                            "Documentary Short": "",
-                            "Film Editing": "",
-                            "Foreign": "",
-                            "Makeup": "",
-                            "Music Song": "",
-                            "Music Score": "",
-                            "Production Design": "",
-                            "Short Animated": "",
-                            "Short Live": "",
-                            "Sound Editing": "",
-                            "Sound Mixing": "",
-                            "Visual Effects": "",
-                            "Writing Adapted": "",
-                            "Writing Original": "",
-                            "Invitations": [String](),
-                            "Friends": [String](),
-                            "Name": Auth.auth().currentUser!.displayName!
-                        ]) { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            } else {
-                                print("Document successfully written!")
-                                self.accountArray[1] = "Log Out Of Google"
-                                self.accountTable.reloadData()
-                            }
-                        }
-                    }
-                }
+                self.logError(logString: "Settings VC - Logged in via Google succesfully")
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.accountArray[1] = "Log Out Of Google"
+                self.accountTable.reloadData()
             }
         }
     }
@@ -338,31 +403,55 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             
             let local = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
                 (result : UIAlertAction) -> Void in
+                
             }
             let account = UIAlertAction(title: "Remove", style: UIAlertActionStyle.default) {
                 (result : UIAlertAction) -> Void in
+                self.logError(logString: "Settings VC - Removing Saved Movies")
                 
+                UIApplication.shared.beginIgnoringInteractionEvents()
                 UserDefaults.standard.removeObject(forKey: "LocalStorage")
                 UserDefaults.standard.synchronize()
                 Items.sharedInstance.moviesSeenArray.removeAll()
                 
                 let userRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                 userRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        
-                        //Edit your document to be empty
-                        userRef.updateData([
-                            "movies": [String]()
-                        ]) { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            } else {
-                                print("Document successfully written!")
-                            }
-                        }
-                        
+                    if let error = error {
+                        self.logError(logString: "Settings VC - Unable to get User Document", logError: error.localizedDescription)
                     } else {
-                        print("Document does not exist")
+                        if let document = document, document.exists {
+                            userRef.updateData([
+                                "movies": [String]()
+                            ]) { err in
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                                if let err = err {
+                                    self.logError(logString: "Settings VC - Unable to update saved movies to document", logError: err.localizedDescription)
+                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                    
+                                    let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                        (result : UIAlertAction) -> Void in
+                                        GIDSignIn.sharedInstance().signOut()
+                                        return
+                                    }
+                                    
+                                    alertController.addAction(account)
+                                    self.present(alertController, animated: true, completion: nil)
+                                }
+                            }
+                        } else {
+                            self.logError(logString: "Settings VC - User Document doesn't exist")
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                GIDSignIn.sharedInstance().signOut()
+                                return
+                            }
+                            
+                            alertController.addAction(account)
+                            self.present(alertController, animated: true, completion: nil)
+                        }
                     }
                 }
             }
@@ -375,10 +464,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             
             let local = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
                 (result : UIAlertAction) -> Void in
+                UIApplication.shared.endIgnoringInteractionEvents()
             }
             let account = UIAlertAction(title: "Remove", style: UIAlertActionStyle.default) {
                 (result : UIAlertAction) -> Void in
+                self.logError(logString: "Settings VC - Removing Saved Predictions")
                 
+                UIApplication.shared.beginIgnoringInteractionEvents()
                 UserDefaults.standard.removeObject(forKey: "Predictions")
                 UserDefaults.standard.synchronize()
                 Items.sharedInstance.predictions = [String](repeating: "", count: 24)
@@ -386,43 +478,67 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 let userRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                 userRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        //Edit your document to be empty
-                        userRef.updateData([
-                            "Best Picture": "",
-                            "Best Actor": "",
-                            "Best Actress": "",
-                            "Supporting Actor": "",
-                            "Supporting Actress": "",
-                            "Animated": "",
-                            "Cinematography": "",
-                            "Costume Design": "",
-                            "Directing": "",
-                            "Documentary Feature": "",
-                            "Documentary Short": "",
-                            "Film Editing": "",
-                            "Foreign": "",
-                            "Makeup": "",
-                            "Music Song": "",
-                            "Music Score": "",
-                            "Production Design": "",
-                            "Short Animated": "",
-                            "Short Live": "",
-                            "Sound Editing": "",
-                            "Sound Mixing": "",
-                            "Visual Effects": "",
-                            "Writing Adapted": "",
-                            "Writing Original": ""
-                        ]) { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            } else {
-                                print("Document successfully written!")
-                            }
-                        }
-                        
+                    if let error = error {
+                        self.logError(logString: "Settings VC - Unable to access User document", logError: error.localizedDescription)
                     } else {
-                        print("Document does not exist")
+                        if let document = document, document.exists {
+                            //Edit your document to be empty
+                            userRef.updateData([
+                                "Best Picture": "",
+                                "Best Actor": "",
+                                "Best Actress": "",
+                                "Supporting Actor": "",
+                                "Supporting Actress": "",
+                                "Animated": "",
+                                "Cinematography": "",
+                                "Costume Design": "",
+                                "Directing": "",
+                                "Documentary Feature": "",
+                                "Documentary Short": "",
+                                "Film Editing": "",
+                                "Foreign": "",
+                                "Makeup": "",
+                                "Music Song": "",
+                                "Music Score": "",
+                                "Production Design": "",
+                                "Short Animated": "",
+                                "Short Live": "",
+                                "Sound Editing": "",
+                                "Sound Mixing": "",
+                                "Visual Effects": "",
+                                "Writing Adapted": "",
+                                "Writing Original": ""
+                            ]) { err in
+                                if let err = err {
+                                    self.logError(logString: "Settings VC - Unable to update User Predictions", logError: err.localizedDescription)
+                                    UIApplication.shared.endIgnoringInteractionEvents()
+                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                    
+                                    let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                        (result : UIAlertAction) -> Void in
+                                        GIDSignIn.sharedInstance().signOut()
+                                        return
+                                    }
+                                    
+                                    alertController.addAction(account)
+                                    self.present(alertController, animated: true, completion: nil)
+                                }
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                            }
+                        } else {
+                            self.logError(logString: "Settings VC - User Document Doesn't Exist")
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                GIDSignIn.sharedInstance().signOut()
+                                return
+                            }
+                            
+                            alertController.addAction(account)
+                            self.present(alertController, animated: true, completion: nil)
+                        }
                     }
                 }
             }
@@ -435,10 +551,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             
             let local = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
                 (result : UIAlertAction) -> Void in
+                UIApplication.shared.endIgnoringInteractionEvents()
             }
             let account = UIAlertAction(title: "Remove", style: UIAlertActionStyle.default) {
                 (result : UIAlertAction) -> Void in
+                self.logError(logString: "Settings VC - Removing All Data")
                 
+                UIApplication.shared.beginIgnoringInteractionEvents()
                 UserDefaults.standard.removeObject(forKey: "LocalStorage")
                 UserDefaults.standard.removeObject(forKey: "Predictions")
                 UserDefaults.standard.synchronize()
@@ -448,72 +567,113 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 let userRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
                 userRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        let friends = document.data()!["Friends"] as! [String]
-                        
-                        //Cycle through every friend and remove your name from their list
-                        for item in friends {
-                            let friendRef = Firestore.firestore().collection("UserMovieList").document(item)
-                            friendRef.getDocument { (document, error) in
-                                if let document = document, document.exists {
-                                    var theirFreinds = document.data()!["Friends"] as! [String]
-                                    for (index,friend) in theirFreinds.enumerated() {
-                                        if friend == Items.sharedInstance.loggedIn {
-                                            theirFreinds.remove(at: index)
-                                        }
-                                    }
-                                    friendRef.updateData([
-                                        "Friends": theirFreinds
-                                    ]) { err in
-                                        if let err = err {
-                                            print("Error updating document: \(err)")
+                    if let error = error {
+                        self.logError(logString: "Settings VC - Error Accessing User Document", logError: error.localizedDescription)
+                    } else {
+                        if let document = document, document.exists {
+                            let friends = document.data()!["Friends"] as! [String]
+                            
+                            //Cycle through every friend and remove your name from their list
+                            for item in friends {
+                                let friendRef = Firestore.firestore().collection("UserMovieList").document(item)
+                                friendRef.getDocument { (document, error) in
+                                    if let error = error {
+                                        self.logError(logString: "Settings VC - Unable to get friend document. (Friend: \(item))", logError: error.localizedDescription)
+                                    } else {
+                                        if let document = document, document.exists {
+                                            var theirFreinds = document.data()!["Friends"] as! [String]
+                                            for (index,friend) in theirFreinds.enumerated() {
+                                                if friend == Items.sharedInstance.loggedIn {
+                                                    theirFreinds.remove(at: index)
+                                                }
+                                            }
+                                            friendRef.updateData([
+                                                "Friends": theirFreinds
+                                            ]) { err in
+                                                if let err = err {
+                                                    self.logError(logString: "Settings VC - Error Updating Friends Document. (Friend: \(item))", logError: err.localizedDescription)
+                                                    UIApplication.shared.endIgnoringInteractionEvents()
+                                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                                    
+                                                    let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                                        (result : UIAlertAction) -> Void in
+                                                        GIDSignIn.sharedInstance().signOut()
+                                                        return
+                                                    }
+                                                    
+                                                    alertController.addAction(account)
+                                                    self.present(alertController, animated: true, completion: nil)
+                                                }
+                                                UIApplication.shared.endIgnoringInteractionEvents()
+                                            }
                                         } else {
-                                            print("Document successfully updated")
+                                            self.logError(logString: "Settings VC - Friend Document Doesn't Exist (Friend: \(item))")
                                         }
                                     }
                                 }
                             }
-                        }
-                        
-                        //Edit your document to be empty
-                        userRef.updateData([
-                            "movies": [String](),
-                            "Best Picture": "",
-                            "Best Actor": "",
-                            "Best Actress": "",
-                            "Supporting Actor": "",
-                            "Supporting Actress": "",
-                            "Animated": "",
-                            "Cinematography": "",
-                            "Costume Design": "",
-                            "Directing": "",
-                            "Documentary Feature": "",
-                            "Documentary Short": "",
-                            "Film Editing": "",
-                            "Foreign": "",
-                            "Makeup": "",
-                            "Music Song": "",
-                            "Music Score": "",
-                            "Production Design": "",
-                            "Short Animated": "",
-                            "Short Live": "",
-                            "Sound Editing": "",
-                            "Sound Mixing": "",
-                            "Visual Effects": "",
-                            "Writing Adapted": "",
-                            "Writing Original": "",
-                            "Invitations": [String](),
-                            "Friends": [String]()
-                        ]) { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            } else {
-                                print("Document successfully written!")
+                            
+                            //Edit your document to be empty
+                            userRef.updateData([
+                                "movies": [String](),
+                                "Best Picture": "",
+                                "Best Actor": "",
+                                "Best Actress": "",
+                                "Supporting Actor": "",
+                                "Supporting Actress": "",
+                                "Animated": "",
+                                "Cinematography": "",
+                                "Costume Design": "",
+                                "Directing": "",
+                                "Documentary Feature": "",
+                                "Documentary Short": "",
+                                "Film Editing": "",
+                                "Foreign": "",
+                                "Makeup": "",
+                                "Music Song": "",
+                                "Music Score": "",
+                                "Production Design": "",
+                                "Short Animated": "",
+                                "Short Live": "",
+                                "Sound Editing": "",
+                                "Sound Mixing": "",
+                                "Visual Effects": "",
+                                "Writing Adapted": "",
+                                "Writing Original": "",
+                                "Invitations": [String](),
+                                "Friends": [String]()
+                            ]) { err in
+                                if let err = err {
+                                    self.logError(logString: "Settings VC - Error Updating User Document", logError: err.localizedDescription)
+                                    UIApplication.shared.endIgnoringInteractionEvents()
+                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                    
+                                    let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                        (result : UIAlertAction) -> Void in
+                                        GIDSignIn.sharedInstance().signOut()
+                                        return
+                                    }
+                                    
+                                    alertController.addAction(account)
+                                    self.present(alertController, animated: true, completion: nil)
+                                }
+                                UIApplication.shared.endIgnoringInteractionEvents()
                             }
+                            
+                        } else {
+                            self.logError(logString: "Settings VC - User Document Doesn't Exist")
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                GIDSignIn.sharedInstance().signOut()
+                                return
+                            }
+                            
+                            alertController.addAction(account)
+                            self.present(alertController, animated: true, completion: nil)
                         }
-                        
-                    } else {
-                        print("Document does not exist")
                     }
                 }
             }
@@ -521,6 +681,31 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             alertController.addAction(local)
             alertController.addAction(account)
             self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
         }
     }
 }

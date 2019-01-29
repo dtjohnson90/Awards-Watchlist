@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14313.18" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.31" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14238.10"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14460.16"/>
     </dependencies>
     <scenes>
         <!--Nominations-->
@@ -23,7 +23,7 @@
                                 <tableRow identifier="nominationRow" id="mMm-Pa-SaT" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="2cF-WQ-jTM">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" textAlignment="left" id="d4N-4N-AEP">
+                                            <label height="30" alignment="left" text="Label" textAlignment="left" numberOfLines="2" minimumScaleFactor="0.5" id="d4N-4N-AEP">
                                                 <fontDescription key="font" style="UICTFontTextStyleBody"/>
                                             </label>
                                         </items>
@@ -43,7 +43,7 @@
                                 <tableRow identifier="nominationRow" id="7Tz-WM-OSv" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="Xvd-FD-gQh">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" textAlignment="left" id="e85-qP-BaT"/>
+                                            <label height="30" alignment="left" text="Label" textAlignment="left" minimumScaleFactor="0.5" id="e85-qP-BaT"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -61,7 +61,7 @@
                                 <tableRow identifier="nominationRow" id="J8y-hp-hMP" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="i9h-eB-zfA">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="khT-WF-70D"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="khT-WF-70D"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -79,7 +79,7 @@
                                 <tableRow identifier="nominationRow" id="vB7-wM-AI2" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="d4W-ED-dYQ">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="IWQ-51-o7r"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="IWQ-51-o7r"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -99,7 +99,7 @@
                                 <tableRow identifier="nominationRow" id="pG5-1a-VaI" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="dUr-4J-5BH">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="r2B-VX-VWR"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="r2B-VX-VWR"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -117,7 +117,7 @@
                                 <tableRow identifier="nominationRow" id="PgR-lh-Wn6" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="5HE-iL-IKR">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="agz-lA-Lmq"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="agz-lA-Lmq"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -135,7 +135,7 @@
                                 <tableRow identifier="nominationRow" id="IMO-jF-NEe" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="Bwx-d9-oOM">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="D6Y-vo-gc2"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="D6Y-vo-gc2"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -153,7 +153,7 @@
                                 <tableRow identifier="nominationRow" id="X0x-Rr-FIh" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="jmR-2k-0UC">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="xW8-ZF-Deb"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="xW8-ZF-Deb"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -171,7 +171,7 @@
                                 <tableRow identifier="nominationRow" id="wqK-os-riR" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="m26-SV-8DE">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="czf-MA-NJz"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="czf-MA-NJz"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -191,7 +191,7 @@
                                 <tableRow identifier="nominationRow" id="Jlt-cX-6bA" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="5KX-7F-WA4">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="ZFj-6G-rvR"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="ZFj-6G-rvR"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -211,7 +211,7 @@
                                 <tableRow identifier="nominationRow" id="zs5-jz-hri" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="xvn-0v-g7X">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="Tyw-c0-N1k"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="Tyw-c0-N1k"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -229,7 +229,7 @@
                                 <tableRow identifier="nominationRow" id="2qB-5w-XUK" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="rWB-m0-RsY">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="mcs-bg-TFZ"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="mcs-bg-TFZ"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -247,7 +247,7 @@
                                 <tableRow identifier="nominationRow" id="HrG-cf-0oq" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="OsB-CG-Dxs">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="b2s-CD-AVd"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="b2s-CD-AVd"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -265,7 +265,7 @@
                                 <tableRow identifier="nominationRow" id="nGb-O7-uAt" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="DBd-pK-VBa">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="cTH-9z-cbZ"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="cTH-9z-cbZ"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -283,7 +283,7 @@
                                 <tableRow identifier="nominationRow" id="Iwu-e6-ucH" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="v1e-yV-Tff">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="7ll-Db-HdQ"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="7ll-Db-HdQ"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -301,7 +301,7 @@
                                 <tableRow identifier="nominationRow" id="p0T-DU-36v" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="Gin-Xm-7Bp">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="xfW-WZ-0Uk"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="xfW-WZ-0Uk"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -321,7 +321,7 @@
                                 <tableRow identifier="nominationRow" id="KD3-f4-sza" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="rtW-wj-T8j">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="iif-3j-5pR"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="iif-3j-5pR"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -339,7 +339,7 @@
                                 <tableRow identifier="nominationRow" id="VqD-iq-Sys" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="7Uo-o2-241">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="lTZ-IB-Gq4"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="lTZ-IB-Gq4"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -357,7 +357,7 @@
                                 <tableRow identifier="nominationRow" id="bFF-XY-i8C" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="CLW-5M-9ly">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="Hmd-tf-biG"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="Hmd-tf-biG"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -375,7 +375,7 @@
                                 <tableRow identifier="nominationRow" id="nzl-FL-Qhz" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="6ml-hG-hep">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="0gD-E6-ML9"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="0gD-E6-ML9"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -393,7 +393,7 @@
                                 <tableRow identifier="nominationRow" id="kLP-lF-WMG" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="9sL-Dq-8CA">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="Iql-XW-Iix"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="Iql-XW-Iix"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -411,7 +411,7 @@
                                 <tableRow identifier="nominationRow" id="OFt-Uc-DAJ" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="4mU-eX-0CY">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="kiS-je-YWM"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="kiS-je-YWM"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -427,9 +427,9 @@
                         <table alignment="left" id="gKh-7z-r1f">
                             <items>
                                 <tableRow identifier="nominationRow" id="TMb-Yi-4hc" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="5a5-J1-1cE">
+                                    <group key="rootItem" width="1" height="38" alignment="left" id="5a5-J1-1cE">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="j1v-bc-wsp"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="j1v-bc-wsp"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -445,9 +445,9 @@
                         <table alignment="left" id="Mmd-vI-30B">
                             <items>
                                 <tableRow identifier="nominationRow" id="cbJ-nz-vs8" customClass="NominationsRowController" customModule="OscarsWatch_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="iHT-yR-Ms3">
+                                    <group key="rootItem" width="1" height="38" alignment="left" id="iHT-yR-Ms3">
                                         <items>
-                                            <label height="30" alignment="left" text="Label" id="v2M-vR-2d0"/>
+                                            <label height="30" alignment="left" text="Label" minimumScaleFactor="0.5" id="v2M-vR-2d0"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -494,7 +494,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-145" y="469"/>
+            <point key="canvasLocation" x="-145" y="470"/>
         </scene>
         <!--UnseenController-->
         <scene sceneID="nVO-fm-glq">

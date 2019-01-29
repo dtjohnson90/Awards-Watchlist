@@ -20,6 +20,7 @@ class MoviesNotSeenTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.logError(logString: "Inside MoviesNotSeen VC")
         moviesLeftList.removeAll()
         for movie in Items.sharedInstance.movieArray {
             if !Items.sharedInstance.moviesSeenArray.contains(movie) {
@@ -59,11 +60,37 @@ class MoviesNotSeenTableViewController: UITableViewController {
         
         if let inpath2 = self.tableView.indexPathForSelectedRow {
             let currentMovie = moviesLeftList[inpath2.row]
+            self.logError(logString: "Movies Not Seen VC - Selected Movie \(currentMovie.name)")
             secondScene.movieSelected = currentMovie
         }
         
         let backItem = UIBarButtonItem()
         backItem.title = "Movies Left"
         navigationItem.backBarButtonItem = backItem
+    }
+    
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        }
     }
 }

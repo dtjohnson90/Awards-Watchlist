@@ -14,8 +14,6 @@ import WatchConnectivity
 
 class DetailViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, WCSessionDelegate {
     
-    
-    
     var movieSelected = Items.movie(actors: [String](), cover: UIImage(), description: String(), idmb: String(), name: String(), nominatedFor: [String](), youtube: String())
     var nominationString = ""
     var movieCast = ""
@@ -39,7 +37,9 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     }()
 
     @IBAction func imdbButtonClick(_ sender: UIButton) {
+        self.logError(logString: "Detail VC - IMDB Clicked")
         guard let url = URL(string: imdbString) else {
+            self.logError(logString: "Detail VC - IMDB Click Failed")
             return //be safe
         }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -96,11 +96,14 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.logError(logString: "In Detail VC")
         if Items.sharedInstance.moviesSeenArray.contains(movieSelected) {
+            self.logError(logString: "Detail VC - Movie Seen")
             haveWatched.setTitle("Seen", for: .normal)
             haveWatched.backgroundColor = UIColor.green
         }
         else {
+            self.logError(logString: "Detail VC - Movie Not Seen")
             haveWatched.setTitle("Unseen", for: .normal)
             haveWatched.backgroundColor = UIColor.red
         }
@@ -108,6 +111,7 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     func validateSession() {
         if let validSession = sending {
+            self.logError(logString: "Detail VC - Sending Data To Watch")
             let movieArray = NSMutableArray()
             for movie in Items.sharedInstance.movieArray {
                 let movieInfo = NSMutableDictionary()
@@ -131,15 +135,15 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
             let iphoneAppContext = ["Details": movieArray, "Seen": seenArray] as [String : Any]
             do {
                 try validSession.updateApplicationContext(iphoneAppContext)
-                print("Success")
             } catch {
-                print("Something went wrong")
+                self.logError(logString: "Detail VC - Error Sending Data To Watch", logError: error.localizedDescription)
             }
         }
     }
     
     func processApplicationContext(){
         if let iPhoneContext = receiving.receivedApplicationContext as? [String : [String]] {
+            self.logError(logString: "Detail VC - Receiving Data From Watch")
             let initialArray = iPhoneContext["Seen"]! as [String]
             var moviesSeen = [String]()
             for item in initialArray {
@@ -178,21 +182,16 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
             tempMovieArray.append(seenMovie.name)
         }
         
-        if Items.sharedInstance.loggedIn == "Local" {
-            let configModel = ConfigurationModel()
-            configModel.savedMovies = tempMovieArray
-        } else {
-            let configModel = ConfigurationModel()
-            configModel.savedMovies = tempMovieArray
-            
-            Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
-                "movies": tempMovieArray
-            ]) { err in
-                if let err = err {
-                    print("Error writing document: \(err)")
-                } else {
-                    print("Document successfully written!")
-                }
+        let configModel = ConfigurationModel()
+        configModel.savedMovies = tempMovieArray
+        
+        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+            "movies": tempMovieArray
+        ]) { err in
+            if let err = err {
+                self.logError(logString: "Detail VC - Couldn't update document with watch data", logError: err.localizedDescription)
+            } else {
+                self.logError(logString: "Detail VC - Document updated with watch data")
             }
         }
     }
@@ -213,100 +212,75 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func loadYoutube(videoID:String) {
-        guard
-            let youtubeURL = URL(string: "https://www.youtube.com/embed/\(videoID)")
-            else { return }
+        guard let youtubeURL = URL(string: "https://www.youtube.com/embed/\(videoID)") else {
+            self.logError(logString: "Detail VC - Unable to load youtube video")
+            return
+        }
         wv.loadRequest( URLRequest(url: youtubeURL) )
     }
     
     @IBAction func haveWatchedClick(_ sender: UIButton) {
-        if UserDefaults.standard.contains(key: "offeredSignIn") {
-            if let buttonTitle = sender.title(for: .normal) {
-                if buttonTitle == "Unseen" {
-                    haveWatched.setTitle("Seen", for: .normal)
-                    haveWatched.backgroundColor = UIColor.green
-                    Items.sharedInstance.moviesSeenArray.append(movieSelected)
-                    validateSession()
-                    
-                    var tempMovieArray = [String]()
-                    for seenMovie in Items.sharedInstance.moviesSeenArray {
-                        tempMovieArray.append(seenMovie.name)
-                    }
-                    
-                    if Items.sharedInstance.loggedIn == "Local" {
-                        let configModel = ConfigurationModel()
-                        configModel.savedMovies = tempMovieArray
-                    } else {
-                        let configModel = ConfigurationModel()
-                        configModel.savedMovies = tempMovieArray
-                        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
-                            "movies": tempMovieArray
-                        ]) { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            } else {
-                                print("Document successfully written!")
-                            }
-                        }
-                    }
-                } else {
-                    haveWatched.setTitle("Unseen", for: .normal)
-                    haveWatched.backgroundColor = UIColor.red
-                    Items.sharedInstance.moviesSeenArray.remove(at: Items.sharedInstance.moviesSeenArray.index(of:movieSelected)!)
-                    validateSession()
-                    
-                    var tempMovieArray = [String]()
-                    for seenMovie in Items.sharedInstance.moviesSeenArray {
-                        tempMovieArray.append(seenMovie.name)
-                    }
-                    
-                    if Items.sharedInstance.loggedIn == "Local" {
-                        let configModel = ConfigurationModel()
-                        configModel.savedMovies = tempMovieArray
-                    } else {
-                        let configModel = ConfigurationModel()
-                        configModel.savedMovies = tempMovieArray
-                        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
-                            "movies": tempMovieArray
-                        ]) { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            } else {
-                                print("Document successfully written!")
-                            }
-                        }
-                    }
+        self.logError(logString: "Detail VC - Changed Seen/Unseen Button")
+        if let buttonTitle = sender.title(for: .normal) {
+            if buttonTitle == "Unseen" {
+                haveWatched.setTitle("Seen", for: .normal)
+                haveWatched.backgroundColor = UIColor.green
+                Items.sharedInstance.moviesSeenArray.append(movieSelected)
+                validateSession()
+                
+                var tempMovieArray = [String]()
+                for seenMovie in Items.sharedInstance.moviesSeenArray {
+                    tempMovieArray.append(seenMovie.name)
                 }
-            }
-        } else {
-            let alertController = UIAlertController(title: "Saving Data", message: "Would you like to save your data locally to this device or would you like to create an account to save your data across multiple devices?", preferredStyle: UIAlertControllerStyle.alert)
-            
-            let local = UIAlertAction(title: "Save to this device only", style: UIAlertActionStyle.default) {
-                (result : UIAlertAction) -> Void in
-                Items.sharedInstance.moviesSeenArray.append(self.movieSelected)
-                self.validateSession()
-                UserDefaults.standard.set("Local", forKey: "Storage")
-                var tempArray = [String]()
-                for item in Items.sharedInstance.moviesSeenArray {
-                    tempArray.append(item.name)
-                }
-                let predictionsArray = String(repeating: "", count: 24)
+                
                 let configModel = ConfigurationModel()
-                configModel.savedMovies = tempArray
-                UserDefaults.standard.set(true, forKey: "offeredSignIn")
-                UserDefaults.standard.set(predictionsArray, forKey: "Predictions")
-                self.haveWatched.sendActions(for: .touchUpInside)
+                configModel.savedMovies = tempMovieArray
+                Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+                    "movies": tempMovieArray
+                ]) { err in
+                    if let err = err {
+                        self.logError(logString: "Detail VC - Unable to update document with data", logError: err.localizedDescription)
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem saving this information. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            (result : UIAlertAction) -> Void in
+                        }
+                        
+                        alertController.addAction(ok)
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                }
+            } else {
+                haveWatched.setTitle("Unseen", for: .normal)
+                haveWatched.backgroundColor = UIColor.red
+                Items.sharedInstance.moviesSeenArray.remove(at: Items.sharedInstance.moviesSeenArray.index(of:movieSelected)!)
+                validateSession()
+                
+                var tempMovieArray = [String]()
+                for seenMovie in Items.sharedInstance.moviesSeenArray {
+                    tempMovieArray.append(seenMovie.name)
+                }
+                
+                let configModel = ConfigurationModel()
+                configModel.savedMovies = tempMovieArray
+                Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+                    "movies": tempMovieArray
+                ]) { err in
+                    if let err = err {
+                        self.logError(logString: "Detail VC - Unable to update document with data", logError: err.localizedDescription)
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem saving this information. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            (result : UIAlertAction) -> Void in
+                        }
+                        
+                        alertController.addAction(ok)
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                }
             }
-            let account = UIAlertAction(title: "Create Account", style: UIAlertActionStyle.default) {
-                (result : UIAlertAction) -> Void in
-                Items.sharedInstance.moviesSeenArray.append(self.movieSelected)
-                self.validateSession()
-                self.performSegue(withIdentifier: "LogInSegue", sender: self)
-            }
-            
-            alertController.addAction(local)
-            alertController.addAction(account)
-            self.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -320,8 +294,9 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         let gsReference = Storage.storage().reference(forURL: "gs://oscarswatchlist.appspot.com/Actors/\(movieSelected.actors[indexPath.item]).jpg")
         gsReference.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if error != nil {
+            if let error = error {
                 // Uh-oh, an error occurred!
+                self.logError(logString: "Detail VC - Unable to get Actor image. Setting No Photo Available", logError: error.localizedDescription)
                 cell.actorImage.image = UIImage(named: "NoPhotoAvailable.jpg")!
             } else {
                 // Data for "images/island.jpg" is returned
@@ -340,6 +315,31 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        }
     }
 }
 

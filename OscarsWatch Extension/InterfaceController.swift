@@ -49,6 +49,11 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     let session = WCSession.default
+    var bestActorArray = [Items2.actors]()
+    var bestActressArray = [Items2.actors]()
+    var supportingActorArray = [Items2.actors]()
+    var supportingActressArray = [Items2.actors]()
+    var directorArray = [Items2.actors]()
 
     
     override func awake(withContext context: Any?) {
@@ -60,7 +65,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             self.processApplicationContext()
         })
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
             let movieArray = Items2.sharedInstance.sortedMovieArray
             self.bpTable.setNumberOfRows(movieArray[0].count, withRowType: "nominationRow")
             for index in 0..<movieArray[0].count {
@@ -71,33 +76,33 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 }
             }
             self.baTable.setNumberOfRows(movieArray[1].count, withRowType: "nominationRow")
-            for index in 0..<movieArray[1].count {
+            for index in 0..<self.bestActorArray.count {
                 guard let controller = self.baTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.baName.setText(movieArray[1][index].name)
+                controller.baName.setText(self.bestActorArray[index].name)
                 if index == 1 {
                     controller.baName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
             self.basTable.setNumberOfRows(movieArray[2].count, withRowType: "nominationRow")
-            for index in 0..<movieArray[2].count {
+            for index in 0..<self.bestActressArray.count {
                 guard let controller = self.basTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.basName.setText(movieArray[2][index].name)
+                controller.basName.setText(self.bestActressArray[index].name)
                 if index == 4 {
                     controller.basName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.bsaTable.setNumberOfRows(movieArray[3].count, withRowType: "nominationRow")
+            self.bsaTable.setNumberOfRows(self.supportingActorArray.count, withRowType: "nominationRow")
             for index in 0..<movieArray[3].count {
                 guard let controller = self.bsaTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.saName.setText(movieArray[3][index].name)
+                controller.saName.setText(self.supportingActorArray[index].name)
                 if index == 4 {
                     controller.saName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.bsasTable.setNumberOfRows(movieArray[4].count, withRowType: "nominationRow")
+            self.bsasTable.setNumberOfRows(self.supportingActressArray.count, withRowType: "nominationRow")
             for index in 0..<movieArray[4].count {
                 guard let controller = self.bsasTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.sasName.setText(movieArray[4][index].name)
+                controller.sasName.setText(self.supportingActressArray[index].name)
                 if index == 0 {
                     controller.sasName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
@@ -126,10 +131,10 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                     controller.cdName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
             }
-            self.dTable.setNumberOfRows(movieArray[8].count, withRowType: "nominationRow")
+            self.dTable.setNumberOfRows(self.directorArray.count, withRowType: "nominationRow")
             for index in 0..<movieArray[8].count {
                 guard let controller = self.dTable.rowController(at: index ) as? NominationsRowController else { continue }
-                controller.dName.setText(movieArray[8][index].name)
+                controller.dName.setText(self.directorArray[index].name)
                 if index == 4 {
                     controller.dName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
                 }
@@ -273,6 +278,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         if let iPhoneContext = session.receivedApplicationContext as? [String : Any] {
             let movieArray = iPhoneContext["Details"] as! NSArray
             let moviesSeen = iPhoneContext["Seen"] as! NSArray
+            let actors = iPhoneContext["Actors"] as! NSArray
             for _ in 0 ... 23 {
                 Items2.sharedInstance.sortedMovieArray.append([Items2.movie]())
             }
@@ -346,7 +352,34 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             for movie3 in moviesSeen {
                 let seen = movie3 as! NSDictionary
                 Items2.sharedInstance.moviesSeenArray.append(Items2.movie(actors: seen.object(forKey: "Actors") as! [String], description: seen.object(forKey: "Description") as! String, name: seen.object(forKey: "Name") as! String, nominatedFor: seen.object(forKey: "NominatedFor") as! [String]))
-            }            
+            }
+            
+            let actorDownloading = DispatchGroup()
+            print(actors.count)
+            for actor in actors {
+                actorDownloading.enter()
+                let tempActor = actor as! NSDictionary
+                Items2.sharedInstance.actorArray.append(Items2.actors(name: tempActor.object(forKey: "Name") as! String, nominatedFor: tempActor.object(forKey: "NominatedFor") as! String, movie: tempActor.object(forKey: "Movie") as! String))
+                actorDownloading.leave()
+            }
+            actorDownloading.notify(queue: .main) {
+                for item in Items2.sharedInstance.actorArray {
+                    switch item.nominatedFor {
+                    case "Best Actor":
+                        self.bestActorArray.append(item)
+                    case "Supporting Actor":
+                        self.supportingActorArray.append(item)
+                    case "Best Actress":
+                        self.bestActressArray.append(item)
+                    case "Supporting Actress":
+                        self.supportingActressArray.append(item)
+                    case "Directing":
+                        self.directorArray.append(item)
+                    default:
+                        return
+                    }
+                }
+            }
         }
     }
     
@@ -363,17 +396,39 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             movie = Items2.sharedInstance.sortedMovieArray[0][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == baTable {
-            movie = Items2.sharedInstance.sortedMovieArray[1][rowIndex]
-            presentController(withName: "DetailController", context: movie)
+            let movieName = bestActorArray[rowIndex].movie
+            for item in Items2.sharedInstance.movieArray {
+                if movieName == item.name {
+                    presentController(withName: "DetailController", context: item)
+                    break
+                }
+            }
         } else if table == bsaTable {
-            movie = Items2.sharedInstance.sortedMovieArray[2][rowIndex]
-            presentController(withName: "DetailController", context: movie)
+            let movieName = supportingActorArray[rowIndex].movie
+            for item in Items2.sharedInstance.movieArray {
+                if movieName == item.name {
+                    presentController(withName: "DetailController", context: item)
+                    break
+                }
+            }
         }else if table == basTable {
-            movie = Items2.sharedInstance.sortedMovieArray[3][rowIndex]
-            presentController(withName: "DetailController", context: movie)
+            let movieName = bestActressArray[rowIndex].movie
+            print(movieName)
+            for item in Items2.sharedInstance.movieArray {
+                if movieName == item.name {
+                    print(item.name)
+                    presentController(withName: "DetailController", context: item)
+                    break
+                }
+            }
         } else if table == bsasTable {
-            movie = Items2.sharedInstance.sortedMovieArray[4][rowIndex]
-            presentController(withName: "DetailController", context: movie)
+            let movieName = supportingActressArray[rowIndex].movie
+            for item in Items2.sharedInstance.movieArray {
+                if movieName == item.name {
+                    presentController(withName: "DetailController", context: item)
+                    break
+                }
+            }
         } else if table == aTable {
             movie = Items2.sharedInstance.sortedMovieArray[5][rowIndex]
             presentController(withName: "DetailController", context: movie)
@@ -384,8 +439,13 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             movie = Items2.sharedInstance.sortedMovieArray[7][rowIndex]
             presentController(withName: "DetailController", context: movie)
         } else if table == dTable {
-            movie = Items2.sharedInstance.sortedMovieArray[8][rowIndex]
-            presentController(withName: "DetailController", context: movie)
+            let movieName = directorArray[rowIndex].movie
+            for item in Items2.sharedInstance.movieArray {
+                if movieName == item.name {
+                    presentController(withName: "DetailController", context: item)
+                    break
+                }
+            }
         } else if table == dfTable {
             movie = Items2.sharedInstance.sortedMovieArray[9][rowIndex]
             presentController(withName: "DetailController", context: movie)

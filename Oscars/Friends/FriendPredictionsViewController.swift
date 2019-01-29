@@ -24,6 +24,8 @@ class FriendPredictionsViewController: UIViewController, UITableViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.logError(logString: "Loading Friend Predictions for \(friendChosen)")
 
         // Do any additional setup after loading the view.
         predictionsTableView.dataSource = nil
@@ -32,39 +34,46 @@ class FriendPredictionsViewController: UIViewController, UITableViewDelegate, UI
             switch item.nominatedFor {
             case "Best Actor":
                 bestActorArray.append(item)
-                print("1")
             case "Supporting Actor":
                 supportingActorArray.append(item)
-                print("2")
             case "Best Actress":
                 bestActressArray.append(item)
-                print("3")
             case "Supporting Actress":
                 supportingActressArray.append(item)
-                print("4")
             case "Directing":
                 directorArray.append(item)
-                print("5")
             default:
                 return
             }
         }
         
         Firestore.firestore().collection("UserMovieList").document(friendChosen).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let downloading = DispatchGroup()
-                for category in self.predictionsArray {
-                    downloading.enter()
-                    self.predictions.append(document.data()![category] as! String)
-                    downloading.leave()
-                }
-                downloading.notify(queue: .main) {
-                    self.predictionsTableView.dataSource = self
-                    self.predictionsTableView.reloadData()
-                    print("Done")
-                }
+            if let error = error {
+                self.logError(logString: "Friends Predictions VC - Error Accessing Friend Document", logError: error.localizedDescription)
             } else {
-                print("Document does not exist")
+                if let document = document, document.exists {
+                    let downloading = DispatchGroup()
+                    for category in self.predictionsArray {
+                        downloading.enter()
+                        self.predictions.append(document.data()![category] as! String)
+                        downloading.leave()
+                    }
+                    downloading.notify(queue: .main) {
+                        self.predictionsTableView.dataSource = self
+                        self.predictionsTableView.reloadData()
+                    }
+                } else {
+                    self.logError(logString: "Friends Predictions VC - Friend Chosen document doesn't exist")
+                    let alertController = UIAlertController(title: "Error", message: "Could not access your friends data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        (result : UIAlertAction) -> Void in
+                    }
+                    
+                    alertController.addAction(ok)
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
         }
     }
@@ -142,15 +151,28 @@ class FriendPredictionsViewController: UIViewController, UITableViewDelegate, UI
         return cell
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        }
     }
-    */
-
 }

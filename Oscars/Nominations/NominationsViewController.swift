@@ -9,7 +9,6 @@
 import UIKit
 import WatchConnectivity
 import FirebaseUI
-//import FacebookLogin
 import FBSDKLoginKit
 import GoogleSignIn
 
@@ -18,6 +17,8 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     var movieSelected = Items.movie(actors: [String](), cover: UIImage(), description: String(), idmb: String(), name: String(), nominatedFor: [String](), youtube: String())
     var sending: WCSession?
     let receiving = WCSession.default
+    var warnedUser = Bool()
+    var storedOffsets = [Int: CGFloat]()
     
     @IBOutlet weak var daysLeftLabel: UILabel!
     @IBOutlet weak var listTableView: UITableView!
@@ -42,9 +43,116 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        UIApplication.shared.endIgnoringInteractionEvents()
+        
+        if UserDefaults.standard.contains(key: "warnedUser") {
+            warnedUser = UserDefaults.standard.bool(forKey: "warnedUser")
+            checkData()
+        } else {
+            warnedUser = false
+            checkData()
+        }
+        
         listTableView.isHidden = true
         detailTableView.isHidden = false
         
+        if WCSession.isSupported() {
+            sending = WCSession.default
+            sending?.delegate = self
+            sending?.activate()
+            receiving.delegate = self
+            receiving.activate()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+            self.validateSession()
+        })
+        
+        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                self.logError(logString: "Nominations VC - Error Loading User Document", logError: (error?.localizedDescription)!)
+                let alertController = UIAlertController(title: "Error", message: "There was an error loading information. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                
+                
+                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    (result : UIAlertAction) -> Void in
+                    UserDefaults.standard.removeObject(forKey: "loggedIn")
+                }
+                
+                alertController.addAction(ok)
+                self.present(alertController, animated: true, completion: nil)
+                return
+            }
+            guard let data = document.data() else {
+                return
+            }
+            
+            let invitationsList = data["Invitations"] as! [String]
+            if invitationsList.isEmpty {
+                if let tabItems = self.tabBarController?.tabBar.items {
+                    // In this case we want to modify the badge number of the third tab:
+                    let tabItem = tabItems[3]
+                    tabItem.badgeValue = nil
+                }
+            } else {
+                if let tabItems = self.tabBarController?.tabBar.items {
+                    // In this case we want to modify the badge number of the third tab:
+                    let tabItem = tabItems[3]
+                    tabItem.badgeValue = String(invitationsList.count)
+                }
+            }
+        }
+        
+        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+            "notificationToken": Items.sharedInstance.notificationToken
+        ]) { err in
+            if let err = err {
+                self.logError(logString: "Nominations VC - Couldn't Save Notification Token", logError: err.localizedDescription)
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.logError(logString: "Inside Nominations VC")
+        DispatchQueue.main.async {
+            self.listTableView.reloadData()
+            self.detailTableView.reloadData()
+            self.updateDate()
+        }
+    }
+    
+    func checkData() {
+        Firestore.firestore().collection("Settings").document("AppInformation").getDocument() { (document, error) in
+            if let error = error {
+                self.logError(logString: "Nominations VC - Error Getting User Document for Settings", logError: error.localizedDescription)
+            } else {
+                if let document = document, document.exists {
+                    let updated = document.data()!["Updated"] as! Bool
+                    if !updated {
+                        if !self.warnedUser {
+                            self.logError(logString: "Nominations VC - User was warned of old data")
+                            let alertController = UIAlertController(title: "Warning", message: "This information is for the 2017 Oscar Nominations. This app will be automatically updated when the new nominations are released", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                                UserDefaults.standard.set(true, forKey: "warnedUser")
+                            }
+                            
+                            alertController.addAction(ok)
+                            
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+                    } else {
+                        self.logError(logString: "Nominations VC - User had already been warned of old data")
+                    }
+                } else {
+                    self.logError(logString: "Nominations VC - Unable To Find User Document For Settings")
+                }
+            }
+        }
+    }
+    
+    func updateDate() {
         let calendar = Calendar.current
         
         var dateComponents = DateComponents()
@@ -71,60 +179,21 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         let components2 = calendar.dateComponents([.hour,.minute], from: date1, to: date3)
         
         if components.day == 0 {
-            daysLeftLabel.text = "\(components2.hour!) Hours and \(components2.minute!) Minutes Until Ceremony"
+            if components2.hour! < 0 || components2.minute! < 0 {
+                if components2.hour! <= -3 {
+                    daysLeftLabel.text = "Ceremony Has Commenced"
+                } else {
+                    daysLeftLabel.text = "Ceremony In Progress"
+                }
+            } else {
+                daysLeftLabel.text = "\(components2.hour!) Hours and \(components2.minute!) Minutes Until Ceremony"
+            }
         } else if components.day == 1 {
             daysLeftLabel.text = "\(components.day!) Day Until Ceremony"
-        } else if components.day! < 0 {
-            daysLeftLabel.text = "Ceremony Has Commenced"
         } else {
             daysLeftLabel.text = "\(components.day!) Days Until Ceremony"
         }
         daysLeftLabel.adjustsFontSizeToFitWidth = true
-        
-        if WCSession.isSupported() {
-            sending = WCSession.default
-            sending?.delegate = self
-            sending?.activate()
-            receiving.delegate = self
-            receiving.activate()
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-            self.validateSession()
-        })
-        
-        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-            }
-            
-            let invitationsList = data["Invitations"] as! [String]
-            if invitationsList.isEmpty {
-                if let tabItems = self.tabBarController?.tabBar.items {
-                    // In this case we want to modify the badge number of the third tab:
-                    let tabItem = tabItems[3]
-                    tabItem.badgeValue = nil
-                }
-            } else {
-                if let tabItems = self.tabBarController?.tabBar.items {
-                    // In this case we want to modify the badge number of the third tab:
-                    let tabItem = tabItems[3]
-                    tabItem.badgeValue = String(invitationsList.count)
-                }
-            }
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.async {
-            self.listTableView.reloadData()
-            self.detailTableView.reloadData()
-        }
     }
     
     func UIColorFromRGB(rgbValue: UInt) -> UIColor {
@@ -159,18 +228,28 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                 seenArray.add(seenMovieInfo)
             }
             
-            let iphoneAppContext = ["Details": movieArray, "Seen": seenArray] as [String : Any]
+            let actorArray = NSMutableArray()
+            for actor in Items.sharedInstance.actorArray {
+                let actorInfo = NSMutableDictionary()
+                actorInfo.setObject(actor.name, forKey: "Name" as NSCopying)
+                actorInfo.setObject(actor.movie, forKey: "Movie" as NSCopying)
+                actorInfo.setObject(actor.nominatedFor, forKey: "NominatedFor" as NSCopying)
+                actorArray.add(actorInfo)
+            }
+                        
+            let iphoneAppContext = ["Details": movieArray, "Seen": seenArray, "Actors":actorArray] as [String : Any]
             do {
+                self.logError(logString: "Nominations VC - Sent Data To Watch")
                 try validSession.updateApplicationContext(iphoneAppContext)
-                print("Success")
             } catch {
-                print("Something went wrong")
+                self.logError(logString: "Unable to send data to watch", logError: error.localizedDescription)
             }
         }
     }
     
     func processApplicationContext(){
         if let iPhoneContext = receiving.receivedApplicationContext as? [String : [String]] {
+            self.logError(logString: "Nominations VC - Receiving data from watch")
             let initialArray = iPhoneContext["Seen"]! as [String]
             var moviesSeen = [String]()
             for item in initialArray {
@@ -191,6 +270,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             }
             downloading.notify(queue: .main) {
+                self.logError(logString: "Nominations VC - iPhone data updated from watch data")
                 self.updateSavedData()
                 self.detailTableView.reloadData()
                 self.listTableView.reloadData()
@@ -204,21 +284,14 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             tempMovieArray.append(seenMovie.name)
         }
         
-        if Items.sharedInstance.loggedIn == "Local" {
-            let configModel = ConfigurationModel()
-            configModel.savedMovies = tempMovieArray
-        } else {
-            let configModel = ConfigurationModel()
-            configModel.savedMovies = tempMovieArray
-            
-            Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
-                "movies": tempMovieArray
-            ]) { err in
-                if let err = err {
-                    print("Error writing document: \(err)")
-                } else {
-                    print("Document successfully written!")
-                }
+        let configModel = ConfigurationModel()
+        configModel.savedMovies = tempMovieArray
+        
+        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+            "movies": tempMovieArray
+        ]) { err in
+            if let err = err {
+                self.logError(logString: "Nominations VC - Unable to update user document with watch data", logError: err.localizedDescription)
             }
         }
     }
@@ -308,10 +381,8 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                 cell.sectionLabel.text = "Visual Effects"
             case 22 :
                 cell.sectionLabel.text = "Writing (Adapated Screenplay)"
-            case 23 :
-                cell.sectionLabel.text = "Writing (Original Screenplay)"
             default :
-                print("There was an error")
+                cell.sectionLabel.text = "Writing (Original Screenplay)"
             }
             
             cell.sectionLabel.adjustsFontSizeToFitWidth = true
@@ -441,13 +512,29 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             guard let tableViewCell = cell as? NominationsTableViewCell else { return }
         
             tableViewCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
+            tableViewCell.collectionViewOffset = storedOffsets[indexPath.row] ?? 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if tableView == detailTableView {
+            guard let tableViewCell = cell as? NominationsTableViewCell else { return }
+            storedOffsets[indexPath.row] = tableViewCell.collectionViewOffset
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         if tableView == detailTableView {
-            return 220;//Choose your custom row height
+            return 220//Choose your custom row height
+        } else {
+            return 75
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == detailTableView {
+            return 220//Choose your custom row height
         } else {
             return 75
         }
@@ -536,7 +623,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         if tableView == listTableView {
             view.tintColor = UIColor.black
             let header = view as! UITableViewHeaderFooterView
-            header.textLabel?.textColor = UIColor.brown
+            header.textLabel?.textColor = UIColorFromRGB(rgbValue: 0x9B8742)
             header.textLabel?.textAlignment = NSTextAlignment.center
         }
     }
@@ -544,7 +631,33 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == listTableView {
             movieSelected = Items.sharedInstance.sortedMovieArray[indexPath.section][indexPath.row]
+            self.logError(logString: "Nominations VC - Selected Movie \(movieSelected.name)")
             performSegue(withIdentifier: "newDetail", sender: self)
+        }
+    }
+    
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
         }
     }
 }
@@ -562,7 +675,6 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! NominationsCollectionViewCell
         let movieSeen = Items.sharedInstance.sortedMovieArray[collectionView.tag][indexPath.item]
         
-        //if collectionView.tag == 1 || collectionView.tag == 2 || collectionView.tag == 3 || collectionView.tag == 4
         if collectionView.tag == 1 {
             for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
                 if actor.nominatedFor == "Best Actor" && actor.movie == movieSeen.name {
@@ -675,15 +787,8 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         movieSelected = Items.sharedInstance.sortedMovieArray[collectionView.tag][indexPath.row]
+        self.logError(logString: "Nominations VC - Selected Movie \(movieSelected.name)")
         performSegue(withIdentifier: "newDetail", sender: self)
-    }
-    
-    func isImageEqual (image1: UIImage, image2: UIImage) -> Bool {
-        
-        let imageData = UIImageJPEGRepresentation(image1 , 1.0)
-        let imageData2 = UIImageJPEGRepresentation(image2 , 1.0)
-        
-        return imageData == imageData2
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

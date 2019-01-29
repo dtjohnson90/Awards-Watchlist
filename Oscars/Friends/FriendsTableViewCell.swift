@@ -12,6 +12,12 @@ class FriendsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var profilePic: UIImageView!
+    @IBOutlet weak var hiddenView: UIView!
+    @IBOutlet weak var noInvitationsLabel: UILabel!
+    @IBOutlet weak var noFriendsLabel: UILabel!
+    @IBOutlet weak var noSuggestionsLabel: UILabel!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var noFacebookLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

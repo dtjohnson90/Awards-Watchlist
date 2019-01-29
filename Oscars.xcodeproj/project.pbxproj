@@ -37,6 +37,9 @@
 		D13E36DC2170E45E00213DBC /* PredictionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13E36DB2170E45E00213DBC /* PredictionsCollectionViewCell.swift */; };
 		D13E36DE2170E48500213DBC /* PredictionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13E36DD2170E48500213DBC /* PredictionsTableViewCell.swift */; };
 		D14272D3216BAD5F004A2620 /* LoadingNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */; };
+		D1474C322200DD3400692661 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1474C312200DD3300692661 /* StoreManager.swift */; };
+		D14BB3FE2199D34400F57A38 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BB3FD2199D34400F57A38 /* IAPHelper.swift */; };
+		D14BB4002199D6D800F57A38 /* AwardsWatchlistProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BB3FF2199D6D800F57A38 /* AwardsWatchlistProducts.swift */; };
 		D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */; };
 		D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */; };
 		D1715EF1218B32AF0023B14F /* PredictionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1715EF0218B32AF0023B14F /* PredictionsViewController.swift */; };
@@ -51,6 +54,7 @@
 		D180EE7F21838EE20001C37E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D180EE7E21838EE20001C37E /* StoreKit.framework */; };
 		D180EE8D2183B0A00001C37E /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */; };
 		D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D184F358216BF31000B7F2ED /* NominationsViewController.swift */; };
+		D187E9182191DAD900DE1CB2 /* SuggestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D187E9172191DAD900DE1CB2 /* SuggestionsTableViewCell.swift */; };
 		D1966ED221753A9500D4BD42 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED121753A9500D4BD42 /* ResultsViewController.swift */; };
 		D1966ED621753B0C00D4BD42 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED521753B0C00D4BD42 /* ResultsTableViewCell.swift */; };
 		D1966EDA2176762000D4BD42 /* InvitationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED92176762000D4BD42 /* InvitationTableViewCell.swift */; };
@@ -58,11 +62,6 @@
 		D19BEE46216E3F5300C1F176 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE45216E3F5300C1F176 /* ListTableViewCell.swift */; };
 		D19BEE48216E566700C1F176 /* ActorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE47216E566700C1F176 /* ActorsCollectionViewCell.swift */; };
 		D19BEE4C216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE4B216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift */; };
-		D1A862692019535300E4D93F /* Tutorial1-1.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862642019534100E4D93F /* Tutorial1-1.png */; };
-		D1A8626B2019535600E4D93F /* Tutorial2.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862672019535000E4D93F /* Tutorial2.png */; };
-		D1A8626C2019535900E4D93F /* Tutorial3.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862652019535000E4D93F /* Tutorial3.png */; };
-		D1A8626D2019535B00E4D93F /* Tutorial4.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A862662019535000E4D93F /* Tutorial4.png */; };
-		D1A86271201961B200E4D93F /* GoldArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A86270201961B000E4D93F /* GoldArrow.png */; };
 		D1B2C981216BB0FD00D22444 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1B2C980216BB0FC00D22444 /* GoogleService-Info.plist */; };
 		D1B72950217A34BD0012889D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B7294F217A34BD0012889D /* AppDelegate.swift */; };
 		D1B72952217A34BD0012889D /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B72951217A34BD0012889D /* FirstViewController.swift */; };
@@ -168,6 +167,16 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D187E9002190AF8A00DE1CB2 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -213,6 +222,9 @@
 		D13E36DB2170E45E00213DBC /* PredictionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D13E36DD2170E48500213DBC /* PredictionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsTableViewCell.swift; sourceTree = "<group>"; };
 		D14272D2216BAD5F004A2620 /* LoadingNewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingNewViewController.swift; sourceTree = "<group>"; };
+		D1474C312200DD3300692661 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		D14BB3FD2199D34400F57A38 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		D14BB3FF2199D6D800F57A38 /* AwardsWatchlistProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsWatchlistProducts.swift; sourceTree = "<group>"; };
 		D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewCell.swift; sourceTree = "<group>"; };
 		D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D1715EF0218B32AF0023B14F /* PredictionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +239,9 @@
 		D180EE7E21838EE20001C37E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		D184F358216BF31000B7F2ED /* NominationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsViewController.swift; sourceTree = "<group>"; };
+		D187E9062190AFB300DE1CB2 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		D187E9082190AFB300DE1CB2 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		D187E9172191DAD900DE1CB2 /* SuggestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsTableViewCell.swift; sourceTree = "<group>"; };
 		D1966ED121753A9500D4BD42 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		D1966ED521753B0C00D4BD42 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
 		D1966ED92176762000D4BD42 /* InvitationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationTableViewCell.swift; sourceTree = "<group>"; };
@@ -234,11 +249,6 @@
 		D19BEE45216E3F5300C1F176 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		D19BEE47216E566700C1F176 /* ActorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D19BEE4B216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesNotSeenTableViewCell.swift; sourceTree = "<group>"; };
-		D1A862642019534100E4D93F /* Tutorial1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tutorial1-1.png"; sourceTree = "<group>"; };
-		D1A862652019535000E4D93F /* Tutorial3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tutorial3.png; sourceTree = "<group>"; };
-		D1A862662019535000E4D93F /* Tutorial4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tutorial4.png; path = /Users/dustinjohnson/Desktop/Oscars/Oscars/Oscars/Tutorial4.png; sourceTree = "<absolute>"; };
-		D1A862672019535000E4D93F /* Tutorial2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tutorial2.png; path = /Users/dustinjohnson/Desktop/Oscars/Oscars/Oscars/Tutorial2.png; sourceTree = "<absolute>"; };
-		D1A86270201961B000E4D93F /* GoldArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GoldArrow.png; sourceTree = "<group>"; };
 		D1B2C980216BB0FC00D22444 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D1B7294D217A34BD0012889D /* Awards Watchlist TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Awards Watchlist TV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B7294F217A34BD0012889D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -384,7 +394,6 @@
 				D13E36DF2170EB6400213DBC /* Predictions */,
 				D1C98B6A2177D7A400462865 /* Friends */,
 				D180EE79218101800001C37E /* Settings */,
-				D16066E5216BA73C0022794E /* Old Files */,
 				D108CE681E259D6800EB2C70 /* AppDelegate.swift */,
 				D108CE6F1E259D6800EB2C70 /* Assets.xcassets */,
 				D12F942C1E36D532000BF27E /* Oscars.entitlements */,
@@ -455,21 +464,11 @@
 			path = Predictions;
 			sourceTree = "<group>";
 		};
-		D16066E5216BA73C0022794E /* Old Files */ = {
-			isa = PBXGroup;
-			children = (
-				D1A86270201961B000E4D93F /* GoldArrow.png */,
-				D1A862642019534100E4D93F /* Tutorial1-1.png */,
-				D1A862672019535000E4D93F /* Tutorial2.png */,
-				D1A862652019535000E4D93F /* Tutorial3.png */,
-				D1A862662019535000E4D93F /* Tutorial4.png */,
-			);
-			path = "Old Files";
-			sourceTree = "<group>";
-		};
 		D180EE79218101800001C37E /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				D14BB3FD2199D34400F57A38 /* IAPHelper.swift */,
+				D14BB3FF2199D6D800F57A38 /* AwardsWatchlistProducts.swift */,
 				D1715EF2218B55100023B14F /* ProViewController.swift */,
 				D1D17AFD217F809100971F4A /* ChangeSettingsViewController.swift */,
 				D1715EF4218B7FA60023B14F /* ImageUploadManager.swift */,
@@ -477,6 +476,7 @@
 				D180EE7C21838C370001C37E /* IAPHandler.swift */,
 				D1C98B6B2179221100462865 /* SettingsViewController.swift */,
 				D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */,
+				D1474C312200DD3300692661 /* StoreManager.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -564,6 +564,7 @@
 				D1C98B642177B31200462865 /* FriendsSeenViewController.swift */,
 				D1966ED92176762000D4BD42 /* InvitationTableViewCell.swift */,
 				D1966EDB21767C8600D4BD42 /* FriendsViewController.swift */,
+				D187E9172191DAD900DE1CB2 /* SuggestionsTableViewCell.swift */,
 			);
 			path = Friends;
 			sourceTree = "<group>";
@@ -576,6 +577,8 @@
 				D1E578321E3AD3B300124770 /* CloudKit.framework */,
 				34DDCCECAC1C00768D15AAD2 /* Pods_Oscars.framework */,
 				413690A6EBC4949A1CDDC715 /* Pods_Awards_Watchlist_TV.framework */,
+				D187E9062190AFB300DE1CB2 /* UserNotifications.framework */,
+				D187E9082190AFB300DE1CB2 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -611,8 +614,9 @@
 				D108CE631E259D6800EB2C70 /* Resources */,
 				D11BC7DD2021070700AE084D /* Embed Watch Content */,
 				D12DB470217E4EED000BBD7E /* Embed Frameworks */,
-				362F949E673998BB0FB63AB7 /* [CP] Embed Pods Frameworks */,
-				B81AE528D6F7395114E5F9A0 /* [CP] Copy Pods Resources */,
+				D187E9002190AF8A00DE1CB2 /* Embed App Extensions */,
+				B38A823D80865358AC75F6F8 /* [CP] Embed Pods Frameworks */,
+				55BD5B97A845224773EFA470 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -756,7 +760,7 @@
 		D108CE5D1E259D6800EB2C70 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1000;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Dustin Johnson";
 				TargetAttributes = {
@@ -768,6 +772,9 @@
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 0;
 							};
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -873,15 +880,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1A862692019535300E4D93F /* Tutorial1-1.png in Resources */,
-				D1A86271201961B200E4D93F /* GoldArrow.png in Resources */,
-				D1A8626B2019535600E4D93F /* Tutorial2.png in Resources */,
 				D108CE731E259D6800EB2C70 /* LaunchScreen.storyboard in Resources */,
 				D108CE701E259D6800EB2C70 /* Assets.xcassets in Resources */,
 				D108CE6E1E259D6800EB2C70 /* Main.storyboard in Resources */,
 				D1B2C981216BB0FD00D22444 /* GoogleService-Info.plist in Resources */,
-				D1A8626D2019535B00E4D93F /* Tutorial4.png in Resources */,
-				D1A8626C2019535900E4D93F /* Tutorial3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -960,73 +962,15 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		362F949E673998BB0FB63AB7 /* [CP] Embed Pods Frameworks */ = {
+		55BD5B97A845224773EFA470 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B81AE528D6F7395114E5F9A0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAnonymousAuthUI.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
@@ -1037,6 +981,8 @@
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAnonymousAuthUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
@@ -1049,7 +995,65 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B38A823D80865358AC75F6F8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1065,6 +1069,7 @@
 				D1966ED621753B0C00D4BD42 /* ResultsTableViewCell.swift in Sources */,
 				D1C98B632177B05F00462865 /* FriendsSeenTableViewCell.swift in Sources */,
 				D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */,
+				D14BB4002199D6D800F57A38 /* AwardsWatchlistProducts.swift in Sources */,
 				D108CE691E259D6800EB2C70 /* AppDelegate.swift in Sources */,
 				D180EE7D21838C370001C37E /* IAPHandler.swift in Sources */,
 				D1C98B652177B31200462865 /* FriendsSeenViewController.swift in Sources */,
@@ -1075,6 +1080,7 @@
 				D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */,
 				D1715EF1218B32AF0023B14F /* PredictionsViewController.swift in Sources */,
 				D19BEE48216E566700C1F176 /* ActorsCollectionViewCell.swift in Sources */,
+				D187E9182191DAD900DE1CB2 /* SuggestionsTableViewCell.swift in Sources */,
 				D1715EF3218B55100023B14F /* ProViewController.swift in Sources */,
 				D19BEE4C216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift in Sources */,
 				D1C98B672177C93800462865 /* FriendPredictionsViewController.swift in Sources */,
@@ -1082,6 +1088,7 @@
 				D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */,
 				D1C98B5F217794D900462865 /* FriendsTableViewCell.swift in Sources */,
 				D1715EF5218B7FA60023B14F /* ImageUploadManager.swift in Sources */,
+				D14BB3FE2199D34400F57A38 /* IAPHelper.swift in Sources */,
 				D1966EDA2176762000D4BD42 /* InvitationTableViewCell.swift in Sources */,
 				D13E36DA216E867B00213DBC /* LoginViewController.swift in Sources */,
 				D1C98B6C2179221100462865 /* SettingsViewController.swift in Sources */,
@@ -1089,6 +1096,7 @@
 				D1966ED221753A9500D4BD42 /* ResultsViewController.swift in Sources */,
 				D14272D3216BAD5F004A2620 /* LoadingNewViewController.swift in Sources */,
 				D102FBEF1FE207270059CB1E /* AppData.swift in Sources */,
+				D1474C322200DD3400692661 /* StoreManager.swift in Sources */,
 				D13E36DE2170E48500213DBC /* PredictionsTableViewCell.swift in Sources */,
 				D12DB476217E4FC0000BBD7E /* ConfigurationModel.swift in Sources */,
 			);
@@ -1353,6 +1361,7 @@
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Oscars/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1375,6 +1384,7 @@
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Oscars/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
 				PRODUCT_NAME = "$(TARGET_NAME)";

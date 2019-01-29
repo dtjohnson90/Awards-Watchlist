@@ -20,7 +20,6 @@ struct Constants {
 
 class ImageUploadManager: NSObject {
     func uploadImage(_ image: UIImage, progressBlock: @escaping (_ percentage: Float) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
-        print("Test")
         let storage = Storage.storage()
         let storageReference = storage.reference()
         var imagesReference = storageReference
@@ -38,20 +37,15 @@ class ImageUploadManager: NSObject {
         metadata.contentType = "image/jpeg"
         
         DispatchQueue.main.async {
-            print("Test 2")
             imagesReference.putData(imageData, metadata: metadata, completion: { [storage] (metadata, error) in
-                print("Test 4")
-                print(error)
                 imagesReference.downloadURL(completion: { (url, error) in
-                    print("Test 3")
                     guard let url = url else {
                         completionBlock(nil, "Error uploading: \(String(describing: error))")
                         return
                     }
-                    print("Test 5")
                     completionBlock(url,nil)
                 })
             })
         }
-    }
+    }   
 }

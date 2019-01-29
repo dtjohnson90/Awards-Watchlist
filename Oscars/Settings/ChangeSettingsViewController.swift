@@ -27,6 +27,7 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
         let library = UIAlertAction(title: "Photo Library", style: UIAlertActionStyle.default) {
             (result : UIAlertAction) -> Void in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                self.logError(logString: "Change Settings VC - Editing Picture From Photo Library")
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
                 imagePicker.sourceType = .photoLibrary;
@@ -37,6 +38,7 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
         let photo = UIAlertAction(title: "Take Picture", style: UIAlertActionStyle.default) {
             (result : UIAlertAction) -> Void in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                self.logError(logString: "Change Settings VC - Editing Picture From Camera")
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
                 imagePicker.sourceType = .camera;
@@ -64,39 +66,51 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
             alertController.addAction(ok)
             self.present(alertController, animated: true, completion: nil)
         } else {
+            UIApplication.shared.beginIgnoringInteractionEvents()
             let userRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
             userRef.updateData([
                 "Name": changeTextField.text!
             ]) { err in
                 if let err = err {
-                    print("Error writing document: \(err)")
+                    self.logError(logString: "Change Settings VC - Problem Updating Name", logError: err.localizedDescription)
+                    let alertController = UIAlertController(title: "Error", message: "There was a problem saving your name. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        (result : UIAlertAction) -> Void in
+                        UIApplication.shared.endIgnoringInteractionEvents()
+                    }
+                    
+                    alertController.addAction(ok)
+                    self.present(alertController, animated: true, completion: nil)
                 } else {
                     if self.imageUpdated {
                         self.imageUploadManager.uploadImage(self.memberImage!, progressBlock: { [unowned self] (percentage) in
                             }, completionBlock: { [unowned self] (fileURL, errorMessage) in
-                                print(errorMessage)
                                 if let fileURL = fileURL {
                                     userRef.updateData([
                                         "Image URL": fileURL.absoluteString
                                     ]) { err in
                                         if let err = err {
-                                            print("Error updating document: \(err)")
-                                            let alertController = UIAlertController(title: "Error", message: "There was an error attempting to save picture \nError 1", preferredStyle: UIAlertControllerStyle.alert)
+                                            self.logError(logString: "Change Settings VC - Problem Updating Picture", logError: err.localizedDescription)
+                                            let alertController = UIAlertController(title: "Error", message: "There was an error attempting to save picture", preferredStyle: UIAlertControllerStyle.alert)
                                             
                                             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
                                                 (result : UIAlertAction) -> Void in
+                                                UIApplication.shared.endIgnoringInteractionEvents()
                                                 self.performSegue(withIdentifier: "nameUpdatedSegue", sender: self)
                                             }
                                             alertController.addAction(okAction)
                                             self.present(alertController, animated: true, completion: nil)
                                         } else {
-                                            print("Image successfully updated")
+                                            UIApplication.shared.endIgnoringInteractionEvents()
                                             self.performSegue(withIdentifier: "backToSettings", sender: self)
                                         }
                                     }
                                 }
                         })
                     } else {
+                        UIApplication.shared.endIgnoringInteractionEvents()
                         self.performSegue(withIdentifier: "backToSettings", sender: self)
                     }
                 }
@@ -110,11 +124,26 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
         // Do any additional setup after loading the view.
         
         Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).getDocument { (document, error) in
-            if let document = document, document.exists {
-                self.changeTextField.text = document.data()!["Name"] as? String
-                self.profilePic.image = self.memberImage
+            if let error = error {
+                self.logError(logString: "Change Settings VC - Error Accessing User Document", logError: error.localizedDescription)
             } else {
-                print("Document does not exist")
+                if let document = document, document.exists {
+                    self.changeTextField.text = document.data()!["Name"] as? String
+                    self.profilePic.image = self.memberImage
+                } else {
+                    self.logError(logString: "Change Settings VC - User Document doesn't exist")
+                    let alertController = UIAlertController(title: "Error", message: "There was a problem loading your information. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        (result : UIAlertAction) -> Void in
+                        Items.sharedInstance.loggedIn = ""
+                        UserDefaults.standard.removeObject(forKey: "loggedIn")
+                    }
+                    
+                    alertController.addAction(ok)
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
         }
     }
@@ -136,37 +165,28 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
         picker.dismiss(animated: true,completion: nil)
     }
     
-    func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
-        
-        let cgimage = image.cgImage!
-        let contextImage: UIImage = UIImage(cgImage: cgimage)
-        let contextSize: CGSize = contextImage.size
-        var posX: CGFloat = 0.0
-        var posY: CGFloat = 0.0
-        var cgwidth: CGFloat = CGFloat(width)
-        var cgheight: CGFloat = CGFloat(height)
-        
-        // See what size is longer and create the center off of that
-        if contextSize.width > contextSize.height {
-            posX = ((contextSize.width - contextSize.height) / 2)
-            posY = 0
-            cgwidth = contextSize.height
-            cgheight = contextSize.height
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
         } else {
-            posX = 0
-            posY = ((contextSize.height - contextSize.width) / 2)
-            cgwidth = contextSize.width
-            cgheight = contextSize.width
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
         }
-        
-        let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
-        
-        // Create bitmap image from context using the rect
-        let imageRef: CGImage = cgimage.cropping(to: rect)!
-        
-        // Create a new image based on the imageRef and rotate back to the original orientation
-        let image: UIImage = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
-        
-        return image
     }
 }

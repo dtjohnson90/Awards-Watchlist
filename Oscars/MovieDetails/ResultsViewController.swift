@@ -34,6 +34,9 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        self.logError(logString: "Loading Results For \(categoryArray[resultsChosen])")
+        
         resultsTableView.dataSource = nil
         
         let votedFor = Items.sharedInstance.predictions[resultsChosen]
@@ -63,92 +66,120 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if resultsChosen == 1 || resultsChosen == 2 || resultsChosen == 3 || resultsChosen == 4 || resultsChosen == 8 {
             Firestore.firestore().collection("Predictions").document(categoryArray[resultsChosen]).getDocument { (document, error) in
-                if let document = document, document.exists {
-                    let addingVotes = DispatchGroup()
-                    switch self.resultsChosen {
-                    case 1:
-                        for actor in self.bestActorArray {
-                            addingVotes.enter()
-                            self.totalVotes += document.data()![actor.name] as! Int
-                            addingVotes.leave()
-                        }
-                    case 2:
-                        for actor in self.bestActressArray {
-                            addingVotes.enter()
-                            self.totalVotes += document.data()![actor.name] as! Int
-                            addingVotes.leave()
-                        }
-                    case 3:
-                        for actor in self.supportingActorArray {
-                            addingVotes.enter()
-                            self.totalVotes += document.data()![actor.name] as! Int
-                            addingVotes.leave()
-                        }
-                    case 4:
-                        for actor in self.supportingActressArray {
-                            addingVotes.enter()
-                            self.totalVotes += document.data()![actor.name] as! Int
-                            addingVotes.leave()
-                        }
-                    case 8:
-                        for actor in self.directorArray {
-                            addingVotes.enter()
-                            self.totalVotes += document.data()![actor.name] as! Int
-                            addingVotes.leave()
-                        }
-                    default:
-                        return
-                    }
-                    addingVotes.notify(queue: .main) {
+                if let error = error {
+                    
+                } else {
+                    if let document = document, document.exists {
+                        let addingVotes = DispatchGroup()
                         switch self.resultsChosen {
                         case 1:
                             for actor in self.bestActorArray {
-                                self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                addingVotes.enter()
+                                self.totalVotes += document.data()![actor.name] as! Int
+                                addingVotes.leave()
                             }
                         case 2:
                             for actor in self.bestActressArray {
-                                self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                addingVotes.enter()
+                                self.totalVotes += document.data()![actor.name] as! Int
+                                addingVotes.leave()
                             }
                         case 3:
                             for actor in self.supportingActorArray {
-                                self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                addingVotes.enter()
+                                self.totalVotes += document.data()![actor.name] as! Int
+                                addingVotes.leave()
                             }
                         case 4:
                             for actor in self.supportingActressArray {
-                                self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                addingVotes.enter()
+                                self.totalVotes += document.data()![actor.name] as! Int
+                                addingVotes.leave()
                             }
                         case 8:
                             for actor in self.directorArray {
-                                self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                addingVotes.enter()
+                                self.totalVotes += document.data()![actor.name] as! Int
+                                addingVotes.leave()
                             }
                         default:
                             return
                         }
-                        self.resultsTableView.dataSource = self
-                        self.resultsTableView.reloadData()
+                        addingVotes.notify(queue: .main) {
+                            switch self.resultsChosen {
+                            case 1:
+                                for actor in self.bestActorArray {
+                                    self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                }
+                            case 2:
+                                for actor in self.bestActressArray {
+                                    self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                }
+                            case 3:
+                                for actor in self.supportingActorArray {
+                                    self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                }
+                            case 4:
+                                for actor in self.supportingActressArray {
+                                    self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                }
+                            case 8:
+                                for actor in self.directorArray {
+                                    self.movieArray.append(movieInfo(image: actor.image, name: actor.name, votes: document.data()![actor.name] as! Int))
+                                }
+                            default:
+                                return
+                            }
+                            self.logError(logString: "Results VC - All Results Loaded Succesfully")
+                            self.resultsTableView.dataSource = self
+                            self.resultsTableView.reloadData()
+                        }
+                    } else {
+                        self.logError(logString: "Results VC - Results document does not exist")
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem accessing the results. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            (result : UIAlertAction) -> Void in
+                        }
+                        
+                        alertController.addAction(ok)
+                        self.present(alertController, animated: true, completion: nil)
                     }
-                } else {
-                    print("Document does not exist")
                 }
             }
         } else {
             Firestore.firestore().collection("Predictions").document(categoryArray[resultsChosen]).getDocument { (document, error) in
-                if let document = document, document.exists {
-                    let addingVotes = DispatchGroup()
-                    for movie in Items.sharedInstance.sortedMovieArray[self.resultsChosen] {
-                        addingVotes.enter()
-                        self.totalVotes += document.data()![movie.name] as! Int
-                        addingVotes.leave()
-                    }
-                    addingVotes.notify(queue: .main) {
-                        for movie in Items.sharedInstance.sortedMovieArray[self.resultsChosen] {
-                            self.movieArray.append(movieInfo(image: movie.cover, name: movie.name, votes: document.data()![movie.name] as! Int))
-                        }
-                        self.resultsTableView.dataSource = self
-                        self.resultsTableView.reloadData()
-                    }
+                if let error = error {
+                    self.logError(logString: "Results VC - Error Getting Predictions Document", logError: error.localizedDescription)
                 } else {
-                    print("Document does not exist")
+                    if let document = document, document.exists {
+                        let addingVotes = DispatchGroup()
+                        for movie in Items.sharedInstance.sortedMovieArray[self.resultsChosen] {
+                            addingVotes.enter()
+                            self.totalVotes += document.data()![movie.name] as! Int
+                            addingVotes.leave()
+                        }
+                        addingVotes.notify(queue: .main) {
+                            for movie in Items.sharedInstance.sortedMovieArray[self.resultsChosen] {
+                                self.movieArray.append(movieInfo(image: movie.cover, name: movie.name, votes: document.data()![movie.name] as! Int))
+                            }
+                            self.logError(logString: "Results VC - All Results Loaded Succesfully")
+                            self.resultsTableView.dataSource = self
+                            self.resultsTableView.reloadData()
+                        }
+                    } else {
+                        self.logError(logString: "Results VC - Results document does not exist")
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem accessing the results. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            (result : UIAlertAction) -> Void in
+                        }
+                        
+                        alertController.addAction(ok)
+                        self.present(alertController, animated: true, completion: nil)
+                    }
                 }
             }
         }
@@ -181,15 +212,28 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         return tempVar
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        }
     }
-    */
-
 }

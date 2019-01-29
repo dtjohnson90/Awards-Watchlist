@@ -21,47 +21,63 @@ class FriendsSeenViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.logError(logString: "Loading Friends Seen for \(friendChosen)")
 
         // Do any additional setup after loading the view.
         //self.title = "Seen Movies"
         seenTableView.dataSource = nil
         Firestore.firestore().collection("UserMovieList").document(friendChosen).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let movieList = document.data()!["movies"] as! [String]
-                
-                for category in self.categoryArray {
-                    self.predictions.append(document.data()![category] as! String)
-                }
-                
-                let movieDownloading = DispatchGroup()
-                for movie in movieList {
-                    movieDownloading.enter()
-                    for item in Items.sharedInstance.movieArray {
-                        if movie == item.name {
-                            self.moviesSeen.append(item)
-                            movieDownloading.leave()
-                            break
-                        }
-                    }
-                }
-                movieDownloading.notify(queue: .main) {
-                    let movieSorting = DispatchGroup()
-                    for movie in Items.sharedInstance.movieArray {
-                        movieSorting.enter()
-                        if !self.moviesSeen.contains(movie) {
-                            self.moviesNotSeen.append(movie)
-                        }
-                        movieSorting.leave()
-                    }
-                    movieSorting.notify(queue: .main) {
-                        self.navigationItem.title = String(self.moviesNotSeen.count) + " / " + String(Items.sharedInstance.movieArray.count) + " Movies To Watch"
-                        self.seenTableView.dataSource = self
-                        self.seenTableView.reloadData()
-                    }
-                }
+            if let error = error {
+                self.logError(logString: "Friends Seen VC - Error Accessing Friend Document", logError: error.localizedDescription)
             } else {
-                print("Document does not exist")
+                if let document = document, document.exists {
+                    let movieList = document.data()!["movies"] as! [String]
+                    
+                    for category in self.categoryArray {
+                        self.predictions.append(document.data()![category] as! String)
+                    }
+                    
+                    let movieDownloading = DispatchGroup()
+                    for movie in movieList {
+                        movieDownloading.enter()
+                        for item in Items.sharedInstance.movieArray {
+                            if movie == item.name {
+                                self.moviesSeen.append(item)
+                                movieDownloading.leave()
+                                break
+                            }
+                        }
+                    }
+                    movieDownloading.notify(queue: .main) {
+                        let movieSorting = DispatchGroup()
+                        for movie in Items.sharedInstance.movieArray {
+                            movieSorting.enter()
+                            if !self.moviesSeen.contains(movie) {
+                                self.moviesNotSeen.append(movie)
+                            }
+                            movieSorting.leave()
+                        }
+                        movieSorting.notify(queue: .main) {
+                            self.navigationItem.title = String(self.moviesNotSeen.count) + " / " + String(Items.sharedInstance.movieArray.count) + " Movies To Watch"
+                            self.seenTableView.dataSource = self
+                            self.seenTableView.reloadData()
+                        }
+                    }
+                } else {
+                    self.logError(logString: "Friend Seen VC - Friend Document Doesn't Exist")
+                    let alertController = UIAlertController(title: "Error", message: "Could not access your friends data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        (result : UIAlertAction) -> Void in
+                    }
+                    
+                    alertController.addAction(ok)
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
+            
         }
     }
     
@@ -78,17 +94,15 @@ class FriendsSeenViewController: UIViewController, UITableViewDataSource, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendsSeen", for: indexPath) as! FriendsSeenTableViewCell
-        switch indexPath.section {
-        case 0:
+       
+        if indexPath.section == 0 {
             cell.cover.image = moviesSeen[indexPath.row].cover
             cell.name.text = moviesSeen[indexPath.row].name
             cell.starring.text = "Starring: " + moviesSeen[indexPath.row].actors[0]
-        case 1:
+        } else {
             cell.cover.image = moviesNotSeen[indexPath.row].cover
             cell.name.text = moviesNotSeen[indexPath.row].name
             cell.starring.text = "Starring: " + moviesNotSeen[indexPath.row].actors[0]
-        default:
-            print("There was an error")
         }
         
         return cell
@@ -99,40 +113,12 @@ class FriendsSeenViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Movies Seen"
-        case 1:
-            return "Movies Not Seen"
-        default:
-            return nil
-        }
-    }
-    
-    /*
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = UIColorFromRGB(rgbValue: 0x9B8742)
-        
-        let headerLabel = UILabel(frame: CGRect(x: 30, y: 0, width:
-            tableView.bounds.size.width, height: tableView.bounds.size.height))
-        headerLabel.font = UIFont(name: "Verdana", size: 20)
-        headerLabel.textColor = UIColor.black
         if section == 0 {
-            headerLabel.text = "Movies Seen"
+            return "Movies Seen"
         } else {
-            headerLabel.text = "Movies Not Seen"
+            return "Movies Not Seen"
         }
-        headerLabel.textAlignment = .center
-        headerLabel.sizeToFit()
-        headerView.addSubview(headerLabel)
-        
-        return headerView
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 25
-    }*/
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let headerView = view as? UITableViewHeaderFooterView {
@@ -149,5 +135,30 @@ class FriendsSeenViewController: UIViewController, UITableViewDataSource, UITabl
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
             alpha: CGFloat(1.0)
         )
+    }
+    
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        }
     }
 }

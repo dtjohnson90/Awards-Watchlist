@@ -53,90 +53,123 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                 alertController.addAction(ok)
                 self.present(alertController, animated: true, completion: nil)
             } else {
-                Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
+                Firestore.firestore().collection("UserMovieList").document(emailField.text!).getDocument { (document, error) in
                     if let error = error {
-                        print(error)
-                        let alertController = UIAlertController(title: "Error", message: "There was a problem creating this account. Check your network connection and try again. If you think you already have an account, then attempt to sign in on the previous page", preferredStyle: UIAlertControllerStyle.alert)
-                        
-                        
-                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
-                            (result : UIAlertAction) -> Void in
-                        }
-                        
-                        alertController.addAction(ok)
-                        self.present(alertController, animated: true, completion: nil)
+                        self.logError(logString: "Create Account VC - Getting Document To Test Create", logError: error.localizedDescription)
                     } else {
-                        guard let user = authResult?.user else { return }
-                        let fullName = self.firstNameField.text! + " " + self.lastNameField.text!
-                        
-                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                        changeRequest?.displayName = fullName
-                        changeRequest?.commitChanges { (error) in
-                            // ...
-                        }
-                        
-                        let docRef = Firestore.firestore().collection("UserMovieList").document((self.emailField.text)!)
-                        docRef.getDocument { (document, error) in
-                            if let document = document, document.exists {
-                            } else {
-                                var tempMovieArray = [String]()
-                                for seenMovie in Items.sharedInstance.moviesSeenArray {
-                                    tempMovieArray.append(seenMovie.name)
-                                }
-                                Items.sharedInstance.predictions = [String](repeating: "", count: 24)
-                                Firestore.firestore().collection("UserMovieList").document((self.emailField.text)!).setData([
-                                    "movies": tempMovieArray,
-                                    "Best Picture": "",
-                                    "Best Actor": "",
-                                    "Best Actress": "",
-                                    "Supporting Actor": "",
-                                    "Supporting Actress": "",
-                                    "Animated": "",
-                                    "Cinematography": "",
-                                    "Costume Design": "",
-                                    "Directing": "",
-                                    "Documentary Feature": "",
-                                    "Documentary Short": "",
-                                    "Film Editing": "",
-                                    "Foreign": "",
-                                    "Makeup": "",
-                                    "Music Song": "",
-                                    "Music Score": "",
-                                    "Production Design": "",
-                                    "Short Animated": "",
-                                    "Short Live": "",
-                                    "Sound Editing": "",
-                                    "Sound Mixing": "",
-                                    "Visual Effects": "",
-                                    "Writing Adapted": "",
-                                    "Writing Original": "",
-                                    "Invitations": [String](),
-                                    "Friends": [String](),
-                                    "Name": fullName
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error writing document: \(err)")
-                                    } else {
-                                        print("Document successfully written!")
+                        if let document = document, document.exists {
+                            let alertController = UIAlertController(title: "Error", message: "There is already an account with this email address. Please use a different email or login to your account.", preferredStyle: UIAlertControllerStyle.alert)
+                            
+                            
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                (result : UIAlertAction) -> Void in
+                            }
+                            
+                            alertController.addAction(ok)
+                            self.present(alertController, animated: true, completion: nil)
+                        } else {
+                            Auth.auth().createUser(withEmail: self.emailField.text!, password: self.passwordField.text!) { (authResult, error) in
+                                if let error = error {
+                                    self.logError(logString: "Create Account VC - Problem Creating User", logError: error.localizedDescription)
+                                    let alertController = UIAlertController(title: "Error", message: "There was a problem creating this account. Check your network connection and try again. If you think you already have an account, then attempt to sign in on the previous page", preferredStyle: UIAlertControllerStyle.alert)
+                                    
+                                    
+                                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                        (result : UIAlertAction) -> Void in
+                                    }
+                                    
+                                    alertController.addAction(ok)
+                                    self.present(alertController, animated: true, completion: nil)
+                                } else {
+                                    self.logError(logString: "Create Account VC - Account Created Succesfully")
+                                    guard (authResult?.user) != nil else { return }
+                                    let fullName = self.firstNameField.text! + " " + self.lastNameField.text!
+                                    
+                                    let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                                    changeRequest?.displayName = fullName
+                                    changeRequest?.commitChanges { (error) in
+                                        if let error = error {
+                                            self.logError(logString: "Create Account VC - Error Updating Name", logError: error.localizedDescription)
+                                        }
+                                    }
+                                    
+                                    let docRef = Firestore.firestore().collection("UserMovieList").document((self.emailField.text)!)
+                                    docRef.getDocument { (document, error) in
+                                        if let error = error {
+                                            self.logError(logString: "Create Account VC - Error Initially Creating Document", logError: error.localizedDescription)
+                                        } else {
+                                            var tempMovieArray = [String]()
+                                            for seenMovie in Items.sharedInstance.moviesSeenArray {
+                                                tempMovieArray.append(seenMovie.name)
+                                            }
+                                            Items.sharedInstance.predictions = [String](repeating: "", count: 24)
+                                            Firestore.firestore().collection("UserMovieList").document((self.emailField.text)!).setData([
+                                                "movies": tempMovieArray,
+                                                "Best Picture": "",
+                                                "Best Actor": "",
+                                                "Best Actress": "",
+                                                "Supporting Actor": "",
+                                                "Supporting Actress": "",
+                                                "Animated": "",
+                                                "Cinematography": "",
+                                                "Costume Design": "",
+                                                "Directing": "",
+                                                "Documentary Feature": "",
+                                                "Documentary Short": "",
+                                                "Film Editing": "",
+                                                "Foreign": "",
+                                                "Makeup": "",
+                                                "Music Song": "",
+                                                "Music Score": "",
+                                                "Production Design": "",
+                                                "Short Animated": "",
+                                                "Short Live": "",
+                                                "Sound Editing": "",
+                                                "Sound Mixing": "",
+                                                "Visual Effects": "",
+                                                "Writing Adapted": "",
+                                                "Writing Original": "",
+                                                "Invitations": [String](),
+                                                "Friends": [String](),
+                                                "Name": fullName,
+                                                "Image URL": "nil"
+                                            ]) { err in
+                                                if let err = err {
+                                                    self.logError(logString: "Create Account VC - Error Creating Document", logError: err.localizedDescription)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    Auth.auth().currentUser?.sendEmailVerification { (error) in
+                                        // ...
+                                        if let error = error {
+                                            self.logError(logString: "Create Account VC - Problem Sending Verification Email", logError: error.localizedDescription)
+                                            let alertController = UIAlertController(title: "Error", message: "There was a problem sending the email for verification. Please make sure it is a good email and try again", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            
+                                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                                (result : UIAlertAction) -> Void in
+                                                self.performSegue(withIdentifier: "toLoginSegue", sender: self)
+                                            }
+                                            
+                                            alertController.addAction(ok)
+                                            self.present(alertController, animated: true, completion: nil)
+                                        } else {
+                                            self.logError(logString: "Create Account VC - Verification email sent to \(Auth.auth().currentUser?.email ?? "nil")")
+                                            let alertController = UIAlertController(title: "", message: "An email has been sent for verification. Please verify this email before you can login.", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            
+                                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                                (result : UIAlertAction) -> Void in
+                                                self.performSegue(withIdentifier: "toLoginSegue", sender: self)
+                                            }
+                                            
+                                            alertController.addAction(ok)
+                                            self.present(alertController, animated: true, completion: nil)
+                                        }
                                     }
                                 }
-                            }
-                        }
-                        Auth.auth().currentUser?.sendEmailVerification { (error) in
-                            // ...
-                            if let error = error {
-                                print(error)
-                            } else {
-                                let alertController = UIAlertController(title: "", message: "An email has been sent for verification. Please verify this email before you can login.", preferredStyle: UIAlertControllerStyle.alert)
-                                
-                                
-                                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
-                                    (result : UIAlertAction) -> Void in
-                                    self.performSegue(withIdentifier: "toLoginSegue", sender: self)
-                                }
-                                
-                                alertController.addAction(ok)
-                                self.present(alertController, animated: true, completion: nil)
                             }
                         }
                     }
@@ -175,15 +208,28 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func logError(logString: String, logError: String = "") {
+        if logError == "" {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        } else {
+            do {
+                let dir: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last! as URL
+                let url = dir.appendingPathComponent("logFile.txt")
+                try logString.appendLine(to: url as URL)
+                try logError.appendLine(to: url as URL)
+                //let result = try String(contentsOf: url as URL, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("Could not write to file")
+            }
+        }
     }
-    */
-
 }
