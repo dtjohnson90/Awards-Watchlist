@@ -122,7 +122,7 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+                
         Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).getDocument { (document, error) in
             if let error = error {
                 self.logError(logString: "Change Settings VC - Error Accessing User Document", logError: error.localizedDescription)

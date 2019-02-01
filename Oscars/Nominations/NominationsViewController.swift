@@ -239,9 +239,11 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                         
             let iphoneAppContext = ["Details": movieArray, "Seen": seenArray, "Actors":actorArray] as [String : Any]
             do {
+                print(movieArray.count)
                 self.logError(logString: "Nominations VC - Sent Data To Watch")
                 try validSession.updateApplicationContext(iphoneAppContext)
             } catch {
+                print(movieArray.count)
                 self.logError(logString: "Unable to send data to watch", logError: error.localizedDescription)
             }
         }

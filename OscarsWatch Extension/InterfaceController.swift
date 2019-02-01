@@ -65,199 +65,131 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             self.processApplicationContext()
         })
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6.0, execute: {
             let movieArray = Items2.sharedInstance.sortedMovieArray
             self.bpTable.setNumberOfRows(movieArray[0].count, withRowType: "nominationRow")
             for index in 0..<movieArray[0].count {
                 guard let controller = self.bpTable.rowController(at: index) as? NominationsRowController else { continue }
                 controller.bpName.setText(movieArray[0][index].name)
+                /*
                 if index == 7 {
                     controller.bpName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
+                }*/
             }
             self.baTable.setNumberOfRows(movieArray[1].count, withRowType: "nominationRow")
             for index in 0..<self.bestActorArray.count {
                 guard let controller = self.baTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.baName.setText(self.bestActorArray[index].name)
-                if index == 1 {
-                    controller.baName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.basTable.setNumberOfRows(movieArray[2].count, withRowType: "nominationRow")
             for index in 0..<self.bestActressArray.count {
                 guard let controller = self.basTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.basName.setText(self.bestActressArray[index].name)
-                if index == 4 {
-                    controller.basName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.bsaTable.setNumberOfRows(self.supportingActorArray.count, withRowType: "nominationRow")
             for index in 0..<movieArray[3].count {
                 guard let controller = self.bsaTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.saName.setText(self.supportingActorArray[index].name)
-                if index == 4 {
-                    controller.saName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.bsasTable.setNumberOfRows(self.supportingActressArray.count, withRowType: "nominationRow")
             for index in 0..<movieArray[4].count {
                 guard let controller = self.bsasTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.sasName.setText(self.supportingActressArray[index].name)
-                if index == 0 {
-                    controller.sasName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.aTable.setNumberOfRows(movieArray[5].count, withRowType: "nominationRow")
             for index in 0..<movieArray[5].count {
                 guard let controller = self.aTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.aName.setText(movieArray[5][index].name)
-                if index == 0 {
-                    controller.aName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.cTable.setNumberOfRows(movieArray[6].count, withRowType: "nominationRow")
             for index in 0..<movieArray[6].count {
                 guard let controller = self.cTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.cName.setText(movieArray[6][index].name)
-                if index == 0 {
-                    controller.cName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.cdTable.setNumberOfRows(movieArray[7].count, withRowType: "nominationRow")
             for index in 0..<movieArray[7].count {
                 guard let controller = self.cdTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.cdName.setText(movieArray[7][index].name)
-                if index == 2 {
-                    controller.cdName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.dTable.setNumberOfRows(self.directorArray.count, withRowType: "nominationRow")
             for index in 0..<movieArray[8].count {
                 guard let controller = self.dTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.dName.setText(self.directorArray[index].name)
-                if index == 4 {
-                    controller.dName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.dfTable.setNumberOfRows(movieArray[9].count, withRowType: "nominationRow")
             for index in 0..<movieArray[9].count {
                 guard let controller = self.dfTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.dfName.setText(movieArray[9][index].name)
-                if index == 2 {
-                    controller.dfName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.dsTable.setNumberOfRows(movieArray[10].count, withRowType: "nominationRow")
             for index in 0..<movieArray[10].count {
                 guard let controller = self.dsTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.dshName.setText(movieArray[10][index].name)
-                if index == 1 {
-                    controller.dshName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.feTable.setNumberOfRows(movieArray[11].count, withRowType: "nominationRow")
             for index in 0..<movieArray[11].count {
                 guard let controller = self.feTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.feName.setText(movieArray[11][index].name)
-                if index == 1 {
-                    controller.feName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.fTable.setNumberOfRows(movieArray[12].count, withRowType: "nominationRow")
             for index in 0..<movieArray[12].count {
                 guard let controller = self.fTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.fName.setText(movieArray[12][index].name)
-                if index == 0 {
-                    controller.fName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.mTable.setNumberOfRows(movieArray[13].count, withRowType: "nominationRow")
             for index in 0..<movieArray[13].count {
                 guard let controller = self.mTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.mName.setText(movieArray[13][index].name)
-                if index == 0 {
-                    controller.mName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.oscTable.setNumberOfRows(movieArray[14].count, withRowType: "nominationRow")
             for index in 0..<movieArray[14].count {
                 guard let controller = self.oscTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.mscName.setText(movieArray[14][index].name)
-                if index == 3 {
-                    controller.mscName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.osoTable.setNumberOfRows(movieArray[15].count, withRowType: "nominationRow")
             for index in 0..<movieArray[15].count {
                 guard let controller = self.osoTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.msoName.setText(movieArray[15][index].name)
-                if index == 1 {
-                    controller.msoName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.pdTable.setNumberOfRows(movieArray[16].count, withRowType: "nominationRow")
             for index in 0..<movieArray[16].count {
                 guard let controller = self.pdTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.pdName.setText(movieArray[16][index].name)
-                if index == 4 {
-                    controller.pdName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.shaTable.setNumberOfRows(movieArray[17].count, withRowType: "nominationRow")
             for index in 0..<movieArray[17].count {
                 guard let controller = self.shaTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.shaName.setText(movieArray[17][index].name)
-                if index == 0 {
-                    controller.shaName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.shlTable.setNumberOfRows(movieArray[18].count, withRowType: "nominationRow")
             for index in 0..<movieArray[18].count {
                 guard let controller = self.shlTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.shlName.setText(movieArray[18][index].name)
-                if index == 3 {
-                    controller.shlName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.seTable.setNumberOfRows(movieArray[19].count, withRowType: "nominationRow")
             for index in 0..<movieArray[19].count {
                 guard let controller = self.seTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.seName.setText(movieArray[19][index].name)
-                if index == 2 {
-                    controller.seName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.smTable.setNumberOfRows(movieArray[20].count, withRowType: "nominationRow")
             for index in 0..<movieArray[20].count {
                 guard let controller = self.smTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.smName.setText(movieArray[20][index].name)
-                if index == 2 {
-                    controller.smName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.veTable.setNumberOfRows(movieArray[21].count, withRowType: "nominationRow")
             for index in 0..<movieArray[21].count {
                 guard let controller = self.veTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.veName.setText(movieArray[21][index].name)
-                if index == 0 {
-                    controller.veName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.waTable.setNumberOfRows(movieArray[22].count, withRowType: "nominationRow")
             for index in 0..<movieArray[22].count {
                 guard let controller = self.waTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.waName.setText(movieArray[22][index].name)
-                if index == 0 {
-                    controller.waName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
             self.woTable.setNumberOfRows(movieArray[23].count, withRowType: "nominationRow")
             for index in 0..<movieArray[23].count {
                 guard let controller = self.woTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.woName.setText(movieArray[23][index].name)
-                if index == 0 {
-                    controller.woName.setTextColor(UIColor(red: (207/255.0), green: (166/255.0), blue: (19/255.0), alpha: 1.0))
-                }
             }
         })
     }
@@ -279,6 +211,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             let movieArray = iPhoneContext["Details"] as! NSArray
             let moviesSeen = iPhoneContext["Seen"] as! NSArray
             let actors = iPhoneContext["Actors"] as! NSArray
+            Items2.sharedInstance.sortedMovieArray.removeAll()
             for _ in 0 ... 23 {
                 Items2.sharedInstance.sortedMovieArray.append([Items2.movie]())
             }
@@ -355,7 +288,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             }
             
             let actorDownloading = DispatchGroup()
-            print(actors.count)
             for actor in actors {
                 actorDownloading.enter()
                 let tempActor = actor as! NSDictionary

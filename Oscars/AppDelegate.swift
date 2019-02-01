@@ -28,8 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate, UNUser
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         //GIDSignIn.sharedInstance().delegate = self
         
-        UINavigationBar.appearance().tintColor = UIColor.white
-        
         if WCSession.isSupported() {
             session = WCSession.default
             session?.delegate = self

@@ -46,7 +46,7 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
             votedLabel.text = "You voted for '" + Items.sharedInstance.predictions[resultsChosen] + "'"
         }
         votedLabel.adjustsFontSizeToFitWidth = true
-        
+                
         for item in Items.sharedInstance.actorArray {
             switch item.nominatedFor {
             case "Best Actor":
