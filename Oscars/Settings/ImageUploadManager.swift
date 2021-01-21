@@ -28,7 +28,7 @@ class ImageUploadManager: NSObject {
         let imageName = "\(Date().timeIntervalSince1970).jpg"
         imagesReference = storageReference.child(Constants.Member.imagesFolder).child(imageName)
         
-        guard let imageData = UIImageJPEGRepresentation(image, 0.8) else {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             completionBlock(nil, "Image Conversion Error")
             return
         }

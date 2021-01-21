@@ -51,6 +51,7 @@ class PredictionsViewController: UIViewController, UITableViewDelegate, UITableV
             }
         }
         
+        print(Items.sharedInstance.purchased)
         if Items.sharedInstance.purchased {
             purchaseView.isHidden = true
         } else {
@@ -289,16 +290,16 @@ extension PredictionsViewController: UICollectionViewDelegateFlowLayout, UIColle
             case 1:
                 if Items.sharedInstance.predictions[collectionView.tag] != bestActorArray[indexPath.row].name {
                     self.logError(logString: "Predictions VC - Predicting \(bestActorArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
-                    let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                    let userPredRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: bestActorArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
                             self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 UIApplication.shared.endIgnoringInteractionEvents()
                             }
@@ -362,16 +363,16 @@ extension PredictionsViewController: UICollectionViewDelegateFlowLayout, UIColle
             case 2:
                 if Items.sharedInstance.predictions[collectionView.tag] != bestActressArray[indexPath.row].name {
                     self.logError(logString: "Predictions VC - Predicting \(bestActressArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
-                    let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                    let userPredRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: bestActressArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
                             self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 UIApplication.shared.endIgnoringInteractionEvents()
                             }
@@ -435,16 +436,16 @@ extension PredictionsViewController: UICollectionViewDelegateFlowLayout, UIColle
             case 3:
                 if Items.sharedInstance.predictions[collectionView.tag] != supportingActorArray[indexPath.row].name {
                     self.logError(logString: "Predictions VC - Predicting \(supportingActorArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
-                    let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                    let userPredRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: supportingActorArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
                             self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 UIApplication.shared.endIgnoringInteractionEvents()
                             }
@@ -508,16 +509,16 @@ extension PredictionsViewController: UICollectionViewDelegateFlowLayout, UIColle
             case 4:
                 if Items.sharedInstance.predictions[collectionView.tag] != supportingActressArray[indexPath.row].name {
                     self.logError(logString: "Predictions VC - Predicting \(supportingActressArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
-                    let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                    let userPredRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: supportingActressArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
                             self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 UIApplication.shared.endIgnoringInteractionEvents()
                             }
@@ -581,16 +582,16 @@ extension PredictionsViewController: UICollectionViewDelegateFlowLayout, UIColle
             case 8:
                 if Items.sharedInstance.predictions[collectionView.tag] != directorArray[indexPath.row].name {
                     self.logError(logString: "Predictions VC - Predicting \(directorArray[indexPath.row].name) for \(predictionsArray[collectionView.tag])")
-                    let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                    let userPredRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                     userPredRef.updateData([
                         predictionsArray[collectionView.tag]: directorArray[indexPath.row].name
                     ]) { err in
                         if let err = err {
                             self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 UIApplication.shared.endIgnoringInteractionEvents()
                             }
@@ -658,16 +659,16 @@ extension PredictionsViewController: UICollectionViewDelegateFlowLayout, UIColle
         } else {
             if Items.sharedInstance.predictions[collectionView.tag] != movieSelected.name {
                 self.logError(logString: "Predictions VC - Predicting \(movieSelected.name) for \(predictionsArray[collectionView.tag])")
-                let userPredRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                let userPredRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                 userPredRef.updateData([
                     predictionsArray[collectionView.tag]: movieSelected.name
                 ]) { err in
                     if let err = err {
                         self.logError(logString: "Predictions VC - Error Saving User Prediction", logError: err.localizedDescription)
-                        let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem saving your prediction. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                         
                         
-                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                             (result : UIAlertAction) -> Void in
                             UIApplication.shared.endIgnoringInteractionEvents()
                         }

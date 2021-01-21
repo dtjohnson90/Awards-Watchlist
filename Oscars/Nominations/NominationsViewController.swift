@@ -8,22 +8,27 @@
 
 import UIKit
 import WatchConnectivity
-import FirebaseUI
+//import FirebaseUI
+import FirebaseFirestore
 import FBSDKLoginKit
 import GoogleSignIn
 
-class NominationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WCSessionDelegate, UIPopoverPresentationControllerDelegate {
-
-    var movieSelected = Items.movie(actors: [String](), cover: UIImage(), description: String(), idmb: String(), name: String(), nominatedFor: [String](), youtube: String())
+class NominationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WCSessionDelegate, UIPopoverPresentationControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate {
+    
+    var movieSelected = Items.movie(actors: [Items.actorData](), cover: UIImage(), description: String(), idmb: String(), name: String(), nominatedFor: [String](), youtube: String(), id: String(), originalLanguage: String(), releaseDate: String(), runTime: Int(), revenue: Int(), budget: Int())
     var sending: WCSession?
     let receiving = WCSession.default
     var warnedUser = Bool()
     var storedOffsets = [Int: CGFloat]()
+    var searchController: UISearchController!
+    var filteredMovies = [Items.movie]()
     
+    @IBOutlet weak var searchTable: UITableView!
     @IBOutlet weak var daysLeftLabel: UILabel!
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var viewSwitch: UISegmentedControl!
+    
     @IBAction func indexChanged(_ sender: Any) {
         switch viewSwitch.selectedSegmentIndex {
         case 0:
@@ -39,14 +44,31 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    @IBAction func searchAction(sender: UIBarButtonItem) {
+        searchController = UISearchController(searchResultsController: nil)
+
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.keyboardType = UIKeyboardType.asciiCapable
+        searchController.searchResultsUpdater = self
+        searchController?.dimsBackgroundDuringPresentation = false
+
+        present(searchController, animated: true, completion: nil)
+        searchTable.isHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         UIApplication.shared.endIgnoringInteractionEvents()
+        searchTable.isHidden = true
         
-        if UserDefaults.standard.contains(key: "warnedUser") {
-            warnedUser = UserDefaults.standard.bool(forKey: "warnedUser")
+        //filteredMovies = Items.sharedInstance.movieArray
+        searchTable.dataSource = self
+        //searchController.delegate = self
+        
+        if UserDefaults.standard.contains(key: "warnedUser2019") {
+            warnedUser = UserDefaults.standard.bool(forKey: "warnedUser2019")
             checkData()
         } else {
             warnedUser = false
@@ -68,13 +90,13 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             self.validateSession()
         })
         
-        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).addSnapshotListener { documentSnapshot, error in
+        Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn).addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot else {
                 self.logError(logString: "Nominations VC - Error Loading User Document", logError: (error?.localizedDescription)!)
-                let alertController = UIAlertController(title: "Error", message: "There was an error loading information. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                let alertController = UIAlertController(title: "Error", message: "There was an error loading information. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                 
                 
-                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                     (result : UIAlertAction) -> Void in
                     UserDefaults.standard.removeObject(forKey: "loggedIn")
                 }
@@ -103,7 +125,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             }
         }
         
-        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+        Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn).updateData([
             "notificationToken": Items.sharedInstance.notificationToken
         ]) { err in
             if let err = err {
@@ -111,6 +133,33 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             }
         }
     }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if !searchController.isActive {
+            searchTable.isHidden = true
+        }
+        filterMovies(for: searchController.searchBar.text ?? "")
+    }
+    
+    private func filterMovies(for searchText: String) {
+        filteredMovies = Items.sharedInstance.movieArray.filter { movie in return
+            movie.name.lowercased().contains(searchText.lowercased())
+        }
+        print(filteredMovies)
+        self.searchTable.reloadData()
+    }
+    
+    /*
+    func updateSearchResults(for searchController: UISearchController) {
+        print("Searching")
+        if let searchText = searchController.searchBar.text {
+            filteredMovies = Items.sharedInstance.movieArray.filter { (movie) -> Bool in
+                return movie.name.range(of: searchText, options: [ .caseInsensitive ]) != nil
+            }
+
+            self.searchTable.reloadData()
+        }
+    }*/
     
     override func viewDidAppear(_ animated: Bool) {
         self.logError(logString: "Inside Nominations VC")
@@ -131,11 +180,12 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                     if !updated {
                         if !self.warnedUser {
                             self.logError(logString: "Nominations VC - User was warned of old data")
-                            let alertController = UIAlertController(title: "Warning", message: "This information is for the 2017 Oscar Nominations. This app will be automatically updated when the new nominations are released", preferredStyle: UIAlertControllerStyle.alert)
+                            let updatedString = document.data()!["updatingString"] as! String
+                            let alertController = UIAlertController(title: "Warning", message: updatedString, preferredStyle: UIAlertController.Style.alert)
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
-                                UserDefaults.standard.set(true, forKey: "warnedUser")
+                                UserDefaults.standard.set(true, forKey: "warnedUser2019")
                             }
                             
                             alertController.addAction(ok)
@@ -156,20 +206,20 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         let calendar = Calendar.current
         
         var dateComponents = DateComponents()
-        dateComponents.year = 2019
+        dateComponents.year = 2020
         dateComponents.month = 2
-        dateComponents.day = 25
+        dateComponents.day = 10
         dateComponents.timeZone = TimeZone(abbreviation: "CST") // Japan Standard Time
         dateComponents.hour = 0
         dateComponents.minute = 0
         
         var dateComponents2 = DateComponents()
-        dateComponents2.year = 2019
+        dateComponents2.year = 2020
         dateComponents2.month = 2
-        dateComponents2.day = 24
+        dateComponents2.day = 9
         dateComponents2.timeZone = TimeZone(abbreviation: "CST") // Japan Standard Time
-        dateComponents2.hour = 19
-        dateComponents2.minute = 0
+        dateComponents2.hour = 17
+        dateComponents2.minute = 30
         
         // Replace the hour (time) of both dates with 00:00
         let date1 = Date()
@@ -178,7 +228,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         let components = calendar.dateComponents([.day], from: date1, to: date2)
         let components2 = calendar.dateComponents([.hour,.minute], from: date1, to: date3)
         
-        if components.day == 0 {
+        if components.day! == 0 {
             if components2.hour! < 0 || components2.minute! < 0 {
                 if components2.hour! <= -3 {
                     daysLeftLabel.text = "Ceremony Has Commenced"
@@ -188,6 +238,8 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             } else {
                 daysLeftLabel.text = "\(components2.hour!) Hours and \(components2.minute!) Minutes Until Ceremony"
             }
+        } else if components.day! < 0 {
+            daysLeftLabel.text = "Ceremony Has Commenced"
         } else if components.day == 1 {
             daysLeftLabel.text = "\(components.day!) Day Until Ceremony"
         } else {
@@ -289,7 +341,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         let configModel = ConfigurationModel()
         configModel.savedMovies = tempMovieArray
         
-        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+        Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn).updateData([
             "movies": tempMovieArray
         ]) { err in
             if let err = err {
@@ -315,7 +367,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        if tableView == self.detailTableView {
+        if tableView == self.detailTableView || tableView == self.searchTable{
             return 1
         } else {
             return 24
@@ -325,8 +377,11 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.detailTableView {
             return 24
-        } else {
+        } else if tableView == listTableView {
             return Items.sharedInstance.sortedMovieArray[section].count
+        } else {
+            print(filteredMovies.count)
+            return filteredMovies.count
         }
     }
     
@@ -390,19 +445,36 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             cell.sectionLabel.adjustsFontSizeToFitWidth = true
             
             return cell
-        } else {
+        } else if tableView == listTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! ListTableViewCell
             let currentMovie = Items.sharedInstance.sortedMovieArray[indexPath.section][indexPath.row]
             
             cell.titleLabel.adjustsFontSizeToFitWidth = true
             cell.starringLabel.adjustsFontSizeToFitWidth = true
-            
             if indexPath.section == 1 {
                 for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
                     if actor.nominatedFor == "Best Actor" && actor.movie == currentMovie.name {
                         cell.coverImage.image = actor.image
                         cell.titleLabel.text = actor.name
                         cell.starringLabel.text = currentMovie.name
+                        
+                        if Items.sharedInstance.winners[indexPath.section] == actor.name {
+                            cell.hiddenView.isHidden = true
+                            let cellColor = UIColorFromRGB(rgbValue: 0x9B8742)
+                            view.isOpaque = false
+                            cell.setBorder(radius: 2, color: cellColor)
+                        } else {
+                            cell.setBorder(radius: 0)
+                            if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
+                                cell.hiddenView.isHidden = false
+                                let cellColor = UIColorFromRGB(rgbValue: 0x9A9A9A)
+                                cell.hiddenView.backgroundColor = cellColor.withAlphaComponent(0.60)
+                                view.isOpaque = false
+                            } else {
+                                cell.hiddenView.isHidden = true
+                            }
+                        }
+                        
                         var tempCount = index
                         while tempCount < Items.sharedInstance.actorArray.count {
                             if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -414,7 +486,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                             }
                         }
                         break
-                    }
+                    } 
                 }
             } else if indexPath.section == 2 {
                 for (index,actor) in Items.sharedInstance.actorArray.enumerated() {
@@ -422,6 +494,24 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                         cell.coverImage.image = actor.image
                         cell.titleLabel.text = actor.name
                         cell.starringLabel.text = currentMovie.name
+                        
+                        if Items.sharedInstance.winners[indexPath.section] == actor.name {
+                            cell.hiddenView.isHidden = true
+                            let cellColor = UIColorFromRGB(rgbValue: 0x9B8742)
+                            view.isOpaque = false
+                            cell.setBorder(radius: 2, color: cellColor)
+                        } else {
+                            cell.setBorder(radius: 0)
+                            if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
+                                cell.hiddenView.isHidden = false
+                                let cellColor = UIColorFromRGB(rgbValue: 0x9A9A9A)
+                                cell.hiddenView.backgroundColor = cellColor.withAlphaComponent(0.60)
+                                view.isOpaque = false
+                            } else {
+                                cell.hiddenView.isHidden = true
+                            }
+                        }
+                        
                         var tempCount = index
                         while tempCount < Items.sharedInstance.actorArray.count {
                             if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -441,6 +531,24 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                         cell.coverImage.image = actor.image
                         cell.titleLabel.text = actor.name
                         cell.starringLabel.text = currentMovie.name
+                        
+                        if Items.sharedInstance.winners[indexPath.section] == actor.name {
+                            cell.hiddenView.isHidden = true
+                            let cellColor = UIColorFromRGB(rgbValue: 0x9B8742)
+                            view.isOpaque = false
+                            cell.setBorder(radius: 2, color: cellColor)
+                        } else {
+                            cell.setBorder(radius: 0)
+                            if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
+                                cell.hiddenView.isHidden = false
+                                let cellColor = UIColorFromRGB(rgbValue: 0x9A9A9A)
+                                cell.hiddenView.backgroundColor = cellColor.withAlphaComponent(0.60)
+                                view.isOpaque = false
+                            } else {
+                                cell.hiddenView.isHidden = true
+                            }
+                        }
+                        
                         var tempCount = index
                         while tempCount < Items.sharedInstance.actorArray.count {
                             if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -460,6 +568,24 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                         cell.coverImage.image = actor.image
                         cell.titleLabel.text = actor.name
                         cell.starringLabel.text = currentMovie.name
+                        
+                        if Items.sharedInstance.winners[indexPath.section] == actor.name {
+                            cell.hiddenView.isHidden = true
+                            let cellColor = UIColorFromRGB(rgbValue: 0x9B8742)
+                            view.isOpaque = false
+                            cell.setBorder(radius: 2, color: cellColor)
+                        } else {
+                            cell.setBorder(radius: 0)
+                            if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
+                                cell.hiddenView.isHidden = false
+                                let cellColor = UIColorFromRGB(rgbValue: 0x9A9A9A)
+                                cell.hiddenView.backgroundColor = cellColor.withAlphaComponent(0.60)
+                                view.isOpaque = false
+                            } else {
+                                cell.hiddenView.isHidden = true
+                            }
+                        }
+                        
                         var tempCount = index
                         while tempCount < Items.sharedInstance.actorArray.count {
                             if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -479,6 +605,24 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                         cell.coverImage.image = actor.image
                         cell.titleLabel.text = actor.name
                         cell.starringLabel.text = currentMovie.name
+                        
+                        if Items.sharedInstance.winners[indexPath.section] == actor.name {
+                            cell.hiddenView.isHidden = true
+                            let cellColor = UIColorFromRGB(rgbValue: 0x9B8742)
+                            view.isOpaque = false
+                            cell.setBorder(radius: 2, color: cellColor)
+                        } else {
+                            cell.setBorder(radius: 0)
+                            if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
+                                cell.hiddenView.isHidden = false
+                                let cellColor = UIColorFromRGB(rgbValue: 0x9A9A9A)
+                                cell.hiddenView.backgroundColor = cellColor.withAlphaComponent(0.60)
+                                view.isOpaque = false
+                            } else {
+                                cell.hiddenView.isHidden = true
+                            }
+                        }
+                        
                         var tempCount = index
                         while tempCount < Items.sharedInstance.actorArray.count {
                             if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -496,15 +640,44 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
             else {
                 cell.coverImage.image = currentMovie.cover
                 cell.titleLabel.text = currentMovie.name
-                cell.starringLabel.text = "Starring: " + currentMovie.actors[0]
+                if currentMovie.actors.isEmpty {
+                    cell.starringLabel.text = "No Billable Cast"
+                } else {
+                    cell.starringLabel.text = "Starring: " + currentMovie.actors[0].name
+                }
+                
+                if Items.sharedInstance.winners[indexPath.section] == currentMovie.name {
+                    cell.hiddenView.isHidden = true
+                    let cellColor = UIColorFromRGB(rgbValue: 0x9B8742)
+                    view.isOpaque = false
+                    cell.setBorder(radius: 2, color: cellColor)
+                } else {
+                    cell.setBorder(radius: 0)
+                    if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
+                        cell.hiddenView.isHidden = false
+                        let cellColor = UIColorFromRGB(rgbValue: 0x9A9A9A)
+                        cell.hiddenView.backgroundColor = cellColor.withAlphaComponent(0.60)
+                        view.isOpaque = false
+                    } else {
+                        cell.hiddenView.isHidden = true
+                    }
+                }
             }
             
-            if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
-                cell.hiddenView.isHidden = false
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath) as! SearchTableViewCell
+            let currentMovie = self.filteredMovies[indexPath.row]
+            
+            cell.titleLabel.adjustsFontSizeToFitWidth = true
+            cell.starringLabel.adjustsFontSizeToFitWidth = true
+            cell.coverImage.image = currentMovie.cover
+            cell.titleLabel.text = currentMovie.name
+            if currentMovie.actors.isEmpty {
+                cell.starringLabel.text = "No Billable Cast"
             } else {
-                cell.hiddenView.isHidden = true
+                cell.starringLabel.text = "Starring: " + currentMovie.actors[0].name
             }
-            
             return cell
         }
     }
@@ -623,7 +796,12 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
         if tableView == listTableView {
-            view.tintColor = UIColor.black
+            if #available(iOS 13.0, *) {
+                view.tintColor = UIColor.systemGray3
+            } else {
+                // Fallback on earlier versions
+                view.tintColor = UIColor.black
+            }
             let header = view as! UITableViewHeaderFooterView
             header.textLabel?.textColor = UIColorFromRGB(rgbValue: 0x9B8742)
             header.textLabel?.textAlignment = NSTextAlignment.center
@@ -634,6 +812,11 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         if tableView == listTableView {
             movieSelected = Items.sharedInstance.sortedMovieArray[indexPath.section][indexPath.row]
             self.logError(logString: "Nominations VC - Selected Movie \(movieSelected.name)")
+            performSegue(withIdentifier: "newDetail", sender: self)
+        } else {
+            movieSelected = filteredMovies[indexPath.row]
+            searchController.isActive = false
+            self.logError(logString: "Nominations VC - Selected Movie \(movieSelected.name) from search")
             performSegue(withIdentifier: "newDetail", sender: self)
         }
     }
@@ -683,6 +866,23 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
                     cell.movieImage.image = actor.image
                     cell.ActorName.text = actor.name
                     cell.ActorName.isHidden = false
+                    
+                    if Items.sharedInstance.winners[collectionView.tag] == actor.name {
+                        cell.winnerView.isHidden = false
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    } else {
+                        cell.winnerView.isHidden = true
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    }
+                    
                     var tempCount = index
                     while tempCount < Items.sharedInstance.actorArray.count {
                         if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -702,6 +902,23 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
                     cell.movieImage.image = actor.image
                     cell.ActorName.text = actor.name
                     cell.ActorName.isHidden = false
+                    
+                    if Items.sharedInstance.winners[collectionView.tag] == actor.name {
+                        cell.winnerView.isHidden = false
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    } else {
+                        cell.winnerView.isHidden = true
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    }
+                    
                     var tempCount = index
                     while tempCount < Items.sharedInstance.actorArray.count {
                         if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -721,6 +938,23 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
                     cell.movieImage.image = actor.image
                     cell.ActorName.text = actor.name
                     cell.ActorName.isHidden = false
+                    
+                    if Items.sharedInstance.winners[collectionView.tag] == actor.name {
+                        cell.winnerView.isHidden = false
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    } else {
+                        cell.winnerView.isHidden = true
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    }
+                    
                     var tempCount = index
                     while tempCount < Items.sharedInstance.actorArray.count {
                         if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -740,6 +974,23 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
                     cell.movieImage.image = actor.image
                     cell.ActorName.text = actor.name
                     cell.ActorName.isHidden = false
+                    
+                    if Items.sharedInstance.winners[collectionView.tag] == actor.name {
+                        cell.winnerView.isHidden = false
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    } else {
+                        cell.winnerView.isHidden = true
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    }
+                    
                     var tempCount = index
                     while tempCount < Items.sharedInstance.actorArray.count {
                         if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -759,6 +1010,23 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
                     cell.movieImage.image = actor.image
                     cell.ActorName.text = actor.name
                     cell.ActorName.isHidden = false
+                    
+                    if Items.sharedInstance.winners[collectionView.tag] == actor.name {
+                        cell.winnerView.isHidden = false
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    } else {
+                        cell.winnerView.isHidden = true
+                        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                            cell.hiddenView.isHidden = false
+                        } else {
+                            cell.hiddenView.isHidden = true
+                        }
+                    }
+                    
                     var tempCount = index
                     while tempCount < Items.sharedInstance.actorArray.count {
                         if tempCount == Items.sharedInstance.actorArray.count-1 {
@@ -775,16 +1043,26 @@ extension NominationsViewController: UICollectionViewDelegateFlowLayout, UIColle
         } else {
             cell.movieImage.image = movieSeen.cover
             cell.ActorName.isHidden = true
-        }
-        
-        if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
-            cell.hiddenView.isHidden = false
-        } else {
-            cell.hiddenView.isHidden = true
+            
+            if Items.sharedInstance.winners[collectionView.tag] == movieSeen.name {
+                cell.winnerView.isHidden = false
+                if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                    cell.hiddenView.isHidden = false
+                } else {
+                    cell.hiddenView.isHidden = true
+                }
+            } else {
+                cell.winnerView.isHidden = true
+                if Items.sharedInstance.moviesSeenArray.contains(movieSeen) {
+                    cell.hiddenView.isHidden = false
+                } else {
+                    cell.hiddenView.isHidden = true
+                }
+            }
+            
         }
         
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -46,8 +46,8 @@ class FriendPredictionsViewController: UIViewController, UITableViewDelegate, UI
                 return
             }
         }
-        
-        Firestore.firestore().collection("UserMovieList").document(friendChosen).getDocument { (document, error) in
+                
+        Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(friendChosen).getDocument { (document, error) in
             if let error = error {
                 self.logError(logString: "Friends Predictions VC - Error Accessing Friend Document", logError: error.localizedDescription)
             } else {
@@ -64,10 +64,10 @@ class FriendPredictionsViewController: UIViewController, UITableViewDelegate, UI
                     }
                 } else {
                     self.logError(logString: "Friends Predictions VC - Friend Chosen document doesn't exist")
-                    let alertController = UIAlertController(title: "Error", message: "Could not access your friends data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "Could not access your friends data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                     
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                     }
                     
@@ -141,7 +141,7 @@ class FriendPredictionsViewController: UIViewController, UITableViewDelegate, UI
                     if item.name == predictions[indexPath.row] {
                         cell.cover.image = item.cover
                         cell.title.text = item.name
-                        cell.starring.text = "Starring: " + item.actors[0]
+                        cell.starring.text = "Starring: " + item.actors[0].name
                     }
                 }
             }

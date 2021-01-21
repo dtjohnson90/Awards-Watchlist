@@ -41,9 +41,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func searchClicked(_ sender: Any) {
         if (searchField.text?.isEmpty)! {
-            let alertController = UIAlertController(title: "Error", message: "Email field is blank", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Error", message: "Email field is blank", preferredStyle: UIAlertController.Style.alert)
             
-            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
             }
             
@@ -51,9 +51,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             self.present(alertController, animated: true, completion: nil)
         } else if searchField.text == Items.sharedInstance.loggedIn {
-            let alertController = UIAlertController(title: "Error", message: "You cannot add yourself as a friend", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Error", message: "You cannot add yourself as a friend", preferredStyle: UIAlertController.Style.alert)
             
-            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 self.searchField.text = ""
             }
@@ -87,13 +87,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         screenSize = UIScreen.main.bounds
         screenHeight = screenSize.height
         
-        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).addSnapshotListener { documentSnapshot, error in
+        Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn).addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot else {
                 self.logError(logString: "Friends VC - Unable to load User document", logError: (error?.localizedDescription)!)
-                let alertController = UIAlertController(title: "Error", message: "We could not load the necessary data. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                let alertController = UIAlertController(title: "Error", message: "We could not load the necessary data. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                 
                 
-                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                     (result : UIAlertAction) -> Void in
                     UserDefaults.standard.removeObject(forKey: "loggedIn")
                     Items.sharedInstance.loggedIn = ""
@@ -117,13 +117,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             let friendDownloading = DispatchGroup()
             for friend in loadingFriends {
                 friendDownloading.enter()
-                Firestore.firestore().collection("UserMovieList").document(friend).getDocument { (friendDocument, error) in
+                Firestore.firestore().collection("Users").document(friend).getDocument { (friendDocument, error) in
                     if let error = error {
                         self.logError(logString: "Friends VC - Error Loading Friend Document (Friend: \(friend))", logError: error.localizedDescription)
                     } else {
                         if let friendDocument = friendDocument, friendDocument.exists {
                             var photo = UIImage()
-                            let photoURL = friendDocument.data()!["Image URL"] as! String
+                            let photoURL = friendDocument.data()!["imageURL"] as! String
                             if photoURL == "nil" {
                                 photo = UIImage(named: "profilePic")!
                                 self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo))
@@ -146,6 +146,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             }
                         } else {
                             self.logError(logString: "Friends VC - Friend Document Doesn't Exist (Friend \(friend))")
+                            friendDownloading.leave()
                         }
                     }
                 }
@@ -160,13 +161,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             let inviteDownloading = DispatchGroup()
             for invite in self.invitations {
                 inviteDownloading.enter()
-                Firestore.firestore().collection("UserMovieList").document(invite).getDocument { (inviteDocument, error) in
+                Firestore.firestore().collection("Users").document(invite).getDocument { (inviteDocument, error) in
                     if let error = error {
                         self.logError(logString: "Friends VC - Error Loading Invitation Document (Invite: \(invite))", logError: error.localizedDescription)
                     } else {
                         if let inviteDocument = inviteDocument, inviteDocument.exists {
                             var photo = UIImage()
-                            let photoURL = inviteDocument.data()!["Image URL"] as! String
+                            let photoURL = inviteDocument.data()!["imageURL"] as! String
                             if photoURL == "nil" {
                                 photo = UIImage(named: "profilePic")!
                                 self.invitationsArray.append(friends(name: inviteDocument.data()!["Name"] as! String, email: invite, photo: photo))
@@ -189,6 +190,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             }
                         } else {
                             self.logError(logString: "Friends VC - Invitation Document Doesn't Exist (Invitation: \(invite))")
+                            inviteDownloading.leave()
                         }
                     }
                 }
@@ -232,7 +234,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func sendInvite(email: String) {
         UIApplication.shared.beginIgnoringInteractionEvents()
-        let myRef = Firestore.firestore().collection("UserMovieList").document(email)
+        let myRef = Firestore.firestore().collection("Users").document(email)
         myRef.getDocument { (document, error) in
             if let error = error {
                 self.logError(logString: "Friends VC - Error Getting Invite Document (Invite: \(email))", logError: error.localizedDescription)
@@ -242,9 +244,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     if previousInvitations.contains(Items.sharedInstance.loggedIn) {
                         UIApplication.shared.endIgnoringInteractionEvents()
                         self.logError(logString: "Friends VC - Invite Already Sent for User")
-                        let alertController = UIAlertController(title: "Error", message: "There is already an invitation pending for this user.", preferredStyle: UIAlertControllerStyle.alert)
+                        let alertController = UIAlertController(title: "Error", message: "There is already an invitation pending for this user.", preferredStyle: UIAlertController.Style.alert)
                         
-                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                             (result : UIAlertAction) -> Void in
                             self.searchField.text = ""
                             
@@ -261,9 +263,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             if err != nil {
                                 self.logError(logString: "Friends VC - Error Sending Invite", logError: (err?.localizedDescription)!)
                                 UIApplication.shared.endIgnoringInteractionEvents()
-                                let alertController = UIAlertController(title: "Error", message: "Your invitation could not be sent. Please check your connection and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                let alertController = UIAlertController(title: "Error", message: "Your invitation could not be sent. Please check your connection and try again.", preferredStyle: UIAlertController.Style.alert)
                                 
-                                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                     (result : UIAlertAction) -> Void in
                                 }
                                 
@@ -273,9 +275,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             } else {
                                 self.logError(logString: "Friends VC - Invitation Sent Succesfully")
                                 UIApplication.shared.endIgnoringInteractionEvents()
-                                let alertController = UIAlertController(title: "Success", message: "Your invitations has been sent", preferredStyle: UIAlertControllerStyle.alert)
+                                let alertController = UIAlertController(title: "Success", message: "Your invitations has been sent", preferredStyle: UIAlertController.Style.alert)
                                 
-                                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                     (result : UIAlertAction) -> Void in
                                     self.searchField.text = ""
                                     
@@ -290,9 +292,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 } else {
                     self.logError(logString: "Friends VC - No Account Found with Email")
                     UIApplication.shared.endIgnoringInteractionEvents()
-                    let alertController = UIAlertController(title: "Error", message: "There was no account found with that email. Please try again", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "There was no account found with that email. Either this person has not updated to the latest version of the app, or this is an incorrect email", preferredStyle: UIAlertController.Style.alert)
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         self.searchField.text = ""
                         
@@ -326,61 +328,78 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidAppear(_ animated: Bool) {
         self.logError(logString: "In Friends VC")
+        suggestedFriends.removeAll()
         if Items.sharedInstance.purchased {
             purchaseView.isHidden = true
             if AccessToken.current != nil {
-                var graph = GraphRequest.init(graphPath: "me")
-                graph.parameters = ["fields": "email, friends"]
-                graph.start({(connection, result) in
-                    switch result {
-                    case .failed(let error):
+                let connection = GraphRequestConnection()
+                connection.add(GraphRequest(graphPath: "/me/friends")) { httpResponse, result, error in
+                    if error != nil {
                         // Unable to get Facebook Information
-                        self.logError(logString: "Friends VC - Unable To Get Facebook Friends Info", logError: error.localizedDescription)
+                        self.logError(logString: "Friends VC - Unable To Get Facebook Friends Info", logError: error!.localizedDescription)
                         self.friendsTableView.reloadData()
                         self.testArray[2] = true
-                    case .success(let graphResponse):
-                        // Succesfully received Facebook Information
-                        self.logError(logString: "Friends VC - Succesfully received Facebook Info")
-                        if let responseDictionary = graphResponse.dictionaryValue {
-                            // Setup local variables with Facebook Information
-                            if let allSuggested = responseDictionary["friends"] {
-                                let resultDict = allSuggested as! NSDictionary
-                                let data = resultDict.object(forKey: "data") as! [NSDictionary]
-                                
+                    } else {
+                        if let result = result as? [String:Any] {
+                            if let allSuggested = result["data"]{
+                                let data = allSuggested as! [NSDictionary]
                                 let suggestedDownloading = DispatchGroup()
                                 for friendObject in data {
                                     suggestedDownloading.enter()
                                     let friendID = friendObject["id"] as! String
                                     self.logError(logString: "Friends VC - Getting Friend Data for ID \(friendID)")
-                                    Firestore.firestore().collection("UserMovieList").whereField("FacebookID", isEqualTo: friendID).getDocuments() { (querySnapshot, err) in
+                                    Firestore.firestore().collection("Users").whereField("FacebookID", isEqualTo: friendID).getDocuments() { (querySnapshot, err) in
                                         if let err = err {
                                             self.logError(logString: "Friends VC - Error Getting Facebook Friend Document", logError: err.localizedDescription)
                                         } else {
-                                            let document = querySnapshot!.documents[0]
-                                            let documentInfo = document.data()
-                                            var photo = UIImage()
-                                            let photoURL = documentInfo["Image URL"] as! String
-                                            
-                                            if photoURL == "nil" {
-                                                photo = UIImage(named: "profilePic")!
-                                                self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo))
-                                                suggestedDownloading.leave()
-                                            } else {
-                                                let url = URL(string: photoURL)!
-                                                self.getData(from: url) { data, response, error in
-                                                    guard let data = data, error == nil else {
-                                                        self.logError(logString: "Friends VC - Unable to get Facebook Friends Profile Photo", logError: (error?.localizedDescription)!)
+                                            if !querySnapshot!.documents.isEmpty {
+
+                                                let document = querySnapshot!.documents[0]
+                                                let documentInfo = document.data()
+                                                var photo = UIImage()
+                                                let photoURL = documentInfo["imageURL"] as! String
+                                                
+                                                var friendTest = false
+                                                for item in self.friendsList {
+                                                    if item.email == document.documentID {
+                                                        friendTest = true
+                                                    }
+                                                }
+                                                for item2 in self.invitationsArray {
+                                                    if item2.email == document.documentID {
+                                                        friendTest = true
+                                                    }
+                                                }
+                                                
+                                                if friendTest == false {
+                                                    if photoURL == "nil" {
                                                         photo = UIImage(named: "profilePic")!
                                                         self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo))
                                                         suggestedDownloading.leave()
-                                                        return
+                                                    } else {
+                                                        let url = URL(string: photoURL)!
+                                                        self.getData(from: url) { data, response, error in
+                                                            guard let data = data, error == nil else {
+                                                                self.logError(logString: "Friends VC - Unable to get Facebook Friends Profile Photo", logError: (error?.localizedDescription)!)
+                                                                photo = UIImage(named: "profilePic")!
+                                                                self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo))
+                                                                suggestedDownloading.leave()
+                                                                return
+                                                            }
+                                                            DispatchQueue.main.async() {
+                                                                photo = UIImage(data: data)!
+                                                                self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo))
+                                                                suggestedDownloading.leave()
+                                                            }
+                                                        }
                                                     }
-                                                    DispatchQueue.main.async() {
-                                                        photo = UIImage(data: data)!
-                                                        self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo))
-                                                        suggestedDownloading.leave()
-                                                    }
+                                                } else {
+                                                    self.logError(logString: "Friends VC - Found Facebook friend but he is already added as a friend or already in the invitations list")
+                                                    suggestedDownloading.leave()
                                                 }
+                                            } else {
+                                                self.logError(logString: "Friends VC - Found friend but they are not in the database")
+                                                suggestedDownloading.leave()
                                             }
                                         }
                                     }
@@ -396,9 +415,14 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                                 self.friendsTableView.reloadData()
                                 self.testArray[2] = true
                             }
+                        } else {
+                            self.logError(logString: "Friends VC - Couldn't load Facebook Data - 2")
+                            self.friendsTableView.reloadData()
+                            self.testArray[2] = true
                         }
                     }
-                })
+                }
+                connection.start()
             } else {
                 checkScroll()
                 friendsTableView.reloadData()
@@ -424,7 +448,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             suggestedCount = 1
         }
         let totalCount = friendCount + invitationCount + suggestedCount
-        let totalSize = CGFloat((totalCount * 72) + 370)
+        let totalSize = CGFloat((totalCount * 72) + 400)
         
         if totalSize > UIScreen.main.bounds.height {
             friendsTableView.isScrollEnabled = true
@@ -548,7 +572,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        view.tintColor = UIColor.black
+        if #available(iOS 13.0, *) {
+            view.tintColor = UIColor.systemGray2
+        } else {
+            // Fallback on earlier versions
+            view.tintColor = UIColor.black
+        }
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = UIColorFromRGB(rgbValue: 0x9B8742)
     }
@@ -576,14 +605,14 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else if indexPath.section == 1 {
             DispatchQueue.main.async {
                 let friend = self.invitationsArray[indexPath.row]
-                let alertController = UIAlertController(title: "", message: "Would you like to accepted or delcline the invitation from \(friend.name)", preferredStyle: UIAlertControllerStyle.actionSheet)
+                let alertController = UIAlertController(title: "", message: "Would you like to accepted or delcline the invitation from \(friend.name)", preferredStyle: UIAlertController.Style.actionSheet)
                 
-                let decline = UIAlertAction(title: "Decline", style: UIAlertActionStyle.default) {
+                let decline = UIAlertAction(title: "Decline", style: UIAlertAction.Style.default) {
                     (result : UIAlertAction) -> Void in
                     self.logError(logString: "Friends VC - Attempting Decline of Invitation")
                     self.declined(rowNumber: indexPath.row)
                 }
-                let accept = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) {
+                let accept = UIAlertAction(title: "Accept", style: UIAlertAction.Style.default) {
                     (result : UIAlertAction) -> Void in
                     self.logError(logString: "Friends VC - Attempting Accept of Invitation")
                     self.accepted(rowNumber: indexPath.row)
@@ -598,12 +627,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             DispatchQueue.main.async {
                 if self.suggestedFriends.count != 0 {
                     let suggestion = self.suggestedFriends[indexPath.row]
-                    let alertController = UIAlertController(title: "Invite", message: "Would you like to send a friend invite to \(suggestion.name)", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Invite", message: "Would you like to send a friend invite to \(suggestion.name)", preferredStyle: UIAlertController.Style.alert)
                     
-                    let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+                    let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                     }
-                    let send = UIAlertAction(title: "Send Invite", style: UIAlertActionStyle.default) {
+                    let send = UIAlertAction(title: "Send Invite", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         self.logError(logString: "Friends VC - Attempting Invitation Send to \(suggestion.email)")
                         self.sendInvite(email: suggestion.email)
@@ -635,12 +664,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             // handle delete (by removing the data from your array and updating the tableview)
             
             let friendName = friendsList[indexPath.row].name
-            let alertController = UIAlertController(title: "Remove Friend", message: "Are you sure you want to delete \(friendName)?", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Remove Friend", message: "Are you sure you want to delete \(friendName)?", preferredStyle: UIAlertController.Style.alert)
             
-            let ok = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+            let ok = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
             }
-            let delete = UIAlertAction(title: "Delete", style: UIAlertActionStyle.default) {
+            let delete = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 self.logError(logString: "Friends VC - Attempting to delete friend \(self.friendsList[indexPath.row].email)")
                 UIApplication.shared.beginIgnoringInteractionEvents()
@@ -653,15 +682,15 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     newFriends.append(friend.email)
                 }
                 
-                Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+                Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn).updateData([
                     "Friends": newFriends
                 ]) { err in
                     if let err = err {
                         self.logError(logString: "Friends VC - Error Removing Friend" , logError: err.localizedDescription)
-                        let alertController = UIAlertController(title: "Error", message: "There was an error removing this friend. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                        let alertController = UIAlertController(title: "Error", message: "There was an error removing this friend. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                         
                         
-                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                             (result : UIAlertAction) -> Void in
                             UIApplication.shared.endIgnoringInteractionEvents()
                             return
@@ -672,7 +701,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     }
                 }
                 
-                let docRef = Firestore.firestore().collection("UserMovieList").document(friendRemoving)
+                let docRef = Firestore.firestore().collection("Users").document(friendRemoving)
                 docRef.getDocument { (document, error) in
                     if let error = error {
                         self.logError(logString: "Friends VC - Error Accessing document of friend deleting", logError: error.localizedDescription)
@@ -695,10 +724,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                                 ]) { err in
                                     if let err = err {
                                         self.logError(logString: "Friends VC - Error Updating document of friend deleting", logError: err.localizedDescription)
-                                        let alertController = UIAlertController(title: "Error", message: "There was an error removing this friend. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                                        let alertController = UIAlertController(title: "Error", message: "There was an error removing this friend. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                                         
                                         
-                                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                             (result : UIAlertAction) -> Void in
                                             return
                                         }
@@ -711,10 +740,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             }
                         } else {
                             self.logError(logString: "Friends VC - Document of friend trying to delete doesn't exist")
-                            let alertController = UIAlertController(title: "Error", message: "There was an error removing this friend. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was an error removing this friend. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 UIApplication.shared.endIgnoringInteractionEvents()
                                 return
@@ -743,7 +772,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func accepted (rowNumber: Int){
         UIApplication.shared.beginIgnoringInteractionEvents()
         let inviteVar = self.invitations[rowNumber]
-        let docRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+        let docRef = Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn)
         docRef.getDocument { (document, error) in
             if let error = error {
                 self.logError(logString: "Friends VC - Error Accesing user document", logError: error.localizedDescription)
@@ -760,10 +789,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     ]) { err in
                         if let err = err {
                             self.logError(logString: "Friends VC - Error Updating friends/invitations in user document", logError: err.localizedDescription)
-                            let alertController = UIAlertController(title: "Error", message: "There was an error accepting this invitation. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was an error accepting this invitation. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 UIApplication.shared.endIgnoringInteractionEvents()
                                 return
@@ -772,7 +801,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             alertController.addAction(ok)
                             self.present(alertController, animated: true, completion: nil)
                         } else {
-                            let docRef2 = Firestore.firestore().collection("UserMovieList").document(inviteVar)
+                            let docRef2 = Firestore.firestore().collection("Users").document(inviteVar)
                             docRef2.getDocument { (document, error) in
                                 if let document2 = document, document2.exists {
                                     var friendList2 = document2.data()!["Friends"] as! [String]
@@ -783,10 +812,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                                     ]) { err in
                                         if let err = err {
                                             self.logError(logString: "Friends VC - Error Updating Friends document", logError: err.localizedDescription)
-                                            let alertController = UIAlertController(title: "Error", message: "There was an error adding this friend. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                                            let alertController = UIAlertController(title: "Error", message: "There was an error adding this friend. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                                             
                                             
-                                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                                 (result : UIAlertAction) -> Void in
                                                 return
                                             }
@@ -799,10 +828,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                                 } else {
                                     self.logError(logString: "Friends VC - Friend document doesn't exist")
                                     UIApplication.shared.endIgnoringInteractionEvents()
-                                    let alertController = UIAlertController(title: "Error", message: "There was an error adding this friend. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                                    let alertController = UIAlertController(title: "Error", message: "There was an error adding this friend. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                                     
                                     
-                                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                         (result : UIAlertAction) -> Void in
                                         return
                                     }
@@ -815,10 +844,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     }
                 } else {
                     self.logError(logString: "Friends VC - User Document Doesn't Exist")
-                    let alertController = UIAlertController(title: "Error", message: "There was an error adding this friend. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "There was an error adding this friend. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                     
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         UIApplication.shared.endIgnoringInteractionEvents()
                         return
@@ -832,26 +861,26 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func declined (rowNumber: Int){
-        let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to decline this invitation?", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to decline this invitation?", preferredStyle: UIAlertController.Style.alert)
         
-        let ok = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+        let ok = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
             UIApplication.shared.endIgnoringInteractionEvents()
         }
-        let decline = UIAlertAction(title: "Decline", style: UIAlertActionStyle.default) {
+        let decline = UIAlertAction(title: "Decline", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
             UIApplication.shared.beginIgnoringInteractionEvents()
             self.invitations.remove(at: rowNumber)
             //self.friendsTableView.reloadData()
-            Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).updateData([
+            Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn).updateData([
                 "Invitations": self.invitations
             ]) { err in
                 if let err = err {
                     self.logError(logString: "Friends VC - Error Removing Invtation From User Document", logError: err.localizedDescription)
-                    let alertController = UIAlertController(title: "Error", message: "There was an error removing this invitation. Please quit the app and try again", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "There was an error removing this invitation. Please quit the app and try again", preferredStyle: UIAlertController.Style.alert)
                     
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         return
                     }

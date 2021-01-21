@@ -12,14 +12,25 @@ import UIKit
 class Items {
     static let sharedInstance = Items()
     
+    struct actorData: Equatable{
+        let name: String
+        let id: String
+    }
+    
     struct movie: Equatable {
-        let actors: [String]
+        let actors: [actorData]
         let cover: UIImage
         let description: String
         let idmb: String
         let name: String
         let nominatedFor: [String]
         let youtube: String
+        let id: String
+        let originalLanguage: String
+        let releaseDate: String
+        let runTime: Int
+        let revenue: Int
+        let budget: Int
     }
     
     struct actors: Equatable {
@@ -27,9 +38,12 @@ class Items {
         let image: UIImage
         let nominatedFor: String
         var movie: String
-        var used: Bool
+        //var used: Bool
     }
     
+    let updateKey = "3.0-2"
+    var userMovieListYear = String()
+    var movieList = String()
     var movieArray = [movie]()
     var sortedMovieArray = [[movie]]()
     var moviesSeenArray = [movie]()
@@ -40,4 +54,6 @@ class Items {
     var purchased = Bool()
     var profilePic = UIImage(named: "profilePic")
     var notificationToken = String()
+    var winners = [String]()
+    var winnerYear = String()
 }

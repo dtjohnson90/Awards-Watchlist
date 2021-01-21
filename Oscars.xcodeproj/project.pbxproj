@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F864A1516C0564E413D6131 /* Pods_Oscars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34DDCCECAC1C00768D15AAD2 /* Pods_Oscars.framework */; };
+		2A1ED33814E30556072FA375 /* Pods_Awards_Watchlist_TV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 411221D3388E96C841F85ED9 /* Pods_Awards_Watchlist_TV.framework */; };
+		4233F0A54DEF7812FAA63696 /* Pods_Oscars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A72F225D02D2ACE2F98EF8BF /* Pods_Oscars.framework */; };
 		D102FBEF1FE207270059CB1E /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D102FBEE1FE207270059CB1E /* AppData.swift */; };
 		D108CE691E259D6800EB2C70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D108CE681E259D6800EB2C70 /* AppDelegate.swift */; };
 		D108CE6E1E259D6800EB2C70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D108CE6C1E259D6800EB2C70 /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		D11BC7D52021070700AE084D /* OscarsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D11BC7B82021070200AE084D /* OscarsWatch.app */; };
 		D11BC7E2202113D900AE084D /* NominationsRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BC7E1202113D900AE084D /* NominationsRowController.swift */; };
 		D11BC7E6202115F800AE084D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D11BC7E5202115F800AE084D /* CloudKit.framework */; };
+		D11C052E25B88B380089163F /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11C052D25B88B380089163F /* HeaderView.swift */; };
 		D12DB45F217E4EED000BBD7E /* ConfigKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D12DB456217E4EEC000BBD7E /* ConfigKit.framework */; };
 		D12DB466217E4EED000BBD7E /* ConfigKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12DB465217E4EED000BBD7E /* ConfigKitTests.swift */; };
 		D12DB468217E4EED000BBD7E /* ConfigKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D12DB458217E4EEC000BBD7E /* ConfigKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,6 +44,7 @@
 		D14BB4002199D6D800F57A38 /* AwardsWatchlistProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BB3FF2199D6D800F57A38 /* AwardsWatchlistProducts.swift */; };
 		D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */; };
 		D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */; };
+		D1640A5D25B89C3E004EC368 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1640A5C25B89C3E004EC368 /* HeaderView.xib */; };
 		D1715EF1218B32AF0023B14F /* PredictionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1715EF0218B32AF0023B14F /* PredictionsViewController.swift */; };
 		D1715EF3218B55100023B14F /* ProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1715EF2218B55100023B14F /* ProViewController.swift */; };
 		D1715EF5218B7FA60023B14F /* ImageUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1715EF4218B7FA60023B14F /* ImageUploadManager.swift */; };
@@ -53,6 +56,7 @@
 		D180EE7D21838C370001C37E /* IAPHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D180EE7C21838C370001C37E /* IAPHandler.swift */; };
 		D180EE7F21838EE20001C37E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D180EE7E21838EE20001C37E /* StoreKit.framework */; };
 		D180EE8D2183B0A00001C37E /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */; };
+		D18128E125ABD9F10004B234 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D18128E025ABD9F00004B234 /* GoogleService-Info.plist */; };
 		D184F359216BF31000B7F2ED /* NominationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D184F358216BF31000B7F2ED /* NominationsViewController.swift */; };
 		D187E9182191DAD900DE1CB2 /* SuggestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D187E9172191DAD900DE1CB2 /* SuggestionsTableViewCell.swift */; };
 		D1966ED221753A9500D4BD42 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED121753A9500D4BD42 /* ResultsViewController.swift */; };
@@ -71,14 +75,33 @@
 		D1B72964217A34C00012889D /* Awards_Watchlist_TVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B72963217A34C00012889D /* Awards_Watchlist_TVTests.swift */; };
 		D1B7296F217A34C00012889D /* Awards_Watchlist_TVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B7296E217A34C00012889D /* Awards_Watchlist_TVUITests.swift */; };
 		D1B7297B217A35660012889D /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B7297A217A35660012889D /* LoadingViewController.swift */; };
+		D1C13BAA2225E2C90096E425 /* WatchLinkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C13BA92225E2C90096E425 /* WatchLinkCollectionViewCell.swift */; };
+		D1C13BAC22271D880096E425 /* RecommendationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C13BAB22271D880096E425 /* RecommendationViewController.swift */; };
+		D1C13BAE22271DAB0096E425 /* RecommendationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C13BAD22271DAB0096E425 /* RecommendationCollectionViewCell.swift */; };
 		D1C98B5F217794D900462865 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C98B5E217794D900462865 /* FriendsTableViewCell.swift */; };
 		D1C98B632177B05F00462865 /* FriendsSeenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C98B622177B05F00462865 /* FriendsSeenTableViewCell.swift */; };
 		D1C98B652177B31200462865 /* FriendsSeenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C98B642177B31200462865 /* FriendsSeenViewController.swift */; };
 		D1C98B672177C93800462865 /* FriendPredictionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C98B662177C93800462865 /* FriendPredictionsViewController.swift */; };
 		D1C98B692177C94C00462865 /* FriendPredictionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C98B682177C94C00462865 /* FriendPredictionsTableViewCell.swift */; };
 		D1C98B6C2179221100462865 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C98B6B2179221100462865 /* SettingsViewController.swift */; };
+		D1CC7D5825A5129200FE2568 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = D1CC7D5725A5129200FE2568 /* FacebookCore */; };
+		D1CC7D5A25A5129200FE2568 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = D1CC7D5925A5129200FE2568 /* FacebookLogin */; };
+		D1CC7D5C25A5129200FE2568 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = D1CC7D5B25A5129200FE2568 /* FacebookShare */; };
+		D1D1012225A6999C00F866DD /* Apple Chancery.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1D1012125A6999B00F866DD /* Apple Chancery.ttf */; };
 		D1D17AFE217F809100971F4A /* ChangeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D17AFD217F809100971F4A /* ChangeSettingsViewController.swift */; };
+		D1E124D525B8FAE800ED01D3 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E124D425B8FAE800ED01D3 /* SearchTableViewCell.swift */; };
+		D1E36B0F25A5181200314373 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B0E25A5181200314373 /* FirebaseFirestore */; };
+		D1E36B1125A5181200314373 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B1025A5181200314373 /* FirebaseDatabase */; };
+		D1E36B1325A5181200314373 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B1225A5181200314373 /* FirebaseFirestoreSwift-Beta */; };
+		D1E36B1525A5181200314373 /* GoogleUtilities_UserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B1425A5181200314373 /* GoogleUtilities_UserDefaults */; };
+		D1E36B1725A5181200314373 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B1625A5181200314373 /* FirebaseStorageSwift-Beta */; };
+		D1E36B1925A5181200314373 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B1825A5181200314373 /* FirebaseStorage */; };
+		D1E36B1B25A5181200314373 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B1A25A5181200314373 /* FirebaseFunctions */; };
+		D1E36B1D25A5181200314373 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B1C25A5181200314373 /* FirebaseAuth */; };
+		D1E36B1F25A5181200314373 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B1E25A5181200314373 /* FirebaseMessaging */; };
+		D1E36B2125A5181200314373 /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = D1E36B2025A5181200314373 /* FirebaseInAppMessaging-Beta */; };
 		D1E578331E3AD3B300124770 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1E578321E3AD3B300124770 /* CloudKit.framework */; };
+		D1FE77F825B201FF00612AE7 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FE77F725B201FF00612AE7 /* ErrorManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,10 +203,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		34DDCCECAC1C00768D15AAD2 /* Pods_Oscars.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oscars.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		413690A6EBC4949A1CDDC715 /* Pods_Awards_Watchlist_TV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Awards_Watchlist_TV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7DD64F009C88EA9CE6C8B49 /* Pods-Oscars.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oscars.release.xcconfig"; path = "Pods/Target Support Files/Pods-Oscars/Pods-Oscars.release.xcconfig"; sourceTree = "<group>"; };
-		C912A94E3CA7EE45CD911C6C /* Pods-Oscars.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oscars.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oscars/Pods-Oscars.debug.xcconfig"; sourceTree = "<group>"; };
+		1BBEF24366A29282246A7C39 /* Pods-Awards Watchlist TV.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Awards Watchlist TV.release.xcconfig"; path = "Target Support Files/Pods-Awards Watchlist TV/Pods-Awards Watchlist TV.release.xcconfig"; sourceTree = "<group>"; };
+		411221D3388E96C841F85ED9 /* Pods_Awards_Watchlist_TV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Awards_Watchlist_TV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		847CCB728C366205C325701F /* Pods-Oscars.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oscars.release.xcconfig"; path = "Target Support Files/Pods-Oscars/Pods-Oscars.release.xcconfig"; sourceTree = "<group>"; };
+		A0B06CCA28EC202AEE8B4F3A /* Pods-Oscars.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oscars.debug.xcconfig"; path = "Target Support Files/Pods-Oscars/Pods-Oscars.debug.xcconfig"; sourceTree = "<group>"; };
+		A1D023426D9CA873CB59522A /* Pods-Awards Watchlist TV.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Awards Watchlist TV.debug.xcconfig"; path = "Target Support Files/Pods-Awards Watchlist TV/Pods-Awards Watchlist TV.debug.xcconfig"; sourceTree = "<group>"; };
+		A72F225D02D2ACE2F98EF8BF /* Pods_Oscars.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oscars.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D102FBEE1FE207270059CB1E /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		D108CE651E259D6800EB2C70 /* Oscars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oscars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D108CE681E259D6800EB2C70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -208,6 +233,7 @@
 		D11BC7E32021155700AE084D /* OscarsWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OscarsWatch.entitlements; sourceTree = "<group>"; };
 		D11BC7E4202115F100AE084D /* OscarsWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OscarsWatch Extension.entitlements"; sourceTree = "<group>"; };
 		D11BC7E5202115F800AE084D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		D11C052D25B88B380089163F /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		D12DB44D217E45F5000BBD7E /* OscarsWatch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OscarsWatch-Bridging-Header.h"; sourceTree = "<group>"; };
 		D12DB44E217E45F5000BBD7E /* ConfigurationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationModel.swift; sourceTree = "<group>"; };
 		D12DB456217E4EEC000BBD7E /* ConfigKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ConfigKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,6 +253,7 @@
 		D14BB3FF2199D6D800F57A38 /* AwardsWatchlistProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsWatchlistProducts.swift; sourceTree = "<group>"; };
 		D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewCell.swift; sourceTree = "<group>"; };
 		D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D1640A5C25B89C3E004EC368 /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		D1715EF0218B32AF0023B14F /* PredictionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsViewController.swift; sourceTree = "<group>"; };
 		D1715EF2218B55100023B14F /* ProViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProViewController.swift; sourceTree = "<group>"; };
 		D1715EF4218B7FA60023B14F /* ImageUploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadManager.swift; sourceTree = "<group>"; };
@@ -238,6 +265,7 @@
 		D180EE7C21838C370001C37E /* IAPHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHandler.swift; sourceTree = "<group>"; };
 		D180EE7E21838EE20001C37E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		D18128E025ABD9F00004B234 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D184F358216BF31000B7F2ED /* NominationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsViewController.swift; sourceTree = "<group>"; };
 		D187E9062190AFB300DE1CB2 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		D187E9082190AFB300DE1CB2 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
@@ -264,14 +292,20 @@
 		D1B7296E217A34C00012889D /* Awards_Watchlist_TVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Awards_Watchlist_TVUITests.swift; sourceTree = "<group>"; };
 		D1B72970217A34C00012889D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1B7297A217A35660012889D /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		D1C13BA92225E2C90096E425 /* WatchLinkCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchLinkCollectionViewCell.swift; sourceTree = "<group>"; };
+		D1C13BAB22271D880096E425 /* RecommendationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationViewController.swift; sourceTree = "<group>"; };
+		D1C13BAD22271DAB0096E425 /* RecommendationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationCollectionViewCell.swift; sourceTree = "<group>"; };
 		D1C98B5E217794D900462865 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
 		D1C98B622177B05F00462865 /* FriendsSeenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSeenTableViewCell.swift; sourceTree = "<group>"; };
 		D1C98B642177B31200462865 /* FriendsSeenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSeenViewController.swift; sourceTree = "<group>"; };
 		D1C98B662177C93800462865 /* FriendPredictionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPredictionsViewController.swift; sourceTree = "<group>"; };
 		D1C98B682177C94C00462865 /* FriendPredictionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPredictionsTableViewCell.swift; sourceTree = "<group>"; };
 		D1C98B6B2179221100462865 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D1D1012125A6999B00F866DD /* Apple Chancery.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apple Chancery.ttf"; sourceTree = "<group>"; };
 		D1D17AFD217F809100971F4A /* ChangeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSettingsViewController.swift; sourceTree = "<group>"; };
+		D1E124D425B8FAE800ED01D3 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		D1E578321E3AD3B300124770 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		D1FE77F725B201FF00612AE7 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ErrorManager.swift; path = Oscars/ErrorManager.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,10 +320,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1E36B1F25A5181200314373 /* FirebaseMessaging in Frameworks */,
 				D1E578331E3AD3B300124770 /* CloudKit.framework in Frameworks */,
+				D1E36B1D25A5181200314373 /* FirebaseAuth in Frameworks */,
+				D1E36B1B25A5181200314373 /* FirebaseFunctions in Frameworks */,
+				D1CC7D5825A5129200FE2568 /* FacebookCore in Frameworks */,
+				D1E36B2125A5181200314373 /* FirebaseInAppMessaging-Beta in Frameworks */,
+				D1CC7D5A25A5129200FE2568 /* FacebookLogin in Frameworks */,
 				D12DB46B217E4EED000BBD7E /* ConfigKit.framework in Frameworks */,
-				2F864A1516C0564E413D6131 /* Pods_Oscars.framework in Frameworks */,
+				D1E36B1525A5181200314373 /* GoogleUtilities_UserDefaults in Frameworks */,
+				D1E36B1725A5181200314373 /* FirebaseStorageSwift-Beta in Frameworks */,
 				D180EE7F21838EE20001C37E /* StoreKit.framework in Frameworks */,
+				D1E36B0F25A5181200314373 /* FirebaseFirestore in Frameworks */,
+				D1E36B1925A5181200314373 /* FirebaseStorage in Frameworks */,
+				D1E36B1125A5181200314373 /* FirebaseDatabase in Frameworks */,
+				D1E36B1325A5181200314373 /* FirebaseFirestoreSwift-Beta in Frameworks */,
+				4233F0A54DEF7812FAA63696 /* Pods_Oscars.framework in Frameworks */,
+				D1CC7D5C25A5129200FE2568 /* FacebookShare in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +367,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A1ED33814E30556072FA375 /* Pods_Awards_Watchlist_TV.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,13 +388,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2F194A69BF2760F0F981895F /* Pods */ = {
+		68FBD869CFC19422157685AF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C912A94E3CA7EE45CD911C6C /* Pods-Oscars.debug.xcconfig */,
-				A7DD64F009C88EA9CE6C8B49 /* Pods-Oscars.release.xcconfig */,
+				A0B06CCA28EC202AEE8B4F3A /* Pods-Oscars.debug.xcconfig */,
+				847CCB728C366205C325701F /* Pods-Oscars.release.xcconfig */,
+				A1D023426D9CA873CB59522A /* Pods-Awards Watchlist TV.debug.xcconfig */,
+				1BBEF24366A29282246A7C39 /* Pods-Awards Watchlist TV.release.xcconfig */,
 			);
-			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		D108CE5C1E259D6800EB2C70 = {
@@ -362,8 +412,8 @@
 				D12DB464217E4EED000BBD7E /* ConfigKitTests */,
 				D108CE661E259D6800EB2C70 /* Products */,
 				D1E5782E1E39E58A00124770 /* Frameworks */,
-				2F194A69BF2760F0F981895F /* Pods */,
 				D12DB44D217E45F5000BBD7E /* OscarsWatch-Bridging-Header.h */,
+				68FBD869CFC19422157685AF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -394,12 +444,13 @@
 				D13E36DF2170EB6400213DBC /* Predictions */,
 				D1C98B6A2177D7A400462865 /* Friends */,
 				D180EE79218101800001C37E /* Settings */,
+				D1D1012025A6993100F866DD /* Resources */,
+				D1FE77F725B201FF00612AE7 /* ErrorManager.swift */,
 				D108CE681E259D6800EB2C70 /* AppDelegate.swift */,
-				D108CE6F1E259D6800EB2C70 /* Assets.xcassets */,
 				D12F942C1E36D532000BF27E /* Oscars.entitlements */,
-				D108CE711E259D6800EB2C70 /* LaunchScreen.storyboard */,
 				D108CE741E259D6800EB2C70 /* Info.plist */,
 				D1B2C980216BB0FC00D22444 /* GoogleService-Info.plist */,
+				D108CE711E259D6800EB2C70 /* LaunchScreen.storyboard */,
 				D1E578311E3A98C600124770 /* src */,
 			);
 			path = Oscars;
@@ -488,6 +539,7 @@
 				D184F358216BF31000B7F2ED /* NominationsViewController.swift */,
 				D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */,
 				D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */,
+				D1E124D425B8FAE800ED01D3 /* SearchTableViewCell.swift */,
 			);
 			path = Nominations;
 			sourceTree = "<group>";
@@ -499,6 +551,11 @@
 				D1966ED521753B0C00D4BD42 /* ResultsTableViewCell.swift */,
 				D108CE821E25C13100EB2C70 /* DetailViewController.swift */,
 				D19BEE47216E566700C1F176 /* ActorsCollectionViewCell.swift */,
+				D1C13BA92225E2C90096E425 /* WatchLinkCollectionViewCell.swift */,
+				D1C13BAB22271D880096E425 /* RecommendationViewController.swift */,
+				D1C13BAD22271DAB0096E425 /* RecommendationCollectionViewCell.swift */,
+				D11C052D25B88B380089163F /* HeaderView.swift */,
+				D1640A5C25B89C3E004EC368 /* HeaderView.xib */,
 			);
 			path = MovieDetails;
 			sourceTree = "<group>";
@@ -532,6 +589,7 @@
 				D1B7297A217A35660012889D /* LoadingViewController.swift */,
 				D1B72958217A34C00012889D /* Assets.xcassets */,
 				D1B7295A217A34C00012889D /* Info.plist */,
+				D18128E025ABD9F00004B234 /* GoogleService-Info.plist */,
 			);
 			path = "Awards Watchlist TV";
 			sourceTree = "<group>";
@@ -569,16 +627,25 @@
 			path = Friends;
 			sourceTree = "<group>";
 		};
+		D1D1012025A6993100F866DD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D1D1012125A6999B00F866DD /* Apple Chancery.ttf */,
+				D108CE6F1E259D6800EB2C70 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D1E5782E1E39E58A00124770 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				D180EE7E21838EE20001C37E /* StoreKit.framework */,
 				D11BC7E5202115F800AE084D /* CloudKit.framework */,
 				D1E578321E3AD3B300124770 /* CloudKit.framework */,
-				34DDCCECAC1C00768D15AAD2 /* Pods_Oscars.framework */,
-				413690A6EBC4949A1CDDC715 /* Pods_Awards_Watchlist_TV.framework */,
 				D187E9062190AFB300DE1CB2 /* UserNotifications.framework */,
 				D187E9082190AFB300DE1CB2 /* UserNotificationsUI.framework */,
+				A72F225D02D2ACE2F98EF8BF /* Pods_Oscars.framework */,
+				411221D3388E96C841F85ED9 /* Pods_Awards_Watchlist_TV.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -608,15 +675,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D108CE771E259D6800EB2C70 /* Build configuration list for PBXNativeTarget "Oscars" */;
 			buildPhases = (
-				1BE5FE90E20CD5E71BE70D15 /* [CP] Check Pods Manifest.lock */,
+				369C5158DFDDAD106D9B5BFF /* [CP] Check Pods Manifest.lock */,
 				D108CE611E259D6800EB2C70 /* Sources */,
 				D108CE621E259D6800EB2C70 /* Frameworks */,
 				D108CE631E259D6800EB2C70 /* Resources */,
 				D11BC7DD2021070700AE084D /* Embed Watch Content */,
 				D12DB470217E4EED000BBD7E /* Embed Frameworks */,
 				D187E9002190AF8A00DE1CB2 /* Embed App Extensions */,
-				B38A823D80865358AC75F6F8 /* [CP] Embed Pods Frameworks */,
-				55BD5B97A845224773EFA470 /* [CP] Copy Pods Resources */,
+				3B0D9F2B2BDBFBF82B3D2556 /* [CP] Embed Pods Frameworks */,
+				FAFF6573C57B0A84A602D2AB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -625,6 +692,21 @@
 				D12DB46A217E4EED000BBD7E /* PBXTargetDependency */,
 			);
 			name = Oscars;
+			packageProductDependencies = (
+				D1CC7D5725A5129200FE2568 /* FacebookCore */,
+				D1CC7D5925A5129200FE2568 /* FacebookLogin */,
+				D1CC7D5B25A5129200FE2568 /* FacebookShare */,
+				D1E36B0E25A5181200314373 /* FirebaseFirestore */,
+				D1E36B1025A5181200314373 /* FirebaseDatabase */,
+				D1E36B1225A5181200314373 /* FirebaseFirestoreSwift-Beta */,
+				D1E36B1425A5181200314373 /* GoogleUtilities_UserDefaults */,
+				D1E36B1625A5181200314373 /* FirebaseStorageSwift-Beta */,
+				D1E36B1825A5181200314373 /* FirebaseStorage */,
+				D1E36B1A25A5181200314373 /* FirebaseFunctions */,
+				D1E36B1C25A5181200314373 /* FirebaseAuth */,
+				D1E36B1E25A5181200314373 /* FirebaseMessaging */,
+				D1E36B2025A5181200314373 /* FirebaseInAppMessaging-Beta */,
+			);
 			productName = Oscars;
 			productReference = D108CE651E259D6800EB2C70 /* Oscars.app */;
 			productType = "com.apple.product-type.application";
@@ -705,9 +787,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D1B72977217A34C00012889D /* Build configuration list for PBXNativeTarget "Awards Watchlist TV" */;
 			buildPhases = (
+				B1EDE3B4125565A7B29E272F /* [CP] Check Pods Manifest.lock */,
 				D1B72949217A34BD0012889D /* Sources */,
 				D1B7294A217A34BD0012889D /* Frameworks */,
 				D1B7294B217A34BD0012889D /* Resources */,
+				FCAB23969AB2526581303066 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -767,7 +851,7 @@
 					D108CE641E259D6800EB2C70 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = D7J3GEMRNU;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1230;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -810,6 +894,7 @@
 					D11BC7C32021070600AE084D = {
 						CreatedOnToolsVersion = 9.3;
 						DevelopmentTeam = D7J3GEMRNU;
+						LastSwiftMigration = 1230;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -828,23 +913,27 @@
 					D12DB45D217E4EED000BBD7E = {
 						CreatedOnToolsVersion = 10.0;
 						DevelopmentTeam = D7J3GEMRNU;
+						LastSwiftMigration = 1230;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D108CE641E259D6800EB2C70;
 					};
 					D1B7294C217A34BD0012889D = {
 						CreatedOnToolsVersion = 10.0;
 						DevelopmentTeam = D7J3GEMRNU;
+						LastSwiftMigration = 1230;
 						ProvisioningStyle = Automatic;
 					};
 					D1B7295E217A34C00012889D = {
 						CreatedOnToolsVersion = 10.0;
 						DevelopmentTeam = D7J3GEMRNU;
+						LastSwiftMigration = 1230;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D1B7294C217A34BD0012889D;
 					};
 					D1B72969217A34C00012889D = {
 						CreatedOnToolsVersion = 10.0;
 						DevelopmentTeam = D7J3GEMRNU;
+						LastSwiftMigration = 1230;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D1B7294C217A34BD0012889D;
 					};
@@ -852,13 +941,17 @@
 			};
 			buildConfigurationList = D108CE601E259D6800EB2C70 /* Build configuration list for PBXProject "Oscars" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
 			mainGroup = D108CE5C1E259D6800EB2C70;
+			packageReferences = (
+				D1CC7D5625A5129200FE2568 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = D108CE661E259D6800EB2C70 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -883,6 +976,8 @@
 				D108CE731E259D6800EB2C70 /* LaunchScreen.storyboard in Resources */,
 				D108CE701E259D6800EB2C70 /* Assets.xcassets in Resources */,
 				D108CE6E1E259D6800EB2C70 /* Main.storyboard in Resources */,
+				D1640A5D25B89C3E004EC368 /* HeaderView.xib in Resources */,
+				D1D1012225A6999C00F866DD /* Apple Chancery.ttf in Resources */,
 				D1B2C981216BB0FD00D22444 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -924,6 +1019,7 @@
 			files = (
 				D1B72959217A34C00012889D /* Assets.xcassets in Resources */,
 				D1B72957217A34BD0012889D /* Main.storyboard in Resources */,
+				D18128E125ABD9F10004B234 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -944,16 +1040,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1BE5FE90E20CD5E71BE70D15 /* [CP] Check Pods Manifest.lock */ = {
+		369C5158DFDDAD106D9B5BFF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Oscars-checkManifestLockResult.txt",
 			);
@@ -962,7 +1062,39 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		55BD5B97A845224773EFA470 /* [CP] Copy Pods Resources */ = {
+		3B0D9F2B2BDBFBF82B3D2556 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher.default-Core/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/HorizontalStickyHeaderLayout/HorizontalStickyHeaderLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
+				"${BUILT_PRODUCTS_DIR}/youtube-ios-player-helper/youtube_ios_player_helper.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMAppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HorizontalStickyHeaderLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/youtube_ios_player_helper.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1EDE3B4125565A7B29E272F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -970,82 +1102,82 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAnonymousAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAnonymousAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
+				"$(DERIVED_FILE_DIR)/Pods-Awards Watchlist TV-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAFF6573C57B0A84A602D2AB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B38A823D80865358AC75F6F8 /* [CP] Embed Pods Frameworks */ = {
+		FCAB23969AB2526581303066 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Awards Watchlist TV/Pods-Awards Watchlist TV-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-Core/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseAuth/FirebaseAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseFirestore/FirebaseFirestore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseFunctions/FirebaseFunctions.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseInstanceID/FirebaseInstanceID.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseStorage/FirebaseStorage.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
-				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/abseil/absl.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseFirestore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseFunctions.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstanceID.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseStorage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/absl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -1053,7 +1185,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Oscars/Pods-Oscars-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Awards Watchlist TV/Pods-Awards Watchlist TV-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1063,6 +1195,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1C13BAA2225E2C90096E425 /* WatchLinkCollectionViewCell.swift in Sources */,
+				D1C13BAC22271D880096E425 /* RecommendationViewController.swift in Sources */,
 				D180EE7B218101DB0001C37E /* CreateAccountViewController.swift in Sources */,
 				D108CE831E25C13100EB2C70 /* DetailViewController.swift in Sources */,
 				D180EE8D2183B0A00001C37E /* SettingsTableViewCell.swift in Sources */,
@@ -1081,19 +1215,23 @@
 				D1715EF1218B32AF0023B14F /* PredictionsViewController.swift in Sources */,
 				D19BEE48216E566700C1F176 /* ActorsCollectionViewCell.swift in Sources */,
 				D187E9182191DAD900DE1CB2 /* SuggestionsTableViewCell.swift in Sources */,
+				D1C13BAE22271DAB0096E425 /* RecommendationCollectionViewCell.swift in Sources */,
 				D1715EF3218B55100023B14F /* ProViewController.swift in Sources */,
 				D19BEE4C216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift in Sources */,
 				D1C98B672177C93800462865 /* FriendPredictionsViewController.swift in Sources */,
 				D1D17AFE217F809100971F4A /* ChangeSettingsViewController.swift in Sources */,
 				D108CE8F1E260ABA00EB2C70 /* MoviesNotSeenTableViewController.swift in Sources */,
 				D1C98B5F217794D900462865 /* FriendsTableViewCell.swift in Sources */,
+				D1E124D525B8FAE800ED01D3 /* SearchTableViewCell.swift in Sources */,
 				D1715EF5218B7FA60023B14F /* ImageUploadManager.swift in Sources */,
 				D14BB3FE2199D34400F57A38 /* IAPHelper.swift in Sources */,
 				D1966EDA2176762000D4BD42 /* InvitationTableViewCell.swift in Sources */,
 				D13E36DA216E867B00213DBC /* LoginViewController.swift in Sources */,
 				D1C98B6C2179221100462865 /* SettingsViewController.swift in Sources */,
 				D1C98B692177C94C00462865 /* FriendPredictionsTableViewCell.swift in Sources */,
+				D11C052E25B88B380089163F /* HeaderView.swift in Sources */,
 				D1966ED221753A9500D4BD42 /* ResultsViewController.swift in Sources */,
+				D1FE77F825B201FF00612AE7 /* ErrorManager.swift in Sources */,
 				D14272D3216BAD5F004A2620 /* LoadingNewViewController.swift in Sources */,
 				D102FBEF1FE207270059CB1E /* AppData.swift in Sources */,
 				D1474C322200DD3400692661 /* StoreManager.swift in Sources */,
@@ -1342,7 +1480,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1352,22 +1491,27 @@
 		};
 		D108CE781E259D6800EB2C70 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C912A94E3CA7EE45CD911C6C /* Pods-Oscars.debug.xcconfig */;
+			baseConfigurationReference = A0B06CCA28EC202AEE8B4F3A /* Pods-Oscars.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = Oscars/Oscars.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Oscars/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Oscars/Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WatchSettings = "STRIP_BITCODE_FROM_COPIED_FILES=NO";
 			};
@@ -1375,22 +1519,27 @@
 		};
 		D108CE791E259D6800EB2C70 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A7DD64F009C88EA9CE6C8B49 /* Pods-Oscars.release.xcconfig */;
+			baseConfigurationReference = 847CCB728C366205C325701F /* Pods-Oscars.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = Oscars/Oscars.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Oscars/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Oscars/Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WatchSettings = "STRIP_BITCODE_FROM_COPIED_FILES=NO";
 			};
@@ -1407,11 +1556,17 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = OscarsWatch_Extension;
 				INFOPLIST_FILE = OscarsWatch/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1435,17 +1590,24 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = OscarsWatch_Extension;
 				INFOPLIST_FILE = OscarsWatch/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "OscarsWatch-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
@@ -1462,15 +1624,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "OscarsWatch Extension/OscarsWatch Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "OscarsWatch Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
@@ -1486,16 +1654,23 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "OscarsWatch Extension/OscarsWatch Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "OscarsWatch Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
@@ -1520,7 +1695,11 @@
 				INFOPLIST_FILE = ConfigKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JohnsonApps.ConfigKit;
@@ -1552,7 +1731,11 @@
 				INFOPLIST_FILE = ConfigKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JohnsonApps.ConfigKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1577,12 +1760,16 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ConfigKitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JohnsonApps.ConfigKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Oscars.app/Oscars";
 			};
@@ -1601,11 +1788,15 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ConfigKitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JohnsonApps.ConfigKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Oscars.app/Oscars";
 			};
@@ -1613,6 +1804,7 @@
 		};
 		D1B72971217A34C00012889D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1D023426D9CA873CB59522A /* Pods-Awards Watchlist TV.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1624,13 +1816,16 @@
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Awards Watchlist TV/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JohnsonApps.Awards-Watchlist-TV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
@@ -1638,6 +1833,7 @@
 		};
 		D1B72972217A34C00012889D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BBEF24366A29282246A7C39 /* Pods-Awards Watchlist TV.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1649,12 +1845,15 @@
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Awards Watchlist TV/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JohnsonApps.Awards-Watchlist-TV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
@@ -1673,13 +1872,17 @@
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Awards Watchlist TVTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JohnsonApps.Awards-Watchlist-TVTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Awards Watchlist TV.app/Awards Watchlist TV";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
@@ -1699,12 +1902,16 @@
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Awards Watchlist TVTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JohnsonApps.Awards-Watchlist-TVTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Awards Watchlist TV.app/Awards Watchlist TV";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
@@ -1723,13 +1930,17 @@
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Awards Watchlist TVUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JohnsonApps.Awards-Watchlist-TVUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_TARGET_NAME = "Awards Watchlist TV";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
@@ -1748,12 +1959,16 @@
 				DEVELOPMENT_TEAM = D7J3GEMRNU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Awards Watchlist TVUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JohnsonApps.Awards-Watchlist-TVUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_TARGET_NAME = "Awards Watchlist TV";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
@@ -1845,6 +2060,93 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D1CC7D5625A5129200FE2568 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
+		D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.3.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D1CC7D5725A5129200FE2568 /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1CC7D5625A5129200FE2568 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		D1CC7D5925A5129200FE2568 /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1CC7D5625A5129200FE2568 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		D1CC7D5B25A5129200FE2568 /* FacebookShare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1CC7D5625A5129200FE2568 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookShare;
+		};
+		D1E36B0E25A5181200314373 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		D1E36B1025A5181200314373 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		D1E36B1225A5181200314373 /* FirebaseFirestoreSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreSwift-Beta";
+		};
+		D1E36B1425A5181200314373 /* GoogleUtilities_UserDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = GoogleUtilities_UserDefaults;
+		};
+		D1E36B1625A5181200314373 /* FirebaseStorageSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageSwift-Beta";
+		};
+		D1E36B1825A5181200314373 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		D1E36B1A25A5181200314373 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		D1E36B1C25A5181200314373 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		D1E36B1E25A5181200314373 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		D1E36B2025A5181200314373 /* FirebaseInAppMessaging-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E36B0D25A5181200314373 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseInAppMessaging-Beta";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D108CE5D1E259D6800EB2C70 /* Project object */;
 }

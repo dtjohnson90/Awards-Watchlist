@@ -50,7 +50,11 @@ class MoviesNotSeenTableViewController: UITableViewController {
         
         cell.movieImage.image = currentMovie.cover
         cell.movieTitle.text = currentMovie.name
-        cell.movieStarring.text = "Starring: " + currentMovie.actors[0]
+        if currentMovie.actors.isEmpty {
+            cell.movieStarring.text = "No Billable Cast"
+        } else {
+            cell.movieStarring.text = "Starring: " + currentMovie.actors[0].name
+        }
         
         return cell
     }

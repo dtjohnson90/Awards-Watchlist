@@ -136,10 +136,10 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
                         }
                     } else {
                         self.logError(logString: "Results VC - Results document does not exist")
-                        let alertController = UIAlertController(title: "Error", message: "There was a problem accessing the results. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem accessing the results. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                         
                         
-                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                             (result : UIAlertAction) -> Void in
                         }
                         
@@ -170,10 +170,10 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
                         }
                     } else {
                         self.logError(logString: "Results VC - Results document does not exist")
-                        let alertController = UIAlertController(title: "Error", message: "There was a problem accessing the results. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem accessing the results. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                         
                         
-                        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                             (result : UIAlertAction) -> Void in
                         }
                         

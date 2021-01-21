@@ -22,9 +22,9 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
     @IBOutlet weak var profilePic: UIImageView!
     
     @IBAction func changeClicked(_ sender: Any) {
-        let alertController = UIAlertController(title: "Profile Picture", message: "Would you like to take a picture or upload one from your photo library?", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: "Profile Picture", message: "Would you like to take a picture or upload one from your photo library?", preferredStyle: UIAlertController.Style.alert)
         
-        let library = UIAlertAction(title: "Photo Library", style: UIAlertActionStyle.default) {
+        let library = UIAlertAction(title: "Photo Library", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 self.logError(logString: "Change Settings VC - Editing Picture From Photo Library")
@@ -35,7 +35,7 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
                 self.present(imagePicker, animated: true, completion: nil)
             }
         }
-        let photo = UIAlertAction(title: "Take Picture", style: UIAlertActionStyle.default) {
+        let photo = UIAlertAction(title: "Take Picture", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 self.logError(logString: "Change Settings VC - Editing Picture From Camera")
@@ -46,7 +46,7 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
                 self.present(imagePicker, animated: true, completion: nil)
             }
         }
-        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
         }
         alertController.addAction(library)
@@ -57,9 +57,9 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
     
     @IBAction func saveClicked(_ sender: Any) {
         if (changeTextField.text?.isEmpty)!{
-            let alertController = UIAlertController(title: "Error", message: "The text field cannot be blank.", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Error", message: "The text field cannot be blank.", preferredStyle: UIAlertController.Style.alert)
             
-            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
             }
             
@@ -67,16 +67,16 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
             self.present(alertController, animated: true, completion: nil)
         } else {
             UIApplication.shared.beginIgnoringInteractionEvents()
-            let userRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+            let userRef = Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn)
             userRef.updateData([
                 "Name": changeTextField.text!
             ]) { err in
                 if let err = err {
                     self.logError(logString: "Change Settings VC - Problem Updating Name", logError: err.localizedDescription)
-                    let alertController = UIAlertController(title: "Error", message: "There was a problem saving your name. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "There was a problem saving your name. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                     
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         UIApplication.shared.endIgnoringInteractionEvents()
                     }
@@ -89,13 +89,13 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
                             }, completionBlock: { [unowned self] (fileURL, errorMessage) in
                                 if let fileURL = fileURL {
                                     userRef.updateData([
-                                        "Image URL": fileURL.absoluteString
+                                        "imageURL": fileURL.absoluteString
                                     ]) { err in
                                         if let err = err {
                                             self.logError(logString: "Change Settings VC - Problem Updating Picture", logError: err.localizedDescription)
-                                            let alertController = UIAlertController(title: "Error", message: "There was an error attempting to save picture", preferredStyle: UIAlertControllerStyle.alert)
+                                            let alertController = UIAlertController(title: "Error", message: "There was an error attempting to save picture", preferredStyle: UIAlertController.Style.alert)
                                             
-                                            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                                            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                                                 (result : UIAlertAction) -> Void in
                                                 UIApplication.shared.endIgnoringInteractionEvents()
                                                 self.performSegue(withIdentifier: "nameUpdatedSegue", sender: self)
@@ -103,6 +103,7 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
                                             alertController.addAction(okAction)
                                             self.present(alertController, animated: true, completion: nil)
                                         } else {
+                                            Items.sharedInstance.profilePic = memberImage
                                             UIApplication.shared.endIgnoringInteractionEvents()
                                             self.performSegue(withIdentifier: "backToSettings", sender: self)
                                         }
@@ -123,7 +124,7 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
 
         // Do any additional setup after loading the view.
                 
-        Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn).getDocument { (document, error) in
+        Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn).getDocument { (document, error) in
             if let error = error {
                 self.logError(logString: "Change Settings VC - Error Accessing User Document", logError: error.localizedDescription)
             } else {
@@ -132,10 +133,10 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
                     self.profilePic.image = self.memberImage
                 } else {
                     self.logError(logString: "Change Settings VC - User Document doesn't exist")
-                    let alertController = UIAlertController(title: "Error", message: "There was a problem loading your information. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "There was a problem loading your information. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                     
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         Items.sharedInstance.loggedIn = ""
                         UserDefaults.standard.removeObject(forKey: "loggedIn")
@@ -148,21 +149,25 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        var image : UIImage!
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let editedImage = info[.editedImage] as? UIImage
+        let originalImage = info[.originalImage] as? UIImage
         
-        if let img = info[UIImagePickerControllerEditedImage] as? UIImage {
-            image = img
+        if editedImage != nil {
+            memberImage = editedImage
+            profilePic.image = editedImage
+            imageUpdated = true
+        } else if originalImage != nil {
+            memberImage = originalImage
+            profilePic.image = originalImage
+            imageUpdated = true
         }
-        else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            image = img
-        }
-        
-        Items.sharedInstance.profilePic = image
-        memberImage = image
-        profilePic.image = image
-        imageUpdated = true
-        picker.dismiss(animated: true,completion: nil)
+            
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func logError(logString: String, logError: String = "") {
@@ -190,3 +195,4 @@ class ChangeSettingsViewController: UIViewController, UIImagePickerControllerDel
         }
     }
 }
+

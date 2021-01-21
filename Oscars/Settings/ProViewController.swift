@@ -123,10 +123,10 @@ class ProViewController: UIViewController {
     }
     
     @objc func purchaseFailed() {
-        let alertController = UIAlertController(title: "Error", message: "There was a problem with this purchase. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: "Error", message: "There was a problem with this purchase. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
         
         
-        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
         }
         
@@ -135,10 +135,10 @@ class ProViewController: UIViewController {
     }
     
     @objc func restoreSuccesfull() {
-        let alertController = UIAlertController(title: "Restore Completed", message: "Your purchase of Awards Watchlist Pro has been restored", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: "Restore Completed", message: "Your purchase of Awards Watchlist Pro has been restored", preferredStyle: UIAlertController.Style.alert)
         
         
-        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
             Items.sharedInstance.purchased = true
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "purchased"), object: nil)
@@ -150,10 +150,10 @@ class ProViewController: UIViewController {
     }
     
     @objc func restoreFailed() {
-        let alertController = UIAlertController(title: "Error", message: "You have not purchased this product. Unable to Restore.", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: "Error", message: "You have not purchased this product. Unable to Restore.", preferredStyle: UIAlertController.Style.alert)
         
         
-        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+        let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
         }
         

@@ -15,7 +15,8 @@ import FirebaseFirestore
 import StoreKit
 import MessageUI
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, GIDSignInDelegate, GIDSignInUIDelegate, MFMailComposeViewControllerDelegate {
+//class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, GIDSignInDelegate, GIDSignInUIDelegate, MFMailComposeViewControllerDelegate {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, GIDSignInDelegate, MFMailComposeViewControllerDelegate {
     
     var accountArray = [String](repeating: "", count: 3)
     var dataArray = ["Clear Movies Seen", "Clear Predictions","Clear All Data"]
@@ -67,7 +68,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             self.proButton.isHidden = false
         }
         
-        GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance()?.delegate = self
         
         if AccessToken.current != nil {
@@ -76,27 +76,32 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             accountArray[0] = "Log Into Facebook"
         }
         
-        if GIDSignIn.sharedInstance().hasAuthInKeychain() {
-            accountArray[1] = "Log Out Of Google"
-        } else {
+        if GIDSignIn.sharedInstance()?.currentUser == nil {
             accountArray[1] = "Log into Google"
+        } else {
+           accountArray[1] = "Log Out Of Google"
         }
+
         accountArray[2] = "Sign Out"
         
-        let docRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+        let docRef = Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn)
         docRef.getDocument { (document, error) in
             if let error = error {
                 self.logError(logString: "Settings VC - Error accessing User document", logError: error.localizedDescription)
             } else {
                 if let document = document, document.exists {
                     self.nameLabel.text = document.data()!["Name"] as? String
-                    self.emailLabel.text = document.documentID
+                    if document.documentID.contains("privaterelay.appleid.com") {
+                        self.emailLabel.text = "Using Private Apple Email"
+                    } else {
+                        self.emailLabel.text = document.documentID
+                    }
                 } else {
                     self.logError(logString: "Settings VC - User Document Doesn't Exist")
-                    let alertController = UIAlertController(title: "Error", message: "There was a problem accessing your information. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "There was a problem accessing your information. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                     
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         Items.sharedInstance.loggedIn = ""
                         UserDefaults.standard.removeObject(forKey: "loggedIn")
@@ -130,12 +135,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             accountArray[0] = "Log Into Facebook"
         }
         
-        if GIDSignIn.sharedInstance().hasAuthInKeychain() {
-            self.logError(logString: "Settings VC - Google Login: True")
-            accountArray[1] = "Log Out Of Google"
-        } else {
+        if GIDSignIn.sharedInstance()?.currentUser == nil {
             self.logError(logString: "Settings VC - Google Login: False")
             accountArray[1] = "Log into Google"
+        } else {
+           self.logError(logString: "Settings VC - Google Login: True")
+           accountArray[1] = "Log Out Of Google"
         }
         
         if Items.sharedInstance.purchased {
@@ -146,7 +151,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             self.proButton.isHidden = false
         }
         
-        let docRef2 = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+        let docRef2 = Firestore.firestore().collection("Users").document(Items.sharedInstance.loggedIn)
         docRef2.getDocument { (document2, error) in
             if let error = error {
                 self.logError(logString: "Settings VC - Error Accessing User Document", logError: error.localizedDescription)
@@ -155,10 +160,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     self.nameLabel.text = document2.data()!["Name"] as? String
                 } else {
                     self.logError(logString: "Settings VC - User Document Doesn't Exist")
-                    let alertController = UIAlertController(title: "Error", message: "There was a problem accessing your information. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "There was a problem accessing your information. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                     
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         Items.sharedInstance.loggedIn = ""
                         UserDefaults.standard.removeObject(forKey: "loggedIn")
@@ -182,12 +187,22 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         if tableView == accountTable {
             let cell = tableView.dequeueReusableCell(withIdentifier: "accountCell", for: indexPath)
             cell.textLabel?.text = accountArray[indexPath.row]
-            cell.textLabel?.textColor = UIColor.white
+            if #available(iOS 13.0, *) {
+                cell.textLabel?.textColor = UIColor.label
+            } else {
+                // Fallback on earlier versions
+                cell.textLabel?.textColor = UIColor.white
+            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath)
             cell.textLabel?.text = dataArray[indexPath.row]
-            cell.textLabel?.textColor = UIColor.white
+            if #available(iOS 13.0, *) {
+                cell.textLabel?.textColor = UIColor.label
+            } else {
+                // Fallback on earlier versions
+                cell.textLabel?.textColor = UIColor.white
+            }
             return cell
         }
     }
@@ -202,14 +217,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     accountTable.reloadData()
                 } else {
                     let loginManager = LoginManager()
-                    loginManager.logIn(readPermissions: [ReadPermission.publicProfile, ReadPermission.email], viewController: self) {loginResult in
+                    loginManager.logIn(permissions: [.publicProfile, .email], viewController: self) {loginResult in
                         switch loginResult {
                         case .failed(let error):
                             self.logError(logString: "Settings VC - Facebook Login Failed", logError: error.localizedDescription)
-                            let alertController = UIAlertController(title: "Error", message: "Unable to login to Facebook. Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "Unable to login to Facebook. Please try again.", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 Items.sharedInstance.loggedIn = ""
                                 UserDefaults.standard.removeObject(forKey: "loggedIn")
@@ -227,6 +242,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     }
                 }
             } else if indexPath.row == 1 {
+                if GIDSignIn.sharedInstance()?.currentUser == nil {
+                    GIDSignIn.sharedInstance().signIn()
+                } else {
+                   self.logError(logString: "Settings VC - Logging Out Of Google")
+                   GIDSignIn.sharedInstance()?.signOut()
+                   accountArray[1] = "Log Into Google"
+                   accountTable.reloadData()
+                }
+                /*
                 if GIDSignIn.sharedInstance().hasAuthInKeychain() {
                     self.logError(logString: "Settings VC - Logging Out Of Google")
                     GIDSignIn.sharedInstance()?.signOut()
@@ -234,25 +258,25 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     accountTable.reloadData()
                 } else {
                     GIDSignIn.sharedInstance().signIn()
-                }
+                }*/
             } else {
                 DispatchQueue.main.async {
-                    let alertController = UIAlertController(title: "Signing Out", message: "Are you sure you want to sign out? This will remove all saved movies and predictions from this device", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Signing Out", message: "Are you sure you want to sign out? This will remove all saved movies and predictions from this device", preferredStyle: UIAlertController.Style.alert)
                     
-                    let local = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+                    let local = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                     }
-                    let account = UIAlertAction(title: "Sign Out", style: UIAlertActionStyle.default) {
+                    let account = UIAlertAction(title: "Sign Out", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         self.logError(logString: "Settings VC - Logging Out Of Application")
                         do {
                             try Auth.auth().signOut()
                         } catch let signOutError as NSError {
                             self.logError(logString: "Settings VC - Problem Logging Out of Auth", logError: signOutError.localizedDescription)
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem signing out. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem signing out. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
                             
-                            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                             }
                             
@@ -265,8 +289,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                         Items.sharedInstance.loggedIn = String()
                         Items.sharedInstance.moviesSeenArray.removeAll()
                         Items.sharedInstance.movieArray.removeAll()
+                        Items.sharedInstance.actorArray.removeAll()
                         LoginManager().logOut()
                         GIDSignIn.sharedInstance().signOut()
+                        UserDefaults.standard.set(true, forKey: Items.sharedInstance.updateKey)
                         self.performSegue(withIdentifier: "signOutSegue", sender: self)
                     }
                     
@@ -283,12 +309,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @objc func longTap() {
-        let alertController = UIAlertController(title: "Error Reporting", message: "Would you like to email the developer with an error?", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let alertController = UIAlertController(title: "Error Reporting", message: "Would you like to email the developer with an error?", preferredStyle: UIAlertController.Style.actionSheet)
         
-        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
         }
-        let email = UIAlertAction(title: "Email Logs", style: UIAlertActionStyle.default) {
+        let email = UIAlertAction(title: "Email Logs", style: UIAlertAction.Style.default) {
             (result : UIAlertAction) -> Void in
             self.logError(logString: "Settings VC - Sending Logs via Email")
             self.sendMail()
@@ -320,9 +346,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             // show failure alert
             self.logError(logString: "Settings VC - Unable to send email with Logs")
-            let alertController = UIAlertController(title: "Error", message: "The email is unable to automatically send. Please send an email to 'dtjohnsonapps@gmail.com' to file an issue report.", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Error", message: "The email is unable to automatically send. Please send an email to 'dtjohnsonapps@gmail.com' to file an issue report.", preferredStyle: UIAlertController.Style.alert)
             
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
             }
             alertController.addAction(okAction)
@@ -341,7 +367,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     fileprivate func openUrl(_ urlString:String) {
         let url = URL(string: urlString)!
         if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
         } else {
             UIApplication.shared.openURL(url)
         }
@@ -352,10 +378,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         if let error = error {
             self.logError(logString: "Settings VC - Google Login Failed", logError: error.localizedDescription)
             UIApplication.shared.endIgnoringInteractionEvents()
-            let alertController = UIAlertController(title: "Error", message: "There was a problem signing into Google. Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Error", message: "There was a problem signing into Google. Please try again.", preferredStyle: UIAlertController.Style.alert)
             
             
-            let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+            let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 
             }
@@ -369,25 +395,21 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
         
-        Auth.auth().currentUser?.linkAndRetrieveData(with: credential)  { (authResult, error) in
-            // ...
-        }
-        
-        Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
-            if let error = error {
-                self.logError(logString: "Settings VC - Unable to Authenticate via Google", logError: error.localizedDescription)
-                UIApplication.shared.endIgnoringInteractionEvents()
-                let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-                
-                let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
-                    (result : UIAlertAction) -> Void in
-                    GIDSignIn.sharedInstance().signOut()
-                    return
-                }
-                
-                alertController.addAction(account)
-                self.present(alertController, animated: true, completion: nil)
-            } else {
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+          if let error = error {
+            self.logError(logString: "Settings VC - Unable to Authenticate via Google", logError: error.localizedDescription)
+            UIApplication.shared.endIgnoringInteractionEvents()
+            let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+            
+            let account = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
+                (result : UIAlertAction) -> Void in
+                GIDSignIn.sharedInstance().signOut()
+                return
+            }
+            
+            alertController.addAction(account)
+            self.present(alertController, animated: true, completion: nil)
+          } else {
                 self.logError(logString: "Settings VC - Logged in via Google succesfully")
                 UIApplication.shared.endIgnoringInteractionEvents()
                 self.accountArray[1] = "Log Out Of Google"
@@ -399,13 +421,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     func clearData(clear: Int) {
         switch clear {
         case 0:
-            let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to remove all your saved movies? This is irreversible", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to remove all your saved movies? This is irreversible", preferredStyle: UIAlertController.Style.alert)
             
-            let local = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+            let local = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 
             }
-            let account = UIAlertAction(title: "Remove", style: UIAlertActionStyle.default) {
+            let account = UIAlertAction(title: "Remove", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 self.logError(logString: "Settings VC - Removing Saved Movies")
                 
@@ -414,7 +436,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 UserDefaults.standard.synchronize()
                 Items.sharedInstance.moviesSeenArray.removeAll()
                 
-                let userRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                let userRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                 userRef.getDocument { (document, error) in
                     if let error = error {
                         self.logError(logString: "Settings VC - Unable to get User Document", logError: error.localizedDescription)
@@ -426,9 +448,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                                 UIApplication.shared.endIgnoringInteractionEvents()
                                 if let err = err {
                                     self.logError(logString: "Settings VC - Unable to update saved movies to document", logError: err.localizedDescription)
-                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                                     
-                                    let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                    let account = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                         (result : UIAlertAction) -> Void in
                                         GIDSignIn.sharedInstance().signOut()
                                         return
@@ -441,9 +463,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                         } else {
                             self.logError(logString: "Settings VC - User Document doesn't exist")
                             UIApplication.shared.endIgnoringInteractionEvents()
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
-                            let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let account = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 GIDSignIn.sharedInstance().signOut()
                                 return
@@ -460,13 +482,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             alertController.addAction(account)
             self.present(alertController, animated: true, completion: nil)
         case 1:
-            let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to remove all your predictions? This is irreversible", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to remove all your predictions? This is irreversible", preferredStyle: UIAlertController.Style.alert)
             
-            let local = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+            let local = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 UIApplication.shared.endIgnoringInteractionEvents()
             }
-            let account = UIAlertAction(title: "Remove", style: UIAlertActionStyle.default) {
+            let account = UIAlertAction(title: "Remove", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 self.logError(logString: "Settings VC - Removing Saved Predictions")
                 
@@ -476,7 +498,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 Items.sharedInstance.predictions = [String](repeating: "", count: 24)
                 Items.sharedInstance.dataCleared = true
                 
-                let userRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                let userRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                 userRef.getDocument { (document, error) in
                     if let error = error {
                         self.logError(logString: "Settings VC - Unable to access User document", logError: error.localizedDescription)
@@ -512,9 +534,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                                 if let err = err {
                                     self.logError(logString: "Settings VC - Unable to update User Predictions", logError: err.localizedDescription)
                                     UIApplication.shared.endIgnoringInteractionEvents()
-                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                                     
-                                    let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                    let account = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                         (result : UIAlertAction) -> Void in
                                         GIDSignIn.sharedInstance().signOut()
                                         return
@@ -528,9 +550,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                         } else {
                             self.logError(logString: "Settings VC - User Document Doesn't Exist")
                             UIApplication.shared.endIgnoringInteractionEvents()
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
-                            let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let account = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 GIDSignIn.sharedInstance().signOut()
                                 return
@@ -547,13 +569,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             alertController.addAction(account)
             self.present(alertController, animated: true, completion: nil)
         default:
-            let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to remove all saved data? This is irreversible", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to remove all saved data? This is irreversible", preferredStyle: UIAlertController.Style.alert)
             
-            let local = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+            let local = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 UIApplication.shared.endIgnoringInteractionEvents()
             }
-            let account = UIAlertAction(title: "Remove", style: UIAlertActionStyle.default) {
+            let account = UIAlertAction(title: "Remove", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 self.logError(logString: "Settings VC - Removing All Data")
                 
@@ -565,7 +587,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 Items.sharedInstance.moviesSeenArray.removeAll()
                 Items.sharedInstance.dataCleared = true
                 
-                let userRef = Firestore.firestore().collection("UserMovieList").document(Items.sharedInstance.loggedIn)
+                let userRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(Items.sharedInstance.loggedIn)
                 userRef.getDocument { (document, error) in
                     if let error = error {
                         self.logError(logString: "Settings VC - Error Accessing User Document", logError: error.localizedDescription)
@@ -575,7 +597,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                             
                             //Cycle through every friend and remove your name from their list
                             for item in friends {
-                                let friendRef = Firestore.firestore().collection("UserMovieList").document(item)
+                                let friendRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(item)
                                 friendRef.getDocument { (document, error) in
                                     if let error = error {
                                         self.logError(logString: "Settings VC - Unable to get friend document. (Friend: \(item))", logError: error.localizedDescription)
@@ -593,9 +615,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                                                 if let err = err {
                                                     self.logError(logString: "Settings VC - Error Updating Friends Document. (Friend: \(item))", logError: err.localizedDescription)
                                                     UIApplication.shared.endIgnoringInteractionEvents()
-                                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                                                     
-                                                    let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                                    let account = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                                         (result : UIAlertAction) -> Void in
                                                         GIDSignIn.sharedInstance().signOut()
                                                         return
@@ -646,9 +668,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                                 if let err = err {
                                     self.logError(logString: "Settings VC - Error Updating User Document", logError: err.localizedDescription)
                                     UIApplication.shared.endIgnoringInteractionEvents()
-                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                                    let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                                     
-                                    let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                                    let account = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                         (result : UIAlertAction) -> Void in
                                         GIDSignIn.sharedInstance().signOut()
                                         return
@@ -663,9 +685,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                         } else {
                             self.logError(logString: "Settings VC - User Document Doesn't Exist")
                             UIApplication.shared.endIgnoringInteractionEvents()
-                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                            let alertController = UIAlertController(title: "Error", message: "There was a problem clearing the data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                             
-                            let account = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                            let account = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                                 (result : UIAlertAction) -> Void in
                                 GIDSignIn.sharedInstance().signOut()
                                 return
@@ -708,4 +730,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

@@ -27,7 +27,7 @@ class FriendsSeenViewController: UIViewController, UITableViewDataSource, UITabl
         // Do any additional setup after loading the view.
         //self.title = "Seen Movies"
         seenTableView.dataSource = nil
-        Firestore.firestore().collection("UserMovieList").document(friendChosen).getDocument { (document, error) in
+        Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document(friendChosen).getDocument { (document, error) in
             if let error = error {
                 self.logError(logString: "Friends Seen VC - Error Accessing Friend Document", logError: error.localizedDescription)
             } else {
@@ -66,10 +66,10 @@ class FriendsSeenViewController: UIViewController, UITableViewDataSource, UITabl
                     }
                 } else {
                     self.logError(logString: "Friend Seen VC - Friend Document Doesn't Exist")
-                    let alertController = UIAlertController(title: "Error", message: "Could not access your friends data. Please quit the app and try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: "Could not access your friends data. Please quit the app and try again.", preferredStyle: UIAlertController.Style.alert)
                     
                     
-                    let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
+                    let ok = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                     }
                     
@@ -98,11 +98,19 @@ class FriendsSeenViewController: UIViewController, UITableViewDataSource, UITabl
         if indexPath.section == 0 {
             cell.cover.image = moviesSeen[indexPath.row].cover
             cell.name.text = moviesSeen[indexPath.row].name
-            cell.starring.text = "Starring: " + moviesSeen[indexPath.row].actors[0]
+            if moviesNotSeen[indexPath.row].actors.isEmpty {
+                cell.starring.text = "No Billable Cast"
+            } else {
+                cell.starring.text = "Starring: " + moviesNotSeen[indexPath.row].actors[0].name
+            }
         } else {
             cell.cover.image = moviesNotSeen[indexPath.row].cover
             cell.name.text = moviesNotSeen[indexPath.row].name
-            cell.starring.text = "Starring: " + moviesNotSeen[indexPath.row].actors[0]
+            if moviesNotSeen[indexPath.row].actors.isEmpty {
+                cell.starring.text = "No Billable Cast"
+            } else {
+                cell.starring.text = "Starring: " + moviesNotSeen[indexPath.row].actors[0].name
+            }
         }
         
         return cell

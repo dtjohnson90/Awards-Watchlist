@@ -7,14 +7,29 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class LoadingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        myActivityView.startAnimating()
+        //myActivityView.startAnimating()
 
         // Do any additional setup after loading the view.
+        
+        let db = Firestore.firestore()
+        
+        db.collection("Settings").document("AppInformation").getDocument { (document, error) in
+            if let error = error {
+                //self.logError(logString: "Loading VC - Getting 'Is Updating'", logError: error.localizedDescription)
+                //self.showError(errorString: error.localizedDescription)
+                print(error.localizedDescription)
+            } else {
+                if let document = document, document.exists {
+                    print(document.data()!["listToUse"] as! String)
+                }
+            }
+        }
     }
 
 
