@@ -1,0 +1,6 @@
+framework module HorizontalStickyHeaderLayout {
+  umbrella header "HorizontalStickyHeaderLayout-umbrella.h"
+
+  export *
+  module * { export * }
+}
