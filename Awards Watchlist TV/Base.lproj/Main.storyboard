@@ -51,29 +51,29 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Awards Watchlist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rmy-8k-eO5">
-                                <rect key="frame" x="341" y="68" width="1239" height="187"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Awards Watchlist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rmy-8k-eO5">
+                                <rect key="frame" x="409" y="68" width="1102" height="187"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="187" id="r9a-Ir-T37"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="133"/>
                                 <color key="textColor" red="0.45142896249999998" green="0.4096198486" blue="0.1870385601" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Euu-RQ-zf0">
-                                <rect key="frame" x="341" y="263" width="1239" height="589"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Click below to choose how you would like to sign in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpF-mB-kQl">
-                                        <rect key="frame" x="197" y="39" width="845" height="46"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Euu-RQ-zf0">
+                                <rect key="frame" x="340" y="263" width="1240" height="557"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fA4-qY-gew"/>
+                        <constraints>
+                            <constraint firstItem="Euu-RQ-zf0" firstAttribute="top" secondItem="Rmy-8k-eO5" secondAttribute="bottom" constant="8" symbolic="YES" id="42M-y5-xCE"/>
+                            <constraint firstItem="Euu-RQ-zf0" firstAttribute="leading" secondItem="fA4-qY-gew" secondAttribute="leading" constant="260" id="BvG-eS-GNX"/>
+                            <constraint firstItem="Rmy-8k-eO5" firstAttribute="top" secondItem="fA4-qY-gew" secondAttribute="top" constant="8" id="G78-oo-8qt"/>
+                            <constraint firstItem="fA4-qY-gew" firstAttribute="bottom" secondItem="Euu-RQ-zf0" secondAttribute="bottom" constant="200" id="HuC-ca-afC"/>
+                            <constraint firstItem="fA4-qY-gew" firstAttribute="trailing" secondItem="Euu-RQ-zf0" secondAttribute="trailing" constant="260" id="oAl-ac-qDK"/>
+                            <constraint firstItem="Rmy-8k-eO5" firstAttribute="centerX" secondItem="fA4-qY-gew" secondAttribute="centerX" id="yIy-Nm-Qsq"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ahC-Jf-L1F"/>
                 </viewController>

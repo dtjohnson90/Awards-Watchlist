@@ -18,6 +18,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         let name: String
         let email: String
         let photo: UIImage
+        let available: Bool
     }
     
     var invitations = [String]()
@@ -126,27 +127,60 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             let photoURL = friendDocument.data()!["imageURL"] as! String
                             if photoURL == "nil" {
                                 photo = UIImage(named: "profilePic")!
-                                self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo))
+                                self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo, available: true))
                                 friendDownloading.leave()
                             } else {
                                 let url = URL(string: photoURL)!
                                 self.getData(from: url) { data, response, error in
                                     guard let data = data, error == nil else {
                                         photo = UIImage(named: "profilePic")!
-                                        self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo))
+                                        self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo, available: true))
                                         friendDownloading.leave()
                                         return
                                     }
                                     DispatchQueue.main.async() {
                                         photo = UIImage(data: data)!
-                                        self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo))
+                                        self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo, available: true))
                                         friendDownloading.leave()
                                     }
                                 }
                             }
                         } else {
+                            Firestore.firestore().collection("UserMovieList2020").document(friend).getDocument { (friendDocument, error) in
+                                if let error = error {
+                                    self.logError(logString: "Friends VC - Error Loading Friend Document (Friend: \(friend))", logError: error.localizedDescription)
+                                    friendDownloading.leave()
+                                } else {
+                                    if let friendDocument = friendDocument, friendDocument.exists {
+                                        var photo = UIImage()
+                                        let photoURL = friendDocument.data()!["Image URL"] as! String
+                                        if photoURL == "nil" {
+                                            photo = UIImage(named: "profilePic")!
+                                            self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo, available: false))
+                                            friendDownloading.leave()
+                                        } else {
+                                            let url = URL(string: photoURL)!
+                                            self.getData(from: url) { data, response, error in
+                                                guard let data = data, error == nil else {
+                                                    photo = UIImage(named: "profilePic")!
+                                                    self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo, available: false))
+                                                    friendDownloading.leave()
+                                                    return
+                                                }
+                                                DispatchQueue.main.async() {
+                                                    photo = UIImage(data: data)!
+                                                    self.friendsList.append(friends(name: friendDocument.data()!["Name"] as! String, email: friend, photo: photo, available: false))
+                                                    friendDownloading.leave()
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        print("No Document")
+                                        friendDownloading.leave()
+                                    }
+                                }
+                            }
                             self.logError(logString: "Friends VC - Friend Document Doesn't Exist (Friend \(friend))")
-                            friendDownloading.leave()
                         }
                     }
                 }
@@ -170,20 +204,20 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             let photoURL = inviteDocument.data()!["imageURL"] as! String
                             if photoURL == "nil" {
                                 photo = UIImage(named: "profilePic")!
-                                self.invitationsArray.append(friends(name: inviteDocument.data()!["Name"] as! String, email: invite, photo: photo))
+                                self.invitationsArray.append(friends(name: inviteDocument.data()!["Name"] as! String, email: invite, photo: photo, available: true))
                                 inviteDownloading.leave()
                             } else {
                                 let url = URL(string: photoURL)!
                                 self.getData(from: url) { data, response, error in
                                     guard let data = data, error == nil else {
                                         photo = UIImage(named: "profilePic")!
-                                        self.invitationsArray.append(friends(name: inviteDocument.data()!["Name"] as! String, email: invite, photo: photo))
+                                        self.invitationsArray.append(friends(name: inviteDocument.data()!["Name"] as! String, email: invite, photo: photo, available: true))
                                         inviteDownloading.leave()
                                         return
                                     }
                                     DispatchQueue.main.async() {
                                         photo = UIImage(data: data)!
-                                        self.invitationsArray.append(friends(name: inviteDocument.data()!["Name"] as! String, email: invite, photo: photo))
+                                        self.invitationsArray.append(friends(name: inviteDocument.data()!["Name"] as! String, email: invite, photo: photo, available: true))
                                         inviteDownloading.leave()
                                     }
                                 }
@@ -201,6 +235,33 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.friendsTableView.reloadData()
                 self.testArray[1] = true
             }
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePurchased), name:NSNotification.Name(rawValue: "purchased"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil
+        )
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.view.frame.origin.y = -keyboardHeight
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        self.view.frame.origin.y = 0
+    }
+    
+    @objc func updatePurchased(notification: NSNotification){
+        if Items.sharedInstance.purchased {
+            purchaseView.isHidden = true
+        } else {
+            purchaseView.isHidden = false
         }
     }
     
@@ -312,6 +373,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
+    /*
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.3, animations: {
             self.view.frame = CGRect(x:self.view.frame.origin.x, y:self.view.frame.origin.y - 200, width:self.view.frame.size.width, height:self.view.frame.size.height);
@@ -324,7 +386,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.view.frame = CGRect(x:self.view.frame.origin.x, y:self.view.frame.origin.y + 200, width:self.view.frame.size.width, height:self.view.frame.size.height);
             
         })
-    }
+    }*/
     
     override func viewDidAppear(_ animated: Bool) {
         self.logError(logString: "In Friends VC")
@@ -374,7 +436,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                                                 if friendTest == false {
                                                     if photoURL == "nil" {
                                                         photo = UIImage(named: "profilePic")!
-                                                        self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo))
+                                                        self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo, available: true))
                                                         suggestedDownloading.leave()
                                                     } else {
                                                         let url = URL(string: photoURL)!
@@ -382,13 +444,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                                                             guard let data = data, error == nil else {
                                                                 self.logError(logString: "Friends VC - Unable to get Facebook Friends Profile Photo", logError: (error?.localizedDescription)!)
                                                                 photo = UIImage(named: "profilePic")!
-                                                                self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo))
+                                                                self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo, available: true))
                                                                 suggestedDownloading.leave()
                                                                 return
                                                             }
                                                             DispatchQueue.main.async() {
                                                                 photo = UIImage(data: data)!
-                                                                self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo))
+                                                                self.suggestedFriends.append(friends(name: documentInfo["Name"] as! String, email: document.documentID, photo: photo, available: true))
                                                                 suggestedDownloading.leave()
                                                             }
                                                         }
@@ -599,8 +661,19 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if indexPath.section == 0 {
             DispatchQueue.main.async {
-                self.friendChosen = self.friendsList[indexPath.row].email
-                self.performSegue(withIdentifier: "showFriendSegue", sender: self)
+                if self.friendsList[indexPath.row].available {
+                    self.friendChosen = self.friendsList[indexPath.row].email
+                    self.performSegue(withIdentifier: "showFriendSegue", sender: self)
+                } else {
+                    let alertController = UIAlertController(title: "Error", message: "Your friend has not updated to the latest version of the app, therefore their information is not available.", preferredStyle: UIAlertController.Style.alert)
+
+                    let okAction = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) {
+                     (result : UIAlertAction) -> Void in
+                     return }
+
+                    alertController.addAction(okAction)
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
         } else if indexPath.section == 1 {
             DispatchQueue.main.async {

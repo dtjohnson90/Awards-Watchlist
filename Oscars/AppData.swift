@@ -41,7 +41,7 @@ class Items {
         //var used: Bool
     }
     
-    let updateKey = "3.0-2"
+    let updateKey = "3.2.0"
     var userMovieListYear = String()
     var movieList = String()
     var movieArray = [movie]()

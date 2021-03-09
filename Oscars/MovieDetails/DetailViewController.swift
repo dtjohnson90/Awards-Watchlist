@@ -47,21 +47,9 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     @IBOutlet weak var contentViewHeight: NSLayoutConstraint!
     @IBOutlet var castLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
-    //@IBOutlet weak var noLinkView: UIView!
-    //@IBOutlet weak var imageWidth: NSLayoutConstraint!
-    //@IBOutlet weak var imageHeight: NSLayoutConstraint!
-    //@IBOutlet weak var trailerWidth: NSLayoutConstraint!
-    //@IBOutlet weak var trailerHeight: NSLayoutConstraint!
-    //@IBOutlet weak var contentViewWidth: NSLayoutConstraint!
-    //@IBOutlet weak var contentViewHeight: NSLayoutConstraint!
     @IBOutlet weak var actorCollectionView: UICollectionView!
-    //@IBOutlet weak var oscarWins: UILabel!
-    //@IBOutlet weak var whereToWatch: UILabel!
     @IBOutlet var detailImage: UIImageView!
     @IBOutlet var haveWatched: UIButton!
-    //@IBOutlet var detailInfo: UIScrollView!
-    //@IBOutlet var wv: UIWebView!
-    //@IBOutlet var nominations: UILabel!
     @IBOutlet weak var linkCollection: UICollectionView! {
         didSet {
             if #available(iOS 11.0, *) {
@@ -156,10 +144,45 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         var count = 0
         for nomination in movieSelected.nominatedFor {
             count += 1
+            var stringToAppend = ""
+            switch nomination {
+            case "Best Actor":
+                stringToAppend = "Actor in a Leading Role"
+            case "Best Actress":
+                stringToAppend = "Actress in a Leading Role"
+            case "Supporting Actor":
+                stringToAppend = "Actor in a Supporting Role"
+            case "Supporting Actress":
+                stringToAppend = "Actress in a Supporting Role"
+            case "Animated":
+                stringToAppend = "Animated Feature Film"
+            case "Documentary Feature":
+                stringToAppend = "Documentary (Feature)"
+            case "Documentary Short":
+                stringToAppend = "Documentary (Short)"
+            case "Foreign Film":
+                stringToAppend = "Foreign Language Film"
+            case "Makeup":
+                stringToAppend = "Makeup and Hairstyling"
+            case "Music Song":
+                stringToAppend = "Music (Original Song)"
+            case "Music Score":
+                stringToAppend = "Music (Original Score"
+            case "Animated Short":
+                stringToAppend = "Short Filme (Animated)"
+            case "Live Action Short":
+                stringToAppend = "Short Filme (Live Action)"
+            case "Writing Adapted":
+                stringToAppend = "Writing (Adapted Screenplay)"
+            case "Writing Original":
+                stringToAppend = "Writing (Original Screenplay)"
+            default:
+                stringToAppend = nomination
+            }
             if count == movieSelected.nominatedFor.count {
-                nominationString.append(nomination)
+                nominationString.append(stringToAppend)
             } else {
-                nominationString.append(nomination + "\n")
+                nominationString.append(stringToAppend + "\n")
             }
         }
         
@@ -436,27 +459,33 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     func validateSession() {
         if let validSession = sending {
             self.logError(logString: "Detail VC - Sending Data To Watch")
-            let movieArray = NSMutableArray()
+            var movieArray = [[String:Any]]()
             for movie in Items.sharedInstance.movieArray {
-                let movieInfo = NSMutableDictionary()
-                movieInfo.setObject(movie.name, forKey: "Name" as NSCopying)
-                movieInfo.setObject(movie.actors, forKey: "Actors" as NSCopying)
-                movieInfo.setObject(movie.description, forKey: "Description" as NSCopying)
-                movieInfo.setObject(movie.nominatedFor, forKey: "NominatedFor" as NSCopying)
-                movieArray.add(movieInfo)
+                var actorArray = [String]()
+                for actor in movie.actors {
+                    actorArray.append(actor.name)
+                }
+                let movieInfo:[String:Any] = ["Name":movie.name, "Actors":actorArray, "Description":movie.description, "NominatedFor":movie.nominatedFor]
+                movieArray.append(movieInfo)
             }
             
-            let seenArray = NSMutableArray()
+            var seenArray = [[String:Any]]()
             for movie in Items.sharedInstance.moviesSeenArray {
-                let seenMovieInfo = NSMutableDictionary()
-                seenMovieInfo.setObject(movie.name, forKey: "Name" as NSCopying)
-                seenMovieInfo.setObject(movie.actors, forKey: "Actors" as NSCopying)
-                seenMovieInfo.setObject(movie.description, forKey: "Description" as NSCopying)
-                seenMovieInfo.setObject(movie.nominatedFor, forKey: "NominatedFor" as NSCopying)
-                seenArray.add(seenMovieInfo)
+                var actorArray = [String]()
+                for actor in movie.actors {
+                    actorArray.append(actor.name)
+                }
+                let seenMovieInfo:[String:Any] = ["Name":movie.name, "Actors":actorArray, "Description":movie.description, "NominatedFor":movie.nominatedFor]
+                seenArray.append(seenMovieInfo)
             }
             
-            let iphoneAppContext = ["Details": movieArray, "Seen": seenArray] as [String : Any]
+            let date = Date()
+            let formatter2 = DateFormatter()
+            formatter2.timeStyle = .medium
+            let dateString = formatter2.string(from: date)
+            
+            //let iphoneAppContext = ["Details": movieArray, "Seen": seenArray] as [String : Any]
+            let iphoneAppContext = ["Seen": seenArray, "Date":dateString] as [String : Any]
             do {
                 try validSession.updateApplicationContext(iphoneAppContext)
             } catch {
@@ -623,12 +652,6 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         if collectionView == actorCollectionView {
             return movieSelected.actors.count
         } else {
-            print("Stream")
-            print(streamingArray)
-            print("Rent")
-            print(rentArray)
-            print("Buy")
-            print(buyArray)
             if section == 0 {
                 if streamingArray.count > 0 {
                     return streamingArray.count
@@ -650,9 +673,7 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("In cell")
         if collectionView == actorCollectionView {
-            print("I AM HERE YAY")
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "actorCell", for: indexPath) as! ActorsCollectionViewCell
             
             // Create URL
@@ -723,10 +744,8 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
             cell.actorName.adjustsFontSizeToFitWidth = true
             return cell
         } else {
-            print("I SHOULD BE HERE")
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LinkCell", for: indexPath) as! WatchLinkCollectionViewCell
             
-            print("Loading Image Cell")
             if indexPath.section == 0 {
                 if streamingArray.count > 0 {
                     cell.linkImage.image = streamingArray[indexPath.row]

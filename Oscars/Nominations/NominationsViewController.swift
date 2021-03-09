@@ -8,6 +8,7 @@
 
 import UIKit
 import WatchConnectivity
+import SystemConfiguration
 //import FirebaseUI
 import FirebaseFirestore
 import FBSDKLoginKit
@@ -47,10 +48,11 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     @IBAction func searchAction(sender: UIBarButtonItem) {
         searchController = UISearchController(searchResultsController: nil)
 
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.keyboardType = UIKeyboardType.asciiCapable
         searchController.searchResultsUpdater = self
         searchController?.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Movies"
 
         present(searchController, animated: true, completion: nil)
         searchTable.isHidden = false
@@ -138,6 +140,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         if !searchController.isActive {
             searchTable.isHidden = true
         }
+        self.view.frame.origin.y = (self.navigationController?.navigationBar.frame.height)! + 10
         filterMovies(for: searchController.searchBar.text ?? "")
     }
     
@@ -145,7 +148,6 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         filteredMovies = Items.sharedInstance.movieArray.filter { movie in return
             movie.name.lowercased().contains(searchText.lowercased())
         }
-        print(filteredMovies)
         self.searchTable.reloadData()
     }
     
@@ -206,20 +208,20 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
         let calendar = Calendar.current
         
         var dateComponents = DateComponents()
-        dateComponents.year = 2020
-        dateComponents.month = 2
-        dateComponents.day = 10
+        dateComponents.year = 2021
+        dateComponents.month = 4
+        dateComponents.day = 26
         dateComponents.timeZone = TimeZone(abbreviation: "CST") // Japan Standard Time
         dateComponents.hour = 0
         dateComponents.minute = 0
         
         var dateComponents2 = DateComponents()
-        dateComponents2.year = 2020
-        dateComponents2.month = 2
-        dateComponents2.day = 9
+        dateComponents2.year = 2021
+        dateComponents2.month = 4
+        dateComponents2.day = 25
         dateComponents2.timeZone = TimeZone(abbreviation: "CST") // Japan Standard Time
-        dateComponents2.hour = 17
-        dateComponents2.minute = 30
+        dateComponents2.hour = 19
+        dateComponents2.minute = 00
         
         // Replace the hour (time) of both dates with 00:00
         let date1 = Date()
@@ -259,50 +261,52 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     
     func validateSession() {
         if let validSession = sending {
-            let movieArray = NSMutableArray()
+            var movieArray = [[String:Any]]()
             for movie in Items.sharedInstance.movieArray {
-                let movieInfo = NSMutableDictionary()
-                movieInfo.setObject(movie.name, forKey: "Name" as NSCopying)
-                movieInfo.setObject(movie.actors, forKey: "Actors" as NSCopying)
-                movieInfo.setObject(movie.description, forKey: "Description" as NSCopying)
-                movieInfo.setObject(movie.nominatedFor, forKey: "NominatedFor" as NSCopying)
-                movieArray.add(movieInfo)
+                var actorArray = [String]()
+                for actor in movie.actors {
+                    actorArray.append(actor.name)
+                }
+                let movieInfo:[String:Any] = ["Name":movie.name, "Actors":actorArray, "Description":movie.description, "NominatedFor":movie.nominatedFor]
+                movieArray.append(movieInfo)
             }
             
             
-            let seenArray = NSMutableArray()
+            var seenArray = [[String:Any]]()
             for movie in Items.sharedInstance.moviesSeenArray {
-                let seenMovieInfo = NSMutableDictionary()
-                seenMovieInfo.setObject(movie.name, forKey: "Name" as NSCopying)
-                seenMovieInfo.setObject(movie.actors, forKey: "Actors" as NSCopying)
-                seenMovieInfo.setObject(movie.description, forKey: "Description" as NSCopying)
-                seenMovieInfo.setObject(movie.nominatedFor, forKey: "NominatedFor" as NSCopying)
-                seenArray.add(seenMovieInfo)
+                var actorArray = [String]()
+                for actor in movie.actors {
+                    actorArray.append(actor.name)
+                }
+                let seenMovieInfo:[String:Any] = ["Name":movie.name, "Actors":actorArray, "Description":movie.description, "NominatedFor":movie.nominatedFor]
+                seenArray.append(seenMovieInfo)
             }
             
-            let actorArray = NSMutableArray()
+            var actorArray = [[String:String]]()
             for actor in Items.sharedInstance.actorArray {
-                let actorInfo = NSMutableDictionary()
-                actorInfo.setObject(actor.name, forKey: "Name" as NSCopying)
-                actorInfo.setObject(actor.movie, forKey: "Movie" as NSCopying)
-                actorInfo.setObject(actor.nominatedFor, forKey: "NominatedFor" as NSCopying)
-                actorArray.add(actorInfo)
+                let actorInfo:[String:String] = ["Name":actor.name, "Movie":actor.movie, "NominatedFor":actor.nominatedFor]
+                actorArray.append(actorInfo)
             }
-                        
-            let iphoneAppContext = ["Details": movieArray, "Seen": seenArray, "Actors":actorArray] as [String : Any]
+            
+            let date = Date()
+            let formatter2 = DateFormatter()
+            formatter2.timeStyle = .medium
+            let dateString = formatter2.string(from: date)
+            
+            let iphoneAppContext: [String: [[String:Any]]] = ["Details": movieArray, "Seen": seenArray, "Actors":actorArray, "Date":[["Date":dateString]]]
             do {
-                print(movieArray.count)
                 self.logError(logString: "Nominations VC - Sent Data To Watch")
                 try validSession.updateApplicationContext(iphoneAppContext)
             } catch {
-                print(movieArray.count)
                 self.logError(logString: "Unable to send data to watch", logError: error.localizedDescription)
             }
         }
     }
     
     func processApplicationContext(){
+        print("Receiving")
         if let iPhoneContext = receiving.receivedApplicationContext as? [String : [String]] {
+            print("R2")
             self.logError(logString: "Nominations VC - Receiving data from watch")
             let initialArray = iPhoneContext["Seen"]! as [String]
             var moviesSeen = [String]()
@@ -311,7 +315,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                     moviesSeen.append(item)
                 }
             }
-            
+            print("R3")
             Items.sharedInstance.moviesSeenArray.removeAll()
             let downloading = DispatchGroup()
             for movie in moviesSeen {
@@ -324,6 +328,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             }
             downloading.notify(queue: .main) {
+                print("R4")
                 self.logError(logString: "Nominations VC - iPhone data updated from watch data")
                 self.updateSavedData()
                 self.detailTableView.reloadData()
@@ -351,6 +356,9 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        print("\n\n")
+        print("This Should Print")
+        print("\n\n")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             self.processApplicationContext()
         })
@@ -656,7 +664,7 @@ class NominationsViewController: UIViewController, UITableViewDelegate, UITableV
                     if Items.sharedInstance.moviesSeenArray.contains(currentMovie) {
                         cell.hiddenView.isHidden = false
                         let cellColor = UIColorFromRGB(rgbValue: 0x9A9A9A)
-                        cell.hiddenView.backgroundColor = cellColor.withAlphaComponent(0.60)
+                        cell.hiddenView.backgroundColor = cellColor.withAlphaComponent(0.30)
                         view.isOpaque = false
                     } else {
                         cell.hiddenView.isHidden = true

@@ -51,7 +51,16 @@ class PredictionsViewController: UIViewController, UITableViewDelegate, UITableV
             }
         }
         
-        print(Items.sharedInstance.purchased)
+        if Items.sharedInstance.purchased {
+            purchaseView.isHidden = true
+        } else {
+            purchaseView.isHidden = false
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePurchased), name:NSNotification.Name(rawValue: "purchased"), object: nil)
+    }
+    
+    @objc func updatePurchased(notification: NSNotification){
         if Items.sharedInstance.purchased {
             purchaseView.isHidden = true
         } else {

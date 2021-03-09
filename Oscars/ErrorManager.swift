@@ -7,28 +7,29 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 
 class ErrorManager: NSObject {
-    func firestoreError(error: String, completionBlock: @escaping (_ title: String, _ showError: Bool, _ errorString: String) -> Void) {
+    func firestoreError(error: AuthErrorCode, completionBlock: @escaping (_ title: String, _ showError: Bool, _ errorString: String) -> Void) {
         switch error {
-        case "FIRAuthErrorCodeNetworkError":
+        case .networkError:
             completionBlock("Network Error",true,"A network error has occured during the operation")
-        case "FIRAuthErrorCodeInternalError":
+        case .internalError:
             completionBlock("Fatal Error",true,"An internal error has occurred. Please email the developer at dtjohnsonapps@gmail.com to try and resolve this.")
-        case "FIRAuthErrorCodeInvalidEmail":
+        case .invalidEmail:
             completionBlock("Invalid Email",true,"The email address provided is not a valid email.")
-        case "FIRAuthErrorCodeWrongPassword":
-            completionBlock("Wrong Password",true,"The password provided does not match. Please try again")
-        case "FIRAuthErrorCodeProviderAlreadyLinked":
+        case .wrongPassword:
+            completionBlock("Password Error",true,"Either the password is incorrect or has not been setup.")
+        case .providerAlreadyLinked:
             completionBlock("Linking Error",true,"This account has already been linked.")
-        case "FIRAuthErrorCodeCredentialAlreadyInUse":
+        case .credentialAlreadyInUse:
             completionBlock("Linking Error",true,"This account is already linked to another user.")
-        case "FIRAuthErrorCodeNoSuchProvider":
+        case .noSuchProvider:
             completionBlock("Linking Error",true,"This account has already been unlinked")
-        case "FIRAuthErrorCodeUserNotFound":
+        case .userNotFound:
             completionBlock("Email Verification Error",true,"A user account was not found in order to send the verification email")
-        case "FIRAuthErrorCodeKeychainError":
+        case .keychainError:
             completionBlock("Internal Error",true,"An error has occurred when attempting to sign you out. Please quit the app and try again.")
         default:
             completionBlock("Unknown Error",true,"An error has occurred that has not been documented. Please email the developer at dtjohnsonapps@gmail.com.")

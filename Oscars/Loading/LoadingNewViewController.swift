@@ -840,6 +840,7 @@ class LoadingNewViewController: UIViewController {
         } else if timeLoopCheck >= 20 {
             self.showError()
         }
+        print(testArray)
 
         timeLoopCheck += 1
         for item in testArray {

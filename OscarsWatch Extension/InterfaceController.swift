@@ -87,12 +87,12 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 controller.basName.setText(self.bestActressArray[index].name)
             }
             self.bsaTable.setNumberOfRows(self.supportingActorArray.count, withRowType: "nominationRow")
-            for index in 0..<movieArray[3].count {
+            for index in 0..<self.supportingActorArray.count {
                 guard let controller = self.bsaTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.saName.setText(self.supportingActorArray[index].name)
             }
             self.bsasTable.setNumberOfRows(self.supportingActressArray.count, withRowType: "nominationRow")
-            for index in 0..<movieArray[4].count {
+            for index in 0..<self.supportingActressArray.count {
                 guard let controller = self.bsasTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.sasName.setText(self.supportingActressArray[index].name)
             }
@@ -112,7 +112,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 controller.cdName.setText(movieArray[7][index].name)
             }
             self.dTable.setNumberOfRows(self.directorArray.count, withRowType: "nominationRow")
-            for index in 0..<movieArray[8].count {
+            for index in 0..<self.directorArray.count {
                 guard let controller = self.dTable.rowController(at: index ) as? NominationsRowController else { continue }
                 controller.dName.setText(self.directorArray[index].name)
             }
@@ -207,11 +207,15 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     func processApplicationContext() {
-        if let iPhoneContext = session.receivedApplicationContext as? [String : Any] {
-            let movieArray = iPhoneContext["Details"] as! NSArray
-            let moviesSeen = iPhoneContext["Seen"] as! NSArray
-            let actors = iPhoneContext["Actors"] as! NSArray
+        if let iPhoneContext = session.receivedApplicationContext as? [String : [[String:Any]]] {
+            print(iPhoneContext)
+            let movieArray = iPhoneContext["Details"]!
+            let moviesSeen = iPhoneContext["Seen"]!
+            let actors = iPhoneContext["Actors"]!
             Items2.sharedInstance.sortedMovieArray.removeAll()
+            Items2.sharedInstance.movieArray.removeAll()
+            Items2.sharedInstance.actorArray.removeAll()
+            Items2.sharedInstance.moviesSeenArray.removeAll()
             for _ in 0 ... 23 {
                 Items2.sharedInstance.sortedMovieArray.append([Items2.movie]())
             }
@@ -219,7 +223,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             let movieDownloading = DispatchGroup()
             for movie2 in movieArray {
                 movieDownloading.enter()
-                let tempAll = movie2 as! NSDictionary
+                let tempAll = movie2 as NSDictionary
                 Items2.sharedInstance.movieArray.append(Items2.movie(actors: tempAll.object(forKey: "Actors") as! [String], description: tempAll.object(forKey: "Description") as! String, name: tempAll.object(forKey: "Name") as! String, nominatedFor: tempAll.object(forKey: "NominatedFor") as! [String]))
                 movieDownloading.leave()
             }
@@ -283,14 +287,14 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             }
             
             for movie3 in moviesSeen {
-                let seen = movie3 as! NSDictionary
+                let seen = movie3 as NSDictionary
                 Items2.sharedInstance.moviesSeenArray.append(Items2.movie(actors: seen.object(forKey: "Actors") as! [String], description: seen.object(forKey: "Description") as! String, name: seen.object(forKey: "Name") as! String, nominatedFor: seen.object(forKey: "NominatedFor") as! [String]))
             }
             
             let actorDownloading = DispatchGroup()
             for actor in actors {
                 actorDownloading.enter()
-                let tempActor = actor as! NSDictionary
+                let tempActor = actor as NSDictionary
                 Items2.sharedInstance.actorArray.append(Items2.actors(name: tempActor.object(forKey: "Name") as! String, nominatedFor: tempActor.object(forKey: "NominatedFor") as! String, movie: tempActor.object(forKey: "Movie") as! String))
                 actorDownloading.leave()
             }

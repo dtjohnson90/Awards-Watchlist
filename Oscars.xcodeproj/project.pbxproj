@@ -42,6 +42,7 @@
 		D1474C322200DD3400692661 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1474C312200DD3300692661 /* StoreManager.swift */; };
 		D14BB3FE2199D34400F57A38 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BB3FD2199D34400F57A38 /* IAPHelper.swift */; };
 		D14BB4002199D6D800F57A38 /* AwardsWatchlistProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14BB3FF2199D6D800F57A38 /* AwardsWatchlistProducts.swift */; };
+		D157145D25F809F80033B63F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D157145C25F809F80033B63F /* LoginViewController.swift */; };
 		D15D121A20474BCA005BCA57 /* NominationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */; };
 		D15D121C20475B83005BCA57 /* NominationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */; };
 		D1640A5D25B89C3E004EC368 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1640A5C25B89C3E004EC368 /* HeaderView.xib */; };
@@ -63,6 +64,7 @@
 		D1966ED621753B0C00D4BD42 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED521753B0C00D4BD42 /* ResultsTableViewCell.swift */; };
 		D1966EDA2176762000D4BD42 /* InvitationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966ED92176762000D4BD42 /* InvitationTableViewCell.swift */; };
 		D1966EDC21767C8600D4BD42 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1966EDB21767C8600D4BD42 /* FriendsViewController.swift */; };
+		D1996A7125BA24D0000DD0CB /* LoginTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1996A7025BA24D0000DD0CB /* LoginTableViewCell.swift */; };
 		D19BEE46216E3F5300C1F176 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE45216E3F5300C1F176 /* ListTableViewCell.swift */; };
 		D19BEE48216E566700C1F176 /* ActorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE47216E566700C1F176 /* ActorsCollectionViewCell.swift */; };
 		D19BEE4C216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19BEE4B216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift */; };
@@ -251,6 +253,7 @@
 		D1474C312200DD3300692661 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		D14BB3FD2199D34400F57A38 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		D14BB3FF2199D6D800F57A38 /* AwardsWatchlistProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsWatchlistProducts.swift; sourceTree = "<group>"; };
+		D157145C25F809F80033B63F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D15D121920474BCA005BCA57 /* NominationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsTableViewCell.swift; sourceTree = "<group>"; };
 		D15D121B20475B83005BCA57 /* NominationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NominationsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D1640A5C25B89C3E004EC368 /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
@@ -274,6 +277,7 @@
 		D1966ED521753B0C00D4BD42 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
 		D1966ED92176762000D4BD42 /* InvitationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationTableViewCell.swift; sourceTree = "<group>"; };
 		D1966EDB21767C8600D4BD42 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		D1996A7025BA24D0000DD0CB /* LoginTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTableViewCell.swift; sourceTree = "<group>"; };
 		D19BEE45216E3F5300C1F176 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		D19BEE47216E566700C1F176 /* ActorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D19BEE4B216E701B00C1F176 /* MoviesNotSeenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesNotSeenTableViewCell.swift; sourceTree = "<group>"; };
@@ -528,6 +532,7 @@
 				D1C98B6B2179221100462865 /* SettingsViewController.swift */,
 				D180EE8C2183B0A00001C37E /* SettingsTableViewCell.swift */,
 				D1474C312200DD3300692661 /* StoreManager.swift */,
+				D1996A7025BA24D0000DD0CB /* LoginTableViewCell.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -590,6 +595,7 @@
 				D1B72958217A34C00012889D /* Assets.xcassets */,
 				D1B7295A217A34C00012889D /* Info.plist */,
 				D18128E025ABD9F00004B234 /* GoogleService-Info.plist */,
+				D157145C25F809F80033B63F /* LoginViewController.swift */,
 			);
 			path = "Awards Watchlist TV";
 			sourceTree = "<group>";
@@ -1225,6 +1231,7 @@
 				D1E124D525B8FAE800ED01D3 /* SearchTableViewCell.swift in Sources */,
 				D1715EF5218B7FA60023B14F /* ImageUploadManager.swift in Sources */,
 				D14BB3FE2199D34400F57A38 /* IAPHelper.swift in Sources */,
+				D1996A7125BA24D0000DD0CB /* LoginTableViewCell.swift in Sources */,
 				D1966EDA2176762000D4BD42 /* InvitationTableViewCell.swift in Sources */,
 				D13E36DA216E867B00213DBC /* LoginViewController.swift in Sources */,
 				D1C98B6C2179221100462865 /* SettingsViewController.swift in Sources */,
@@ -1279,6 +1286,7 @@
 				D1B72954217A34BD0012889D /* SecondViewController.swift in Sources */,
 				D1B72950217A34BD0012889D /* AppDelegate.swift in Sources */,
 				D1B72952217A34BD0012889D /* FirstViewController.swift in Sources */,
+				D157145D25F809F80033B63F /* LoginViewController.swift in Sources */,
 				D1B7297B217A35660012889D /* LoadingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1506,7 +1514,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Oscars/Bridging-Header.h";
@@ -1534,7 +1542,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Oscars/Bridging-Header.h";
@@ -1566,7 +1574,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1600,7 +1608,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1633,7 +1641,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -1663,7 +1671,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Johnson-Apps.Oscars.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;

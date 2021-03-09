@@ -81,6 +81,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
             Auth.auth().signIn(withEmail: usernameField.text!, password: passwordField.text!) { (user, error) in
                 if let error = error {
                     self.logError(logString: "Login VC - Error Logging In (To: \(self.usernameField.text!))", logError: error)
+                    print(error)
+                    print(error.localizedDescription)
                     self.signInError(error: error)
                 } else {
                     if !(Auth.auth().currentUser?.isEmailVerified)! {
@@ -124,67 +126,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
                         alertController.addAction(resend)
                         self.present(alertController, animated: true, completion: nil)
                     } else {
-                        let docRef = Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document((self.usernameField.text)!)
-                        docRef.getDocument { (document, error) in
-                            if let error = error {
-                                self.logError(logString: "Login VC - Creating Document Via Email", logError: error)
-                                self.callError(title: "Error", message: "There was an issue accessing your account. Please try again.")
-                            } else {
-                                if let document = document, document.exists {
-                                    self.logError(logString: "Login VC - Logging in with already created document via Email")
-                                    UIApplication.shared.endIgnoringInteractionEvents()
-                                    UserDefaults.standard.set(self.usernameField.text!, forKey: "loggedIn")
-                                    self.performSegue(withIdentifier: "loggedIn1", sender: self)
-                                } else {
-                                    self.logError(logString: "Login VC - Loggin in by creating new document via Email")
-                                    var tempMovieArray = [String]()
-                                    for seenMovie in Items.sharedInstance.moviesSeenArray {
-                                        tempMovieArray.append(seenMovie.name)
-                                    }
-                                    Items.sharedInstance.predictions = [String](repeating: "", count: 24)
-                                    Firestore.firestore().collection(Items.sharedInstance.userMovieListYear).document((self.usernameField.text)!).setData([
-                                        "movies": tempMovieArray,
-                                        "Best Picture": "",
-                                        "Best Actor": "",
-                                        "Best Actress": "",
-                                        "Supporting Actor": "",
-                                        "Supporting Actress": "",
-                                        "Animated": "",
-                                        "Cinematography": "",
-                                        "Costume Design": "",
-                                        "Directing": "",
-                                        "Documentary Feature": "",
-                                        "Documentary Short": "",
-                                        "Film Editing": "",
-                                        "Foreign": "",
-                                        "Makeup": "",
-                                        "Music Song": "",
-                                        "Music Score": "",
-                                        "Production Design": "",
-                                        "Short Animated": "",
-                                        "Short Live": "",
-                                        "Sound Editing": "",
-                                        "Sound Mixing": "",
-                                        "Visual Effects": "",
-                                        "Writing Adapted": "",
-                                        "Writing Original": "",
-                                        "Invitations": [String](),
-                                        "Friends": [String](),
-                                        "Name": Auth.auth().currentUser!.displayName ?? "No Name",
-                                        "Image URL": Auth.auth().currentUser!.photoURL?.absoluteString ?? "nil"
-                                    ]) { err in
-                                        if let err = err {
-                                            self.logError(logString: "Login VC - Error Creating Document via Email", logError: err)
-                                            self.callError(title: "Error", message: "There was a problem creating your account. Please quit the app and try again")
-                                        } else {
-                                            UIApplication.shared.endIgnoringInteractionEvents()
-                                            UserDefaults.standard.set(self.usernameField.text!, forKey: "loggedIn")
-                                            self.performSegue(withIdentifier: "loggedIn1", sender: self)
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        self.signIn(Type: "Email", email: self.usernameField.text!)
                     }
                 }
             }
@@ -366,7 +308,9 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
                             self?.logError(logString: "Login VC - Logging in via Apple for the first time")
                             let firstName = appleIDCredential.fullName?.givenName
                             let lastName = appleIDCredential.fullName?.familyName
-                            changeRequest?.displayName = firstName! + " " + lastName!
+                            if firstName != nil && lastName != nil {
+                                changeRequest?.displayName = firstName! + " " + lastName!
+                            }
                             changeRequest?.commitChanges { (error) in
                                 self!.signIn(Type: "Apple", email: (Auth.auth().currentUser?.email)!)
                             }
@@ -537,30 +481,52 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
                         }
                     }
                 } else {
-                    self.logError(logString: "Login VC - Users document doesn't exist. Creating Users and MovieList Documents")
-                    Firestore.firestore().collection("Users").document(email).setData([
-                        "FacebookID": AccessToken.current?.userID ?? "",
-                        "Friends": [],
-                        "Invitations": [],
-                        "Name": Auth.auth().currentUser?.displayName ?? "No Name",
-                        "imageURL": Auth.auth().currentUser!.photoURL?.absoluteString ?? "nil",
-                        "notificationToken": Items.sharedInstance.notificationToken,
-                        "pastLists": []
-                    ]) { err in
-                        if let err = err {
-                            self.logError(logString: "LoginVC - Unable to create user account", logError: err)
-                            self.callError(title: "Error", message: "We were unable to create your account via \(Type). Please try again")
-                        } else {
-                            self.logError(logString: "Login VC - User document created, creating movieList document")
-                            var tempMovieArray = [String]()
-                            for seenMovie in Items.sharedInstance.moviesSeenArray {
-                                tempMovieArray.append(seenMovie.name)
-                            }
-                            Items.sharedInstance.predictions = [String](repeating: "", count: 24)
-                            self.uploadData(movieArray: tempMovieArray, email: email, type: Type)
-                        }
-                    }
+                    self.getOldFriends(email: email, type: Type)
                 }
+            }
+        }
+    }
+    
+    func getOldFriends(email: String, type: String) {
+        let docRef = Firestore.firestore().collection("UserMovieList2020").document(email)
+        docRef.getDocument { (document, error) in
+            if let error = error {
+                //self.logError(logString: "Login VC - Error Getting New Document via \(Type) in Users collection with email \(email)", logError: error)
+                self.createAccount(friends: [], email: email, image: "nil", pastList: [], type: type)
+            } else {
+                if let document = document, document.exists {
+                    let oldFriends = document.data()!["Friends"] as! [String]
+                    let oldPhoto = document.data()!["Image URL"] as! String
+                    self.createAccount(friends: oldFriends, email: email, image: oldPhoto, pastList: ["UserMovieList2020"], type: type)
+                } else {
+                    self.createAccount(friends: [], email: email, image: "nil", pastList: [], type: type)
+                }
+            }
+        }
+    }
+    
+    func createAccount(friends: [String], email: String, image: String, pastList: [String], type: String) {
+        self.logError(logString: "Login VC - Users document doesn't exist. Creating Users and MovieList Documents")
+        Firestore.firestore().collection("Users").document(email).setData([
+            "FacebookID": AccessToken.current?.userID ?? "",
+            "Friends": friends,
+            "Invitations": [],
+            "Name": Auth.auth().currentUser?.displayName ?? "No Name",
+            "imageURL": Auth.auth().currentUser!.photoURL?.absoluteString ?? image,
+            "notificationToken": Items.sharedInstance.notificationToken,
+            "pastLists": pastList
+        ]) { err in
+            if let err = err {
+                self.logError(logString: "LoginVC - Unable to create user account", logError: err)
+                //self.callError(title: "Error", message: "We were unable to create your account via \(Type). Please try again")
+            } else {
+                self.logError(logString: "Login VC - User document created, creating movieList document")
+                var tempMovieArray = [String]()
+                for seenMovie in Items.sharedInstance.moviesSeenArray {
+                    tempMovieArray.append(seenMovie.name)
+                }
+                Items.sharedInstance.predictions = [String](repeating: "", count: 24)
+                self.uploadData(movieArray: [String](), email: email, type: type)
             }
         }
     }
@@ -601,6 +567,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
                 UIApplication.shared.endIgnoringInteractionEvents()
                 UserDefaults.standard.set(true, forKey: "offeredSignIn")
                 UserDefaults.standard.set(email, forKey: "loggedIn")
+                UserDefaults.standard.set(true, forKey: Items.sharedInstance.updateKey)
                 Items.sharedInstance.loggedIn = email
                 self.performSegue(withIdentifier: "loggedIn1", sender: self)
             }
@@ -631,32 +598,35 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
     }
     
     func signInError(error: Error) {
-        let errorCode = (error as NSError).userInfo["FIRAuthErrorUserInfoNameKey"] as! String
-
-        if errorCode == "ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL" {
-            let errorEmail = (error as NSError).userInfo["FIRAuthErrorUserInfoEmailKey"] as! String
-            Auth.auth().fetchSignInMethods(forEmail: errorEmail, completion: { (providers, error) in
-                let myProviders = providers! as [String]
-                let providerCount = myProviders.count
-                if providerCount == 1 {
-                    UIApplication.shared.endIgnoringInteractionEvents()
-                    let provider = myProviders[0].components(separatedBy: ".")[0]
-                    let message = "You have previously signed in with \(provider). Please sign in with that provider."
-                    self.callError(title: "Sign In Error", message: message)
-                } else {
-                    UIApplication.shared.endIgnoringInteractionEvents()
-                    let provider1 = myProviders[0].components(separatedBy: ".")[0]
-                    let provider2 = myProviders[1].components(separatedBy: ".")[0]
-                    let message = "You have previously signed in with \(provider1) and \(provider2). Please sign in with one of those providers."
-                    self.callError(title: "Sign In Error", message: message)
-                }
-            })
-        } else {
-            self.errorManager.firestoreError(error: errorCode, completionBlock: {(title,showError,errorString) in
-                if showError {
-                    self.callError(title: title, message: errorString)
-                }
-            })
+        //let errorCode = (error as NSError).userInfo["FIRAuthErrorUserInfoNameKey"] as! String
+        if let errorCode = AuthErrorCode(rawValue: error._code){
+            if errorCode == .emailAlreadyInUse {
+                self.logError(logString: "Login VC - User is trying to sign into an email already used", logError: error)
+                let errorEmail = (error as NSError).userInfo["FIRAuthErrorUserInfoEmailKey"] as! String
+                Auth.auth().fetchSignInMethods(forEmail: errorEmail, completion: { (providers, error) in
+                    let myProviders = providers! as [String]
+                    let providerCount = myProviders.count
+                    if providerCount == 1 {
+                        UIApplication.shared.endIgnoringInteractionEvents()
+                        let provider = myProviders[0].components(separatedBy: ".")[0]
+                        let message = "You have previously signed in with \(provider). Please sign in with that provider."
+                        self.callError(title: "Sign In Error", message: message)
+                    } else {
+                        UIApplication.shared.endIgnoringInteractionEvents()
+                        let provider1 = myProviders[0].components(separatedBy: ".")[0]
+                        let provider2 = myProviders[1].components(separatedBy: ".")[0]
+                        let message = "You have previously signed in with \(provider1) and \(provider2). Please sign in with one of those providers."
+                        self.callError(title: "Sign In Error", message: message)
+                    }
+                })
+            } else {
+                self.logError(logString: "Login VC - Login Error", logError: error)
+                self.errorManager.firestoreError(error: errorCode, completionBlock: {(title,showError,errorString) in
+                    if showError {
+                        self.callError(title: title, message: errorString)
+                    }
+                })
+            }
         }
     }
     

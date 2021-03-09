@@ -142,7 +142,8 @@ class ProViewController: UIViewController {
             (result : UIAlertAction) -> Void in
             Items.sharedInstance.purchased = true
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "purchased"), object: nil)
-            self.performSegue(withIdentifier: "unwindSettingsSegue", sender: self)
+            //self.performSegue(withIdentifier: "unwindSettingsSegue", sender: self)
+            self.dismiss(animated: true, completion: nil)
         }
         
         alertController.addAction(ok)

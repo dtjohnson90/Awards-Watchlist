@@ -78,7 +78,12 @@ class DetailInterfaceController: WKInterfaceController, WCSessionDelegate {
                 seenArray.append(movie.name)
             }
             
-            let iphoneAppContext = ["Seen": seenArray] as [String : [String]]
+            let date = Date()
+            let formatter2 = DateFormatter()
+            formatter2.timeStyle = .medium
+            let dateString = formatter2.string(from: date)
+            
+            let iphoneAppContext = ["Seen": seenArray, "Date": [dateString]] as [String : [String]]
             do {
                 try validSession.updateApplicationContext(iphoneAppContext)
                 print("Success")
@@ -90,16 +95,16 @@ class DetailInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func processApplicationContext(){
         print("Test")
-        if let iPhoneContext = session.receivedApplicationContext as? [String : Any] {
+        if let iPhoneContext = session.receivedApplicationContext as? [String : [[String:Any]]] {
             print("Test 2")
-            let moviesSeen = iPhoneContext["Seen"] as! NSArray
+            let moviesSeen = iPhoneContext["Seen"]!
             print(moviesSeen)
             
             Items2.sharedInstance.moviesSeenArray.removeAll()
             let downloading = DispatchGroup()
             for movie in moviesSeen {
                 downloading.enter()
-                let seen = movie as! NSDictionary
+                let seen = movie as NSDictionary
                 Items2.sharedInstance.moviesSeenArray.append(Items2.movie(actors: seen.object(forKey: "Actors") as! [String], description: seen.object(forKey: "Description") as! String, name: seen.object(forKey: "Name") as! String, nominatedFor: seen.object(forKey: "NominatedFor") as! [String]))
                 downloading.leave()
             }
