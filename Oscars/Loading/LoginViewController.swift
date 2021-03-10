@@ -27,6 +27,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
     @IBOutlet weak var googleView: UIView!
     @IBOutlet weak var orView: UIView!
     @IBOutlet weak var stackHeight: NSLayoutConstraint!
+    @IBOutlet weak var createAccountLabel: UIButton!
+    @IBOutlet weak var spacingConstraint: NSLayoutConstraint!
     
     fileprivate var currentNonce: String?
     let errorManager = ErrorManager()
@@ -164,6 +166,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
         
         self.hideKeyboardWhenTappedAround()
         
+        let spaceLeft = UIScreen.main.bounds.height - createAccountLabel.frame.origin.y + createAccountLabel.frame.height + 50
+        
         facebookView.layer.shadowOffset = CGSize(width: 0, height: 3)
         facebookView.layer.shadowRadius = 2
         facebookView.layer.shadowOpacity = 0.5
@@ -180,8 +184,31 @@ class LoginViewController: UIViewController, GIDSignInDelegate, MFMailComposeVie
             appleButton.layer.shadowOpacity = 0.5
             appleButton.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
             loginStack.insertArrangedSubview(appleButton, at: 0)
+            
+            if spaceLeft < 400 {
+                stackHeight.constant = 200
+            } else if spaceLeft < 500 {
+                stackHeight.constant = 250
+                spacingConstraint.constant = 50
+            } else if spaceLeft < 550 {
+                stackHeight.constant = 275
+                spacingConstraint.constant = 50
+            } else {
+                stackHeight.constant = 300
+                spacingConstraint.constant = 100
+            }
         } else {
             orView.isHidden = true
+            
+            if spaceLeft < 400 {
+                stackHeight.constant = 100
+            } else if spaceLeft < 500 {
+                stackHeight.constant = 125
+                spacingConstraint.constant = 50
+            } else {
+                stackHeight.constant = 150
+                spacingConstraint.constant = 100
+            }
         }
         
         
